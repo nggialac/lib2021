@@ -138,7 +138,7 @@ void show()
         case 4:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
-            temp = readFile_DS(linkedList);
+            temp = readFile_DS(arrPoiter);
             if (temp > 0)
                 cout << "Read file success!" << endl;
             break;

@@ -38,7 +38,7 @@ struct DauSach
     string tacGia;
     int namXuatBan;
     string theLoai;
-    listNodeDMS *ptrListNode_DMS;
+    listNodeDMS ptrListNode_DMS;
     int soLanMuon = 0;
 };
 typedef struct DauSach *pDauSach;
@@ -49,7 +49,7 @@ struct ListDauSach
     DauSach *nodes[MAX_LIST];
 };
 typedef struct ListDauSach listDauSach;
-listDauSach linkedList;
+listDauSach arrPoiter;
 
 //---MUON TRA---
 typedef struct DateTime

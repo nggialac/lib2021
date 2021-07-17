@@ -6,16 +6,15 @@
 void initializeListNode_DMS(listNodeDMS &ln_dms)
 {
     ln_dms.n = 0;
-    ln_dms.FirstNode_DanhMucSach = NULL;
+    ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = NULL;
+    // ln_dms.LastNode_DanhMucSach = NULL;
 }
 
 ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
 {
     ptrNode_DanhMucSach p = new NodeDanhMucSach;
     if (p == NULL)
-    {
         return NULL;
-    }
     p->danhMucSach = data;
     p->next = NULL;
     return (p);
@@ -23,18 +22,26 @@ ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
 
 void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
 {
-    ptrNode_DanhMucSach p = getNode_DMS(data);
+    ptrNode_DanhMucSach p = new NodeDanhMucSach;
+    p->danhMucSach = data;
+    p->next = NULL;
     if (ln_dms.FirstNode_DanhMucSach == NULL)
     {
         ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = p;
     }
     else
     {
+        // ptrNode_DanhMucSach temp = ln_dms.FirstNode_DanhMucSach;
+        // while (temp->next != NULL)
+        //     temp = temp->next;
+
+        // //6. Change the next of last node to new node
+        // temp->next = p;
+
         ln_dms.LastNode_DanhMucSach->next = p;
         ln_dms.LastNode_DanhMucSach = p;
-        // ptrNode_DanhMucSach last=FirstNode_DanhMucSach;
-        // while(last->next != NULL) last=last->next;
-        // last->next = p;
+        // cout<<"them cuoi!!!";
+        // cout<<ln_dms.LastNode_DanhMucSach->danhMucSach.maSach;
     }
     ln_dms.n++;
 }
@@ -75,6 +82,7 @@ int add_DS(listDauSach &listDS, pDauSach &pDS)
         return 0;
     }
     listDS.nodes[++listDS.n] = pDS;
+    // cout << listDS.nodes[listDS.n]->isbn;
     return 1;
 }
 
@@ -161,8 +169,8 @@ int readFile_DS(listDauSach &listDS)
     {
         string temp;
         fileIn >> soDauSach;
-        cout<<endl;
-        cout<<"so dau sach: "+soDauSach<<endl;
+        cout << endl;
+        cout << soDauSach << endl;
         getline(fileIn, temp);
         for (int i = 0; i < soDauSach; i++)
         {
@@ -170,30 +178,43 @@ int readFile_DS(listDauSach &listDS)
             if (pDS == NULL)
                 continue;
             // load thong tin vao bien tam.
-            getline(fileIn, info.tenSach); cout<<"ten sach " + info.tenSach;
-            getline(fileIn, info.isbn); cout<<"ibsn " + info.isbn;
+            getline(fileIn, info.tenSach);
+            cout << "ten sach " + info.tenSach;
+            getline(fileIn, info.isbn);
+            cout << "ibsn " + info.isbn;
 
-            getline(fileIn, info.tacGia); cout<<"tg " + info.tacGia;
-            getline(fileIn, info.theLoai); cout<<"the loai " + info.theLoai;
-            fileIn >> info.soTrang; cout<<info.soTrang;
-            fileIn >> info.namXuatBan; cout<<info.namXuatBan;
-            fileIn >> info.soLanMuon; cout<<info.soLanMuon;
+            getline(fileIn, info.tacGia);
+            cout << "tg " + info.tacGia;
+            getline(fileIn, info.theLoai);
+            cout << "the loai " + info.theLoai;
+
+            fileIn >> info.soTrang;
+            cout << info.soTrang;
+            fileIn >> info.namXuatBan;
+            cout << info.namXuatBan;
+            fileIn >> info.soLanMuon;
+            cout << info.soLanMuon;
             // load thong tin vao dau sach
-            *(pDS) = info;
+            *(pDS) = info; //cout<<*(pDS)->isbn;
             fileIn >> soSach;
+            cout << soSach;
             getline(fileIn, temp);
-            // initializeListNode_DMS(*(pDS->ptrListNode_DMS));
+            initializeListNode_DMS(pDS->ptrListNode_DMS);
             for (int j = 0; j < soSach; j++)
             {
-                cout<<endl;
-                getline(fileIn, dms.maSach); cout<<"ma sach " + dms.maSach;
+                cout << endl;
+                getline(fileIn, dms.maSach);
+                cout << "ma sach: " + dms.maSach;
                 fileIn >> dms.trangThai;
+                cout << dms.trangThai;
                 getline(fileIn, temp);
                 getline(fileIn, dms.viTri);
-                // themCuoiList_DMS(*(pDS->ptrListNode_DMS), dms);
+                cout << "vi tri: " + dms.viTri;
+                themCuoiList_DMS(pDS->ptrListNode_DMS, dms);
             }
-            cout<<endl<<endl;
-            // add_DS(listDS, pDS);
+            cout << endl
+                 << endl;
+            add_DS(listDS, pDS);
         }
     }
     else

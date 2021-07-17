@@ -9,9 +9,9 @@ void initialize_NodeDG(ptrNode_DocGia &root)
     // nNDG = 0;
 }
 
-NodeDocGia *getNode_DG(DocGia dg)
+ptrNode_DocGia getNode_DG(DocGia dg)
 {
-    NodeDocGia *p = new NodeDocGia;
+    ptrNode_DocGia p = new NodeDocGia;
     if (p == NULL)
     {
         return NULL;
@@ -23,7 +23,23 @@ NodeDocGia *getNode_DG(DocGia dg)
     return (p);
 }
 
-void insert_NodeDG(ptrNode_DocGia &p, DocGia dg)
+void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x)
+{
+    if (p == NULL) // p = nut la
+    {
+        p = getNode_DG(dg);
+        ++nNodeDocGia;
+    }
+    else
+    {
+        if (x < p->info.maThe)
+        insert_NodeDG(p->left, dg);
+        else if (x > p->info.maThe)
+        insert_NodeDG(p->right, dg);
+    }
+}
+
+void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
 {
     if (p == NULL) // p = nut la
     {
@@ -261,7 +277,7 @@ int readDG(ptrNode_DocGia &root, char *filePath)
             dg.ten = arr[2];
             dg.phai = atoi(arr[3].c_str());
             dg.trangThai = atoi(arr[4].c_str());
-            insert_NodeDG(root, dg);
+            insert_NodeDG_Load(root, dg);
             pNDG = layDG_NTDG(root, dg.maThe);
             i++;
         }

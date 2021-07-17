@@ -15,3 +15,10 @@ g. Trả sách
 h. Liệt kê danh sách các sách mà 1 độc giả đang mượn
 i. In danh sách độc giả mượn sách quá hạn theo thứ tự thời gian quá hạn giảm dần
 j. In 10 sách có số lượt mượn nhiều nhất.
+
+
+
+https://paste.ubuntu.com/25757078/ //Max min Tree
+Xóa cây
+1. Node lá
+2. Node 1 con: Link lại cha con
