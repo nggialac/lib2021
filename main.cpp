@@ -3,6 +3,7 @@
 
 int main()
 {
-    readFile_DG(tree, FILE_PATH);
+    // readFile_DG(tree, FILE_PATH);
+    show();
     return 0;
 }

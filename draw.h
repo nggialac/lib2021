@@ -2,16 +2,18 @@
 #include "DG.h"
 #include "DMS.h"
 
-const int so_item = 4;
-const int dong = 20;
+const int so_item = 6;
+const int dong = 1;
 const int cot = 0;
 const int Up = 72;
 const int Down = 80;
 
-char mainMenu[so_item][50] = {"1. Tao day so ngau nhien    ",
-                              "2. Nhap day tu file         ",
-                              "3. Them ve dau danh sach    ",
-                              "4. Ket thuc chuong trinh     "};
+char mainMenu[so_item][50] = {"1. Nhap Doc Gia    ",
+                              "2. Ghi file Doc Gia         ",
+                              "3. Doc file Doc Gia    ",
+                              "4. Doc file Dau Sach     ",
+                              "5. Show records   ",
+                              "6. Exit"};
 
 void Normal()
 {
@@ -101,7 +103,10 @@ Nhaplai:
 
 void show()
 {
+    // HWND hWnd = GetConsoleWindow();
+    // ShowWindow(hWnd, SW_SHOWMAXIMIZED);
     int chon;
+    int temp;
     while (1)
     {
         chon = MenuDong(mainMenu);
@@ -109,21 +114,43 @@ void show()
         {
 
         case 1:
-            gotoxy(10, 20);
+            gotoxy(30, 20);
             cout << "Vua chon chuc nang " << chon;
+            // int temp = 0;
+            create_Tree(tree);
             break;
         case 2:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
+            temp = writeFile_DG(tree, FILE_PATH);
+            if (temp > 0)
+                cout << "Write file success!" << endl;
+            getch();
             break;
         case 3:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
+            temp = readDG(tree, FILE_PATH);
+            if (temp > 0)
+                cout << "Read file success!" << endl;
+            break;
+
+        case 4:
+            gotoxy(10, 20);
+            cout << "Vua chon chuc nang " << chon;
+            temp = readFile_DS(linkedList);
+            if (temp > 0)
+                cout << "Read file success!" << endl;
+            break;
+        case 5:
+            gotoxy(10,20);
+            cout<<"Vua chon chuc nang "<<chon;
+            // temp=traverse_DMS();
+            if(temp > 0) cout<<"Records: "<<endl;
             break;
         case so_item:
             break;
         }
-        Sleep(1000);
+        Sleep(100000);
     }
 }
-

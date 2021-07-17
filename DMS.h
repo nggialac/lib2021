@@ -1,8 +1,44 @@
 #include "prototype.h"
 
-
 #ifndef DMS
 #define DMS
+
+void initializeListNode_DMS(listNodeDMS &ln_dms)
+{
+    ln_dms.n = 0;
+    ln_dms.FirstNode_DanhMucSach = NULL;
+}
+
+ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
+{
+    ptrNode_DanhMucSach p = new NodeDanhMucSach;
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    p->danhMucSach = data;
+    p->next = NULL;
+    return (p);
+}
+
+void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
+{
+    ptrNode_DanhMucSach p = getNode_DMS(data);
+    if (ln_dms.FirstNode_DanhMucSach == NULL)
+    {
+        ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = p;
+    }
+    else
+    {
+        ln_dms.LastNode_DanhMucSach->next = p;
+        ln_dms.LastNode_DanhMucSach = p;
+        // ptrNode_DanhMucSach last=FirstNode_DanhMucSach;
+        // while(last->next != NULL) last=last->next;
+        // last->next = p;
+    }
+    ln_dms.n++;
+}
+
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
 {
     ptrNode_DanhMucSach p;
@@ -27,12 +63,27 @@ int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
     return 1;
 }
 
-ptrNode_DanhMucSach search_DMS(ptrNode_DanhMucSach First, char *ms)
+int isFull_DS(listDauSach listDS)
+{
+    return listDS.n == MAX_LIST;
+}
+
+int add_DS(listDauSach &listDS, pDauSach &pDS)
+{
+    if (isFull_DS(listDS))
+    {
+        return 0;
+    }
+    listDS.nodes[++listDS.n] = pDS;
+    return 1;
+}
+
+ptrNode_DanhMucSach search_DMS(ptrNode_DanhMucSach First, string ms)
 {
     ptrNode_DanhMucSach p;
     for (p = First; p != NULL; p = p->next)
     {
-        if (strcmp(p->danhMucSach.maSach, ms) == 0)
+        if (ms.compare(p->danhMucSach.maSach) == 0)
         {
             return p;
         }
@@ -62,17 +113,17 @@ int deleteAfter_DMS(ptrNode_DanhMucSach p)
     return 1;
 }
 
-int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, char *ms)
+int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, string ms)
 {
     ptrNode_DanhMucSach p = First;
     if (First == NULL)
         return 0;
-    if (strcmp(p->danhMucSach.maSach, ms))
+    if (ms.compare(p->danhMucSach.maSach))
     {
         deleteFirst_DMS(First);
         return 1;
     }
-    for (p = First; p->next != NULL && strcmp(p->next->danhMucSach.maSach, ms) != 0; p = p->next)
+    for (p = First; p->next != NULL && ms.compare(p->next->danhMucSach.maSach) != 0; p = p->next)
         ;
     if (p->next != NULL)
     {
@@ -82,17 +133,76 @@ int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, char *ms)
     return 0;
 }
 
-int traverse_DMS(ptrNode_DanhMucSach First)
+int traverse_DMS(listNodeDMS ln_dms)
 {
     ptrNode_DanhMucSach p;
     int count = 0;
-    if (First == NULL)
+    if (ln_dms.FirstNode_DanhMucSach == NULL)
         return 0;
-    for (p = First; p != NULL; p = p->next)
+    for (p = ln_dms.FirstNode_DanhMucSach; p != NULL; p = p->next)
     {
+        cout << p->danhMucSach.maSach;
+        cout << " " + p->danhMucSach.trangThai;
+        cout << " " + p->danhMucSach.viTri;
         count++;
     }
     return count;
+}
+
+int readFile_DS(listDauSach &listDS)
+{
+    fstream fileIn;
+    DauSach info;
+    fileIn.open("DS.txt", ios::in);
+    pDauSach pDS;
+    DanhMucSach dms;
+    int soDauSach, soSach;
+    if (fileIn.is_open())
+    {
+        string temp;
+        fileIn >> soDauSach;
+        cout<<endl;
+        cout<<"so dau sach: "+soDauSach<<endl;
+        getline(fileIn, temp);
+        for (int i = 0; i < soDauSach; i++)
+        {
+            pDS = new DauSach;
+            if (pDS == NULL)
+                continue;
+            // load thong tin vao bien tam.
+            getline(fileIn, info.tenSach); cout<<"ten sach " + info.tenSach;
+            getline(fileIn, info.isbn); cout<<"ibsn " + info.isbn;
+
+            getline(fileIn, info.tacGia); cout<<"tg " + info.tacGia;
+            getline(fileIn, info.theLoai); cout<<"the loai " + info.theLoai;
+            fileIn >> info.soTrang; cout<<info.soTrang;
+            fileIn >> info.namXuatBan; cout<<info.namXuatBan;
+            fileIn >> info.soLanMuon; cout<<info.soLanMuon;
+            // load thong tin vao dau sach
+            *(pDS) = info;
+            fileIn >> soSach;
+            getline(fileIn, temp);
+            // initializeListNode_DMS(*(pDS->ptrListNode_DMS));
+            for (int j = 0; j < soSach; j++)
+            {
+                cout<<endl;
+                getline(fileIn, dms.maSach); cout<<"ma sach " + dms.maSach;
+                fileIn >> dms.trangThai;
+                getline(fileIn, temp);
+                getline(fileIn, dms.viTri);
+                // themCuoiList_DMS(*(pDS->ptrListNode_DMS), dms);
+            }
+            cout<<endl<<endl;
+            // add_DS(listDS, pDS);
+        }
+    }
+    else
+    {
+        cout << "file DS.txt khong tim thay! ";
+        return 0;
+    }
+    fileIn.close();
+    return 1;
 }
 
 #endif
