@@ -5,6 +5,9 @@ using namespace std;
 #include <windows.h>
 #include <sstream>
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 #include "initial.h"
 
@@ -14,7 +17,7 @@ using namespace std;
 extern char *FILE_PATH = "D:\\Lib\\DG.txt";
 extern int nNodeDocGia = 0;
 extern int indexDG = 0;
-extern int maxKeyDG = 500;
+extern int MAX_RAND = 500;
 
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
@@ -47,7 +50,7 @@ int writeFile_DG(ptrNode_DocGia &root, char *filePath);
 
 void readFile_NodeDG(ptrNode_DocGia &root, FILE *fin);
 int readFile_DG(ptrNode_DocGia &root, char *filePath);
-
+int randomMaThe(ptrNode_DocGia root);
 // TODO: DG - AVL To chuc can bang cho cay tim kiem
 
 #endif

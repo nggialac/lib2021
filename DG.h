@@ -102,19 +102,24 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
 //     return p;
 // }
 
-bool check_MADG(ptrNode_DocGia t, int MADG) {
-	if (t == NULL) {
-		return false;
-	}
-	else if (t->info.maThe == MADG) {
-		return true;
-	}
-	else if (MADG < t->info.maThe) {
-		return check_MADG(t->left, MADG);
-	}
-	else {
-		return check_MADG(t->right, MADG);
-	}
+bool check_MADG(ptrNode_DocGia t, int MADG)
+{
+    if (t == NULL)
+    {
+        return false;
+    }
+    else if (t->info.maThe == MADG)
+    {
+        return true;
+    }
+    else if (MADG < t->info.maThe)
+    {
+        return check_MADG(t->left, MADG);
+    }
+    else
+    {
+        return check_MADG(t->right, MADG);
+    }
 }
 
 bool checkMaThe(ptrNode_DocGia p, int mt)
@@ -126,11 +131,10 @@ bool checkMaThe(ptrNode_DocGia p, int mt)
         else
             p = p->right;
     }
-    if(p==NULL) return false;
+    if (p == NULL)
+        return false;
     return true;
 }
-
-
 
 void create_Tree(ptrNode_DocGia &root)
 {
@@ -277,7 +281,9 @@ int writeFile_DG(ptrNode_DocGia &root, char *filePath)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << preorder_NodeDG_NLR(root) << endl;
+        fileOut << nNodeDocGia << endl;
+        // fileOut << preorder_NodeDG_NLR(root) << endl;
+
         // fileOut << "||";
         writeFile_NodeDG(root, fileOut);
     }
@@ -457,21 +463,32 @@ void tao_Arr(ptrNode_DocGia p, DocGia *arr)
 //     return 1;
 // }
 
-int taoRandom() {
-	srand((int)time(0));
-	int x;
-	for (int i = 0; i < maxKeyDG; i++) {
-		x = rand(); // ran() trong vong for
-	}
-	return x;
+int taoRandom()
+{
+    int x;
+    srand((int)time(0));
+    x = (rand() % MAX_RAND) + 1;
+    return x;
 }
 
-int randomMaThe(ptrNode_DocGia t) {
-	int temp;
-	do {
-		temp = taoRandom();
-	} while (check_MADG(t, temp));
-	return temp;
+int treeLevel(ptrNode_DocGia t){
+	if (t == NULL) return -1;
+	return 1 + max(treeLevel(t->left), treeLevel(t->right));
+}
+bool checkAvl(ptrNode_DocGia t){
+	if (t == NULL) 	return true;
+	if (abs(treeLevel(t->left) - treeLevel(t->right)) > 1) return false;
+	return checkAvl(t->left) && checkAvl(t->right);
+}
+
+int randomMaThe(ptrNode_DocGia t)
+{
+    int temp;
+    do
+    {
+        temp = taoRandom();
+    } while (check_MADG(t, temp) && checkAvl(t));
+    return temp;
 }
 
 

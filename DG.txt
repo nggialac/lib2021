@@ -1,4 +1,4 @@
-7
+10
 1|nguyen|lac|0|0|
 0|nguyen|huong|1|1|
 2|nguyen|ky|0|0|
@@ -6,3 +6,6 @@
 4|nguyen|long|1|1|
 7|nguyen|nam|1|0|
 6|nguyen|huong|1|1|
+204|ly|minh|0|1|
+267|quach|nhan|0|0|
+439|dinh|nhung|1|1|
