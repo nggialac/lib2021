@@ -91,11 +91,27 @@ struct NodeDocGia
 {
     int key;
     DocGia info;
-    int nNodeDocGia = 0;
+    // int nNodeDocGia = 0;
+    // int bf;
     struct NodeDocGia *left;
     struct NodeDocGia *right;
 };
 typedef struct NodeDocGia *ptrNode_DocGia;
+// typedef struct NodeDocGia *ptrNode_DocGia_Name;
 ptrNode_DocGia tree = NULL;
+
+
+// struct TenHo {
+// 	string ho;
+//     string ten;
+// 	int MADG;
+// };
+// typedef struct TenHo hoTen;
+
+// struct TempList {
+// 	int index;
+// 	int MADG;
+// };
+// typedef struct TempList TempL;
 
 #endif

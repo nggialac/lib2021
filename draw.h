@@ -2,7 +2,7 @@
 #include "DG.h"
 #include "DMS.h"
 
-const int so_item = 7;
+const int so_item = 9;
 const int dong = 1;
 const int cot = 0;
 const int Up = 72;
@@ -14,8 +14,10 @@ char mainMenu[so_item][50] = {"1. Nhap Doc Gia    ",
                               "4. Doc file Dau Sach     ",
                               "5. Show records Doc Gia  ",
                               "6. Xoa Doc Gia  ",
+                              "7. In Doc Gia theo ten ",
+                              "8. In Doc Gia theo ma the ",
 
-                              "7. Exit"};
+                              "9. Exit"};
 
 void Normal()
 {
@@ -110,6 +112,7 @@ void show()
     int chon;
     int temp;
     DocGia dg;
+    DocGia *arr;
     while (1)
     {
         chon = MenuDong(mainMenu);
@@ -162,12 +165,51 @@ void show()
             cin >> dg.maThe;
             cout << dg.maThe;
             temp = remove_NodeDG(tree, dg);
-            if(temp > 0) cout<<"Da xoa thanh cong DG !"<<endl;
+            if (temp > 0)
+                cout << "Da xoa thanh cong DG !" << endl;
             system("pause");
             break;
+
+        case 7:
+            gotoxy(10, 20);
+            indexDG = 0;
+            cout << "Vua chon chuc nang " << chon;
+            cout << nNodeDocGia << endl;
+            
+            arr = new DocGia[nNodeDocGia];
+            tao_Arr(tree, arr);
+            sort_DG(arr, 0, nNodeDocGia - 1);
+            for (int i = 0; i < nNodeDocGia; i++)
+            {
+                cout << arr[i].maThe << endl;
+                cout << arr[i].ho << endl;
+                cout << arr[i].ten << endl;
+            }
+            system("pause");
+            delete[] arr;
+            break;
+
+        case 8:
+            gotoxy(10, 20);
+            indexDG = 0;
+            cout << "Vua chon chuc nang " << chon;
+            cout << nNodeDocGia << endl;
+
+            arr = new DocGia[nNodeDocGia];
+            tao_Arr(tree, arr);
+            for (int i = 0; i < nNodeDocGia; i++)
+            {
+                cout << arr[i].maThe << " ";
+                cout << arr[i].ho << " ";
+                cout << arr[i].ten << " ";
+            }
+            system("pause");
+            delete[] arr;
+            break;
+
         case so_item:
             return;
         }
-        Sleep(1000);
+        Sleep(500);
     }
 }

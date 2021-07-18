@@ -13,6 +13,8 @@ using namespace std;
 
 extern char *FILE_PATH = "D:\\Lib\\DG.txt";
 extern int nNodeDocGia = 0;
+extern int indexDG = 0;
+extern int maxKeyDG = 500;
 
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);

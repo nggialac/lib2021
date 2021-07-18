@@ -24,6 +24,16 @@ Xóa cây
 2. Node 1 con: Link lại cha con
 https://paste.ubuntu.com/25825387/
 
+int treeLevel(node *t){
+	if (t == NULL) return -1;
+	return 1 + max(treeLevel(t->left), treeLevel(t->right));
+}
+bool checkAvl(node *t){
+	if (t == NULL) 	return true;
+	if (abs(treeLevel(t->left) - treeLevel(t->right)) > 1) return false;
+	return checkAvl(t->left) && checkAvl(t->right);
+}
+
 
 
 DSLK

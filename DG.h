@@ -89,18 +89,48 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
     return 1;
 }
 
-ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int xKey)
+// ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int xKey)
+// {
+//     ptrNode_DocGia p = root;
+//     while (p != NULL && p->key != xKey)
+//     {
+//         if (xKey < p->key)
+//             p = p->left;
+//         else
+//             p = p->right;
+//     }
+//     return p;
+// }
+
+bool check_MADG(ptrNode_DocGia t, int MADG) {
+	if (t == NULL) {
+		return false;
+	}
+	else if (t->info.maThe == MADG) {
+		return true;
+	}
+	else if (MADG < t->info.maThe) {
+		return check_MADG(t->left, MADG);
+	}
+	else {
+		return check_MADG(t->right, MADG);
+	}
+}
+
+bool checkMaThe(ptrNode_DocGia p, int mt)
 {
-    ptrNode_DocGia p = root;
-    while (p != NULL && p->key != xKey)
+    while (p != NULL && p->info.maThe != mt)
     {
-        if (xKey < p->key)
+        if (mt < p->info.maThe)
             p = p->left;
         else
             p = p->right;
     }
-    return p;
+    if(p==NULL) return false;
+    return true;
 }
+
+
 
 void create_Tree(ptrNode_DocGia &root)
 {
@@ -115,9 +145,11 @@ void create_Tree(ptrNode_DocGia &root)
         {
             cout << "STT: " << count << " :"
                  << endl;
-            cout << "Nhap ma the: " << endl; //tu sinh
-            cin >> info.maThe;
-            cin.ignore();
+            cout << "Ma the: "; //tu sinh
+            info.maThe = randomMaThe(root);
+            cout << info.maThe;
+            // cin >> info.maThe;
+            // cin.ignore();
             cout << "Nhap ho: " << endl;
             cin >> info.ho;
             cout << "Nhap ten: " << endl;
@@ -199,8 +231,6 @@ int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
     }
     return 1;
 }
-
-
 
 void saveDG(ptrNode_DocGia &root, fstream &fout)
 {
@@ -288,6 +318,7 @@ int readDG(ptrNode_DocGia &root, char *filePath)
     if (fileIn.is_open())
     {
         fileIn >> countDG;
+        // nNodeDocGia=countDG;
         cout << countDG << endl;
         string temp;
         getline(fileIn, temp);
@@ -320,39 +351,129 @@ int readDG(ptrNode_DocGia &root, char *filePath)
         cout << "File DG.txt not found!";
         return 0;
     }
+    cout << "N Node Doc Gia" << endl;
+    cout << nNodeDocGia << endl;
     fileIn.close();
     return 1;
 }
 
-void readFile_NodeDG(ptrNode_DocGia &root, FILE *fin)
+// void readFile_NodeDG(ptrNode_DocGia &root, FILE *fin)
+// {
+//     if (root == NULL)
+//     {
+//         root = new NodeDocGia;
+//         readFile_NodeDG(root->right, fin);
+//         fread(root, sizeof(NodeDocGia), 1, fin);
+//         cout << root->info.ten << endl;
+//         // readFile_NodeDG(root->right, fin);
+//         readFile_NodeDG(root->left, fin);
+//     }
+// }
+
+// int readFile_DG(ptrNode_DocGia &root, char *filePath)
+// {
+//     FILE *fin;
+//     if ((fin = fopen(filePath, "r")) == NULL)
+//     {
+//         cout << "Cannot read file!" << endl;
+//         return 0;
+//     }
+//     else
+//         cout << "Reading..." << endl;
+//     readFile_NodeDG(root, fin);
+//     preorder_NodeDG_NLR(root);
+//     fclose(fin);
+//     return 1;
+// }
+
+int checkSortHoTen(DocGia dg1, DocGia dg2)
 {
-    if (root == NULL)
+    int compareResult = dg1.ten.compare(dg2.ten);
+    if (compareResult == 0)
     {
-        root = new NodeDocGia;
-        readFile_NodeDG(root->right, fin);
-        fread(root, sizeof(NodeDocGia), 1, fin);
-        cout << root->info.ten << endl;
-        // readFile_NodeDG(root->right, fin);
-        readFile_NodeDG(root->left, fin);
+        compareResult = dg1.ho.compare(dg2.ho);
     }
+    return compareResult;
 }
 
-int readFile_DG(ptrNode_DocGia &root, char *filePath)
+// sort(friends, friends + ARRAY_MAX, NameComparer());
+
+void sort_DG(DocGia *arr, int low, int high)
 {
-    FILE *fin;
-    if ((fin = fopen(filePath, "r")) == NULL)
+    DocGia temp;
+    DocGia pivot = arr[(low + high) / 2]; // pivot
+    int left = low;
+    int right = high;
+    do
     {
-        cout << "Cannot read file!" << endl;
-        return 0;
-    }
-    else
-        cout << "Reading..." << endl;
-    readFile_NodeDG(root, fin);
-    preorder_NodeDG_NLR(root);
-    fclose(fin);
-    return 1;
+        while (checkSortHoTen(arr[left], pivot) < 0)
+            left++;
+        while (checkSortHoTen(arr[right], pivot) > 0)
+            right--;
+
+        if (left <= right)
+        {
+            temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+    } while (left <= right);
+    if (low < right)
+        sort_DG(arr, low, right); // phan thu 1 co tu 2 ptu tro len
+    if (left < high)
+        sort_DG(arr, left, high); // phan thu 3 co tu 2 ptu tro len
 }
 
-// DAU SACH
+void tao_ArrTenHo(ptrNode_DocGia p, DocGia *arr)
+{
+    if (p == NULL)
+        return;
+    tao_ArrTenHo(p->left, arr);
+    arr[indexDG++] = p->info;
+    tao_ArrTenHo(p->right, arr);
+}
+
+void tao_Arr(ptrNode_DocGia p, DocGia *arr)
+{
+    if (p == NULL)
+        return;
+    tao_Arr(p->left, arr);
+    arr[indexDG++] = p->info;
+    tao_Arr(p->right, arr);
+}
+
+// int preorder_NodeDG_LNR(ptrNode_DocGia p)
+// {
+//     if (p == NULL)
+//         return 0;
+//     else
+//     {
+//         preorder_NodeDG_LNR(p->left);
+//         arr
+//         preorder_NodeDG_LNR(p->right);
+//     }
+//     return 1;
+// }
+
+int taoRandom() {
+	srand((int)time(0));
+	int x;
+	for (int i = 0; i < maxKeyDG; i++) {
+		x = rand(); // ran() trong vong for
+	}
+	return x;
+}
+
+int randomMaThe(ptrNode_DocGia t) {
+	int temp;
+	do {
+		temp = taoRandom();
+	} while (check_MADG(t, temp));
+	return temp;
+}
+
+
 
 #endif
