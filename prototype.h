@@ -27,16 +27,16 @@ int traverse_DMS(ptrNode_DanhMucSach First);
 // TODO: DG - BST
 void initialize_NodeDG(ptrNode_DocGia &root);
 //cay nhi phan tim kiem, lam sao de tu sinh ma cay van can bang?
-void insert_NodeDG(ptrNode_DocGia &p, DocGia dg); //!cay nhi phan tim kiem
+void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x); //!cay nhi phan tim kiem
 
 void create_Tree(ptrNode_DocGia &root);
 
-int preorder_NodeDG(ptrNode_DocGia p); //Co the dung giai thuat ko de quy
+int preorder_NodeDG_NLR(ptrNode_DocGia p); //Co the dung giai thuat ko de quy
 
 ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int x);
 
-ptrNode_DocGia rp;
-void remove2Child_NodeDG(ptrNode_DocGia &p);
+
+void remove2Child_NodeDG(ptrNode_DocGia &p, ptrNode_DocGia rp);
 int remove_NodeDG(ptrNode_DocGia &p, int xKey);
 
 void saveDG(ptrNode_DocGia &root, fstream &fout);

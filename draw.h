@@ -2,7 +2,7 @@
 #include "DG.h"
 #include "DMS.h"
 
-const int so_item = 6;
+const int so_item = 7;
 const int dong = 1;
 const int cot = 0;
 const int Up = 72;
@@ -12,8 +12,10 @@ char mainMenu[so_item][50] = {"1. Nhap Doc Gia    ",
                               "2. Ghi file Doc Gia         ",
                               "3. Doc file Doc Gia    ",
                               "4. Doc file Dau Sach     ",
-                              "5. Show records   ",
-                              "6. Exit"};
+                              "5. Show records Doc Gia  ",
+                              "6. Them Doc Gia  ",
+
+                              "7. Exit"};
 
 void Normal()
 {
@@ -125,14 +127,15 @@ void show()
             temp = writeFile_DG(tree, FILE_PATH);
             if (temp > 0)
                 cout << "Write file success!" << endl;
-            getch();
+            system("pause");
             break;
         case 3:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
             temp = readDG(tree, FILE_PATH);
             if (temp > 0)
-                cout << "Read file success!" << endl;
+                cout << "Read file DG success!" << endl;
+            system("pause");
             break;
 
         case 4:
@@ -141,16 +144,27 @@ void show()
             temp = readFile_DS(arrPoiter);
             if (temp > 0)
                 cout << "Read file success!" << endl;
+            system("pause");
             break;
         case 5:
-            gotoxy(10,20);
-            cout<<"Vua chon chuc nang "<<chon;
-            // temp=traverse_DMS();
-            if(temp > 0) cout<<"Records: "<<endl;
+            gotoxy(10, 20);
+            cout << "Vua chon chuc nang " << chon;
+            temp = preorder_NodeDG_NLR(tree);
+            if (temp > 0)
+                cout << "Records: " << endl;
+            system("pause");
+            break;
+        case 6:
+            gotoxy(10, 20);
+            cout << "Vua chon chuc nang " << chon;
+            // temp = preorder_NodeDG(tree);
+            // if (temp > 0)
+            //     cout << "Records: " << endl;
+            system("pause");
             break;
         case so_item:
-            break;
+            return;
         }
-        Sleep(100000);
+        Sleep(1000);
     }
 }

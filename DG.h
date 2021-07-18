@@ -23,6 +23,11 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     return (p);
 }
 
+// void taoListMT(ListMT &l) {
+// 	l.headLMT = l.tailLMT = NULL;
+// 	l.n = 0;
+// }
+
 void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x)
 {
     if (p == NULL) // p = nut la
@@ -33,9 +38,9 @@ void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x)
     else
     {
         if (x < p->info.maThe)
-        insert_NodeDG(p->left, dg);
+            insert_NodeDG(p->left, dg, x);
         else if (x > p->info.maThe)
-        insert_NodeDG(p->right, dg);
+            insert_NodeDG(p->right, dg, x);
     }
 }
 
@@ -53,36 +58,35 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
     }
     else
     {
-        // if (x < p->key)
-        insert_NodeDG(p->left, dg);
-        // else if (x > p->key)
-        insert_NodeDG(p->right, dg);
+        if (dg.maThe < p->info.maThe)
+            insert_NodeDG_Load(p->left, dg);
+        else if (dg.maThe > p->info.maThe)
+            insert_NodeDG_Load(p->right, dg);
     }
 }
 
 //Traverse
-int preorder_NodeDG(ptrNode_DocGia p)
+int preorder_NodeDG_NLR(ptrNode_DocGia p)
 {
-    int count = 1;
     if (p == NULL)
         return 0;
     else
     {
         // cout << p->key << endl; //Xu ly nut p
-        // cout << p->info.ho << endl;
-        // cout << p->info.maThe << endl;
-        // cout << p->info.ten << endl;
-        // cout << p->info.phai << endl;
-        // cout << p->info.trangThai << endl;
+        cout << p->info.ho << " ";
+        cout << p->info.ten << " ";
+        cout << p->info.maThe << " ";
+        cout << p->info.phai << " ";
+        cout << p->info.trangThai << " ";
         // cout << p->info.ptrMuonTra << endl;
         // cout << p->info.ptrMuonTra->maSach << endl;
         // cout << p->info.ptrMuonTra->ngayMuon.ngay << endl;
         // cout << p->info.ptrMuonTra->ngayTra.ngay << endl;
         // cout << p->info.ptrMuonTra->trangThai << endl;
-        count += preorder_NodeDG(p->left);
-        count += preorder_NodeDG(p->right);
-        return count;
+        preorder_NodeDG_NLR(p->left);
+        preorder_NodeDG_NLR(p->right);
     }
+    return 1;
 }
 
 ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int xKey)
@@ -125,16 +129,16 @@ void create_Tree(ptrNode_DocGia &root)
             cout << "Nhap trang thai: " << endl;
             cin >> info.trangThai;
             cin.ignore();
-            insert_NodeDG(root, info);
+            insert_NodeDG_Load(root, info);
             count++;
         }
     } while (key != 0);
 }
 
-void remove2Child_NodeDG(ptrNode_DocGia &p)
+void remove2Child_NodeDG(ptrNode_DocGia &p, ptrNode_DocGia rp)
 {
     if (p->left != NULL)
-        remove2Child_NodeDG(p->left); //nut cuc trai cua cay con ben phai (nut goc rp)
+        remove2Child_NodeDG(p->left, rp); //nut cuc trai cua cay con ben phai (nut goc rp)
     else
     {
         rp->key = p->key;
@@ -146,6 +150,7 @@ void remove2Child_NodeDG(ptrNode_DocGia &p)
 
 int remove_NodeDG(ptrNode_DocGia &p, int xKey)
 {
+    ptrNode_DocGia rp;
     if (p == NULL)
         return 0;
     else
@@ -162,7 +167,7 @@ int remove_NodeDG(ptrNode_DocGia &p, int xKey)
             else if (rp->left == NULL)
                 p = rp->right;
             else
-                remove2Child_NodeDG(rp->right);
+                remove2Child_NodeDG(rp->right, rp);
             delete rp;
         }
     }
@@ -214,7 +219,7 @@ int writeFile_DG(ptrNode_DocGia &root, char *filePath)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << preorder_NodeDG(root) << endl;
+        fileOut << preorder_NodeDG_NLR(root) << endl;
         // fileOut << "||";
         writeFile_NodeDG(root, fileOut);
     }
@@ -227,7 +232,7 @@ int writeFile_DG(ptrNode_DocGia &root, char *filePath)
     return 1;
 }
 
-NodeDocGia *layDG_NTDG(ptrNode_DocGia t, int MADG)
+ptrNode_DocGia layDG_NTDG(ptrNode_DocGia t, int MADG)
 {
     while (t != NULL && t->info.maThe != MADG)
     {
@@ -315,11 +320,10 @@ int readFile_DG(ptrNode_DocGia &root, char *filePath)
     else
         cout << "Reading..." << endl;
     readFile_NodeDG(root, fin);
-    preorder_NodeDG(root);
+    preorder_NodeDG_NLR(root);
     fclose(fin);
     return 1;
 }
-
 
 // DAU SACH
 
