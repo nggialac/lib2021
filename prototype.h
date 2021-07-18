@@ -36,8 +36,8 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p); //Co the dung giai thuat ko de quy
 ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int x);
 
 
-void remove2Child_NodeDG(ptrNode_DocGia &p, ptrNode_DocGia rp);
-int remove_NodeDG(ptrNode_DocGia &p, int xKey);
+// void remove2Child_NodeDG(ptrNode_DocGia &p);
+// int remove_NodeDG(ptrNode_DocGia &p, DocGia dg);
 
 void saveDG(ptrNode_DocGia &root, fstream &fout);
 void writeFile_NodeDG(ptrNode_DocGia &root, FILE &fout);

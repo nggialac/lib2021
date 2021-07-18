@@ -1,4 +1,8 @@
-3
+7
 1|nguyen|lac|0|0|
+0|nguyen|huong|1|1|
 2|nguyen|ky|0|0|
 3|nguyen|khuong|1|1|
+4|nguyen|long|1|1|
+7|nguyen|nam|1|0|
+6|nguyen|huong|1|1|

@@ -73,9 +73,9 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
     else
     {
         // cout << p->key << endl; //Xu ly nut p
+        cout << p->info.maThe << " ";
         cout << p->info.ho << " ";
         cout << p->info.ten << " ";
-        cout << p->info.maThe << " ";
         cout << p->info.phai << " ";
         cout << p->info.trangThai << " ";
         // cout << p->info.ptrMuonTra << endl;
@@ -135,44 +135,72 @@ void create_Tree(ptrNode_DocGia &root)
     } while (key != 0);
 }
 
-void remove2Child_NodeDG(ptrNode_DocGia &p, ptrNode_DocGia rp)
+void remove2Child_NodeDG(ptrNode_DocGia &rp, ptrNode_DocGia &p)
 {
     if (p->left != NULL)
-        remove2Child_NodeDG(p->left, rp); //nut cuc trai cua cay con ben phai (nut goc rp)
+        remove2Child_NodeDG(rp, p->left); //nut cuc trai cua cay con ben phai (nut goc rp)
     else
     {
-        rp->key = p->key;
-        rp->info = p->info;
+        // rp->key = p->key;
+        rp->info = p->info; //sao chep data sang rp
         rp = p;
-        p = rp->right;
+        p = p->right;
     }
 }
 
-int remove_NodeDG(ptrNode_DocGia &p, int xKey)
+// int remove_NodeDG_maThe(ptrNode_DocGia &p, int maThe)
+// {
+//     if (p == NULL)
+//         return 0;
+//     else
+//     {
+//         if (maThe < p->key)
+//             remove_NodeDG(p->left, dg);
+//         else if (maThe > p->key)
+//             remove_NodeDG(p->right, dg);
+//         else
+//         { //dg.maThe = p->key
+//             ptrNode_DocGia rp = p;
+
+//             if (p->right == NULL)
+//                 p = p->left; //p = nut la or chi co nut left
+//             else if (p->left == NULL)
+//                 p = p->right; //p = nut la or chi co nut right
+//             else
+//                 remove2Child_NodeDG(rp, p->right);
+//             delete rp;
+//         }
+//     }
+//     return 1;
+// }
+
+int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
 {
-    ptrNode_DocGia rp;
     if (p == NULL)
         return 0;
     else
     {
-        if (xKey < p->key)
-            remove_NodeDG(p->left, xKey);
-        else if (xKey > p->key)
-            remove_NodeDG(p->right, xKey);
+        if (dg.maThe < p->info.maThe)
+            remove_NodeDG(p->left, dg);
+        else if (dg.maThe > p->info.maThe)
+            remove_NodeDG(p->right, dg);
         else
-        { //xKey = p->key
-            rp = p;
-            if (rp->right == NULL)
-                p = rp->left; //p = nut la or chi co nut left
-            else if (rp->left == NULL)
-                p = rp->right;
+        { //dg.maThe = p->key
+            ptrNode_DocGia rp = p;
+
+            if (p->right == NULL)
+                p = p->left; //p = nut la or chi co nut left
+            else if (p->left == NULL)
+                p = p->right; //p = nut la or chi co nut right
             else
-                remove2Child_NodeDG(rp->right, rp);
+                remove2Child_NodeDG(rp, p->right);
             delete rp;
         }
     }
     return 1;
 }
+
+
 
 void saveDG(ptrNode_DocGia &root, fstream &fout)
 {

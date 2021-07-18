@@ -13,7 +13,7 @@ char mainMenu[so_item][50] = {"1. Nhap Doc Gia    ",
                               "3. Doc file Doc Gia    ",
                               "4. Doc file Dau Sach     ",
                               "5. Show records Doc Gia  ",
-                              "6. Them Doc Gia  ",
+                              "6. Xoa Doc Gia  ",
 
                               "7. Exit"};
 
@@ -109,6 +109,7 @@ void show()
     // ShowWindow(hWnd, SW_SHOWMAXIMIZED);
     int chon;
     int temp;
+    DocGia dg;
     while (1)
     {
         chon = MenuDong(mainMenu);
@@ -156,10 +157,12 @@ void show()
             break;
         case 6:
             gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon;
-            // temp = preorder_NodeDG(tree);
-            // if (temp > 0)
-            //     cout << "Records: " << endl;
+            cout << "Vua chon chuc nang " << chon << endl;
+            cout << "Nhap ma the doc gia: " << endl;
+            cin >> dg.maThe;
+            cout << dg.maThe;
+            temp = remove_NodeDG(tree, dg);
+            if(temp > 0) cout<<"Da xoa thanh cong DG !"<<endl;
             system("pause");
             break;
         case so_item:
