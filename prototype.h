@@ -1,23 +1,8 @@
-#include <iostream>
-using namespace std;
-#include <string.h>
-#include <fstream>
-#include <windows.h>
-#include <sstream>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 
 #include "initial.h"
 
 #ifndef prototype
 #define prototype
-
-extern char *FILE_PATH = "D:\\Lib\\DG.txt";
-extern int nNodeDocGia = 0;
-extern int indexDG = 0;
-extern int MAX_RAND = 500;
 
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
@@ -53,4 +38,7 @@ int readFile_DG(ptrNode_DocGia &root, char *filePath);
 int randomMaThe(ptrNode_DocGia root);
 // TODO: DG - AVL To chuc can bang cho cay tim kiem
 
+
+int NhapMaDocGia(int &msdg);
+void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach);
 #endif

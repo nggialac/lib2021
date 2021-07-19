@@ -70,12 +70,12 @@ int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
     return 1;
 }
 
-int isFull_DS(listDauSach listDS)
+int isFull_DS(ListDauSach listDS)
 {
     return listDS.n == MAX_LIST;
 }
 
-int add_DS(listDauSach &listDS, pDauSach &pDS)
+int add_DS(ListDauSach &listDS, pDauSach &pDS)
 {
     if (isFull_DS(listDS))
     {
@@ -157,7 +157,7 @@ int traverse_DMS(listNodeDMS ln_dms)
     return count;
 }
 
-int readFile_DS(listDauSach &listDS)
+int readFile_DS(ListDauSach &listDS)
 {
     fstream fileIn;
     DauSach info;

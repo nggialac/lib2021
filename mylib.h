@@ -1,44 +1,41 @@
-#include <conio.h>
+#include "initial.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <dos.h>
-#include <string.h>
-#include <windows.h>
-
-#define Enter 13
-//const int WHITE=15;
-#define PASSWORD "abcdef"
-//const int WHITE=15;
-
-char* Pwd () {
-    char S[40]; int i=0;
-    while ((S[i]= getch()) != Enter )
-    { printf ("%c", '*') ; i++ ;
+char *Pwd()
+{
+    char S[40];
+    int i = 0;
+    while ((S[i] = getch()) != Enter)
+    {
+        printf("%c", '*');
+        i++;
     }
-    S[i]='\0';
+    S[i] = '\0';
     return S;
 }
 
-int CheckPwd () {
-    int dem =0;
-    for ( dem =1 ; dem <=3 ; dem++)
-    { printf( "Password :");
-        if (strcmp(Pwd(),PASSWORD) ==0)   return 1;
-        else printf ( "\nPassword sai. Hay nhap lai\n")  ;
+int CheckPwd()
+{
+    int dem = 0;
+    for (dem = 1; dem <= 3; dem++)
+    {
+        printf("Password :");
+        if (strcmp(Pwd(), PASSWORD) == 0)
+            return 1;
+        else
+            printf("\nPassword sai. Hay nhap lai\n");
     }
     return 0;
 }
 
-void gotoxy(short x,short y)
+void gotoxy(short x, short y)
 {
     HANDLE hConsoleOutput;
-    COORD Cursor_an_Pos = { x,y};
+    COORD Cursor_an_Pos = {x, y};
     hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleCursorPosition(hConsoleOutput , Cursor_an_Pos);
+    SetConsoleCursorPosition(hConsoleOutput, Cursor_an_Pos);
 }
 
-int wherex( void )
+int wherex(void)
 {
     HANDLE hConsoleOutput;
     hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -47,7 +44,7 @@ int wherex( void )
     return screen_buffer_info.dwCursorPosition.X;
 }
 
-int wherey( void )
+int wherey(void)
 {
     HANDLE hConsoleOutput;
     hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -55,16 +52,17 @@ int wherey( void )
     GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
     return screen_buffer_info.dwCursorPosition.Y;
 }
-void clreol( ) {
+void clreol()
+{
     COORD coord;
     DWORD written;
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
     coord.X = info.dwCursorPosition.X;
     coord.Y = info.dwCursorPosition.Y;
-    FillConsoleOutputCharacter (GetStdHandle(STD_OUTPUT_HANDLE), ' ',
-                                info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y, coord, &written);
-    gotoxy (info.dwCursorPosition.X , info.dwCursorPosition.Y );
+    FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ',
+                               info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y, coord, &written);
+    gotoxy(info.dwCursorPosition.X, info.dwCursorPosition.Y);
 }
 
 void SetColor(WORD color)
@@ -98,6 +96,41 @@ void SetBGColor(WORD color)
 
     SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
-void clrscr() {
-    system("cls");
+
+void ShowCur(bool CursorVisibility)
+{
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursor = {1, CursorVisibility};
+    SetConsoleCursorInfo(handle, &cursor);
+}
+
+void cls(HANDLE hConsole)
+{
+    COORD coordScreen = {0, 0}; // home for the cursor
+    DWORD cCharsWritten;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD dwConSize;
+
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+        return;
+    dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+
+    if (!FillConsoleOutputCharacter(hConsole, (TCHAR)' ',
+                                    dwConSize, coordScreen, &cCharsWritten))
+        return;
+    if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
+        return;
+    // Set the buffer's attributes accordingly.
+    if (!FillConsoleOutputAttribute(hConsole, csbi.wAttributes,
+                                    dwConSize, coordScreen, &cCharsWritten))
+        return;
+    // Put the cursor at its home coordinates.
+    SetConsoleCursorPosition(hConsole, coordScreen);
+}
+
+void clrscr()
+{
+    // system("cls");
+    HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+    cls(hCon);
 }

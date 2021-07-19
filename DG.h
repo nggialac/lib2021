@@ -1,4 +1,4 @@
-#include "prototype.h"
+#include "MT.h"
 
 #ifndef TDG
 #define TDG
@@ -23,11 +23,6 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     return (p);
 }
 
-// void taoListMT(ListMT &l) {
-// 	l.headLMT = l.tailLMT = NULL;
-// 	l.n = 0;
-// }
-
 void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x)
 {
     if (p == NULL) // p = nut la
@@ -48,11 +43,6 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
 {
     if (p == NULL) // p = nut la
     {
-        // p = new NodeDocGia;
-        // p->key = x;
-        // p->info = dg;
-        // p->left = NULL;
-        // p->right = NULL;
         p = getNode_DG(dg);
         ++nNodeDocGia;
     }
@@ -88,19 +78,6 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
     }
     return 1;
 }
-
-// ptrNode_DocGia search_NodeDG(ptrNode_DocGia root, int xKey)
-// {
-//     ptrNode_DocGia p = root;
-//     while (p != NULL && p->key != xKey)
-//     {
-//         if (xKey < p->key)
-//             p = p->left;
-//         else
-//             p = p->right;
-//     }
-//     return p;
-// }
 
 bool check_MADG(ptrNode_DocGia t, int MADG)
 {
@@ -243,24 +220,21 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
     fout << root->info.ten << "|";
     fout << root->info.phai << "|";
     fout << root->info.trangThai << "|";
+    fout << "\n";
+    fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
+    for (ptrNode_MuonTra p = root->info.ptrMuonTra; p != NULL; p = p->next)
+    {
+        fout << p->muonTra.maSach << "|";
+        fout << p->muonTra.ngayMuon.ngay << "|";
+        fout << p->muonTra.ngayMuon.thang << "|";
+        fout << p->muonTra.ngayMuon.nam << "|";
+        fout << p->muonTra.ngayTra.ngay << "|";
+        fout << p->muonTra.ngayTra.thang << "|";
+        fout << p->muonTra.ngayTra.nam << "|";
+        fout << p->muonTra.trangThai << "|";
+        fout << p->muonTra.isbn << "|";
+    }
     fout << '\n';
-    // fout << '\n';
-    // fout << root->listMT.n << endl;
-    // 	for (NodeMT* p = t->listMT.headLMT ; p != NULL; p = p->rightNMT ) {
-    // 	file << p->info.maSach << endl;
-
-    // 	file << p->info.ngayMuon.ngay << endl;
-    // 	file << p->info.ngayMuon.thang << endl;
-    // 	file << p->info.ngayMuon.nam << endl;
-
-    // 	file << p->info.ngayTra.ngay << endl;
-    // 	file << p->info.ngayTra.thang << endl;
-    // 	file << p->info.ngayTra.nam << endl;
-
-    // 	file << p->info.tenSach << endl;
-    // 	file << p->info.trangThai << endl;
-    // 	file << p->info.viTriSach << endl;
-    // }
 }
 
 void writeFile_NodeDG(ptrNode_DocGia &root, fstream &fout)
@@ -282,9 +256,6 @@ int writeFile_DG(ptrNode_DocGia &root, char *filePath)
     if (fileOut.is_open())
     {
         fileOut << nNodeDocGia << endl;
-        // fileOut << preorder_NodeDG_NLR(root) << endl;
-
-        // fileOut << "||";
         writeFile_NodeDG(root, fileOut);
     }
     else
@@ -315,10 +286,10 @@ int readDG(ptrNode_DocGia &root, char *filePath)
     initialize_NodeDG(root);
     fstream fileIn;
     // ifstream fileIn(filePath);
-    NodeDocGia *pNDG = NULL;
+    ptrNode_DocGia pNDG = NULL;
     DocGia dg;
     int countDG;
-    // MuonTra mt;
+    MuonTra mt;
     int countMT;
     fileIn.open(filePath, ios::in);
     if (fileIn.is_open())
@@ -328,11 +299,11 @@ int readDG(ptrNode_DocGia &root, char *filePath)
         cout << countDG << endl;
         string temp;
         getline(fileIn, temp);
-        string arr[5];
+        string arr[10];
+        int soSach;
         for (int i = 0; i < countDG;)
         {
             getline(fileIn, temp);
-            cout << "temp: " + temp << endl;
             int j = 0;
 
             stringstream ssin(temp);
@@ -349,6 +320,41 @@ int readDG(ptrNode_DocGia &root, char *filePath)
             dg.trangThai = atoi(arr[4].c_str());
             insert_NodeDG_Load(root, dg);
             pNDG = layDG_NTDG(root, dg.maThe);
+
+            //Ma doc gia
+            fileIn >> soSach;
+            cout << "\nSo sach: ";
+            cout << soSach << endl;
+            getline(fileIn, temp);
+            while (soSach > 0)
+            {
+                getline(fileIn, temp);
+                cout << temp;
+                stringstream ssin(temp);
+                int j1 = 0;
+                while (ssin.good() && j1 < 9)
+                {
+                    getline(ssin, arr[j1], '|');
+                    // ssin >> arr[j];
+                    ++j1;
+                }
+                mt.maSach = arr[0];
+                mt.ngayMuon.ngay = atoi(arr[1].c_str());
+                mt.ngayMuon.thang = atoi(arr[2].c_str());
+                mt.ngayMuon.nam = atoi(arr[3].c_str());
+                mt.ngayTra.ngay = atoi(arr[4].c_str());
+                mt.ngayTra.thang = atoi(arr[5].c_str());
+                mt.ngayTra.nam = atoi(arr[6].c_str());
+                mt.trangThai = atoi(arr[7].c_str());
+                mt.isbn = arr[8];
+                cout << mt.maSach << endl;
+                cout << mt.ngayMuon.ngay << endl;
+                cout << mt.ngayTra.ngay << endl;
+                cout << mt.trangThai << endl;
+                cout << mt.isbn << endl;
+                themDauList_MT(pNDG->info.ptrMuonTra, mt);
+                soSach--;
+            }
             i++;
         }
     }
@@ -362,35 +368,6 @@ int readDG(ptrNode_DocGia &root, char *filePath)
     fileIn.close();
     return 1;
 }
-
-// void readFile_NodeDG(ptrNode_DocGia &root, FILE *fin)
-// {
-//     if (root == NULL)
-//     {
-//         root = new NodeDocGia;
-//         readFile_NodeDG(root->right, fin);
-//         fread(root, sizeof(NodeDocGia), 1, fin);
-//         cout << root->info.ten << endl;
-//         // readFile_NodeDG(root->right, fin);
-//         readFile_NodeDG(root->left, fin);
-//     }
-// }
-
-// int readFile_DG(ptrNode_DocGia &root, char *filePath)
-// {
-//     FILE *fin;
-//     if ((fin = fopen(filePath, "r")) == NULL)
-//     {
-//         cout << "Cannot read file!" << endl;
-//         return 0;
-//     }
-//     else
-//         cout << "Reading..." << endl;
-//     readFile_NodeDG(root, fin);
-//     preorder_NodeDG_NLR(root);
-//     fclose(fin);
-//     return 1;
-// }
 
 int checkSortHoTen(DocGia dg1, DocGia dg2)
 {
@@ -432,15 +409,6 @@ void sort_DG(DocGia *arr, int low, int high)
         sort_DG(arr, left, high); // phan thu 3 co tu 2 ptu tro len
 }
 
-void tao_ArrTenHo(ptrNode_DocGia p, DocGia *arr)
-{
-    if (p == NULL)
-        return;
-    tao_ArrTenHo(p->left, arr);
-    arr[indexDG++] = p->info;
-    tao_ArrTenHo(p->right, arr);
-}
-
 void tao_Arr(ptrNode_DocGia p, DocGia *arr)
 {
     if (p == NULL)
@@ -450,19 +418,6 @@ void tao_Arr(ptrNode_DocGia p, DocGia *arr)
     tao_Arr(p->right, arr);
 }
 
-// int preorder_NodeDG_LNR(ptrNode_DocGia p)
-// {
-//     if (p == NULL)
-//         return 0;
-//     else
-//     {
-//         preorder_NodeDG_LNR(p->left);
-//         arr
-//         preorder_NodeDG_LNR(p->right);
-//     }
-//     return 1;
-// }
-
 int taoRandom()
 {
     int x;
@@ -471,14 +426,19 @@ int taoRandom()
     return x;
 }
 
-int treeLevel(ptrNode_DocGia t){
-	if (t == NULL) return -1;
-	return 1 + max(treeLevel(t->left), treeLevel(t->right));
+int treeLevel(ptrNode_DocGia t)
+{
+    if (t == NULL)
+        return -1;
+    return 1 + max(treeLevel(t->left), treeLevel(t->right));
 }
-bool checkAvl(ptrNode_DocGia t){
-	if (t == NULL) 	return true;
-	if (abs(treeLevel(t->left) - treeLevel(t->right)) > 1) return false;
-	return checkAvl(t->left) && checkAvl(t->right);
+bool checkAvl(ptrNode_DocGia t)
+{
+    if (t == NULL)
+        return true;
+    if (abs(treeLevel(t->left) - treeLevel(t->right)) > 1)
+        return false;
+    return checkAvl(t->left) && checkAvl(t->right);
 }
 
 int randomMaThe(ptrNode_DocGia t)
@@ -490,7 +450,5 @@ int randomMaThe(ptrNode_DocGia t)
     } while (check_MADG(t, temp) && checkAvl(t));
     return temp;
 }
-
-
 
 #endif

@@ -1,8 +1,57 @@
 #pragma once
-#ifndef initial
-#define initial
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <windows.h>
+#include <sstream>
+#include <time.h>
+#include <cstdio>
+#include <conio.h>
+#include <dos.h>
+#include <iostream>
+#include <ios>
+#include <iomanip>
+#include <math.h>
+using std::atoi;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::fstream;
+using std::ios;
+using std::max;
+using std::string;
+using std::stringstream;
+using std::setfill;
+using std::setw;
+
+extern char *FILE_PATH = "D:\\Lib\\DG.txt";
+extern int nNodeDocGia = 0;
+extern int indexDG = 0;
+extern int MAX_RAND = 500;
+extern int toaDo = 0;
 
 #define MAX_LIST 1000
+#define BACKSPACE 8
+#define ENTER 13
+#define ESC 27
+
+#define Enter 13
+#define PASSWORD "abcdef"
+#define BLACK 0
+#define WHITE 7
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+#define F1 59
+#define F2 60
+#define F3 61
+#define KEY_F9 67
+#define F5 63
+#define PAGE_DOWN 81
+#define PAGE_UP 73
+
+#define NUMBER_LINES 29
 
 //---DANH MUC SACH (DSLK)---
 typedef struct DanhMucSach
@@ -19,9 +68,10 @@ struct NodeDanhMucSach
 };
 // typedef NodeDanhMucSach node_DanhMucSach;
 typedef NodeDanhMucSach *ptrNode_DanhMucSach;
-struct ListNodeDMS {
-	int n;
-	ptrNode_DanhMucSach FirstNode_DanhMucSach;
+struct ListNodeDMS
+{
+    int n;
+    ptrNode_DanhMucSach FirstNode_DanhMucSach;
     ptrNode_DanhMucSach LastNode_DanhMucSach;
 };
 typedef ListNodeDMS listNodeDMS;
@@ -48,8 +98,8 @@ struct ListDauSach
     int n = 0;
     DauSach *nodes[MAX_LIST];
 };
-typedef struct ListDauSach listDauSach;
-listDauSach arrPoiter;
+typedef struct ListDauSach;
+ListDauSach listDS;
 
 //---MUON TRA---
 typedef struct DateTime
@@ -65,10 +115,13 @@ typedef struct MuonTra
     DateTime ngayMuon;
     DateTime ngayTra;
     int trangThai;
+    //
+    string isbn;
 };
 
 struct NodeMuonTra
 {
+    int n;
     MuonTra muonTra;
     NodeMuonTra *next;
 };
@@ -84,7 +137,7 @@ typedef struct DocGia
     string ten;
     int phai;
     int trangThai;
-    MuonTra *ptrMuonTra;
+    ptrNode_MuonTra ptrMuonTra;
 };
 
 struct NodeDocGia
@@ -100,7 +153,6 @@ typedef struct NodeDocGia *ptrNode_DocGia;
 // typedef struct NodeDocGia *ptrNode_DocGia_Name;
 ptrNode_DocGia tree = NULL;
 
-
 // struct TenHo {
 // 	string ho;
 //     string ten;
@@ -113,5 +165,3 @@ ptrNode_DocGia tree = NULL;
 // 	int MADG;
 // };
 // typedef struct TempList TempL;
-
-#endif
