@@ -34,3 +34,13 @@ void themDauList_MT(ptrNode_MuonTra &First, MuonTra data) {
 	cout<<First->muonTra.isbn<<endl;
 	++First->n;
 }
+
+bool timTenSach_MT(ptrNode_MuonTra lMT, string tensach, ListDauSach lDS) {
+	for (ptrNode_MuonTra p = First_MuonTra; p != NULL; p = p->next) {
+		string temp = findDSByISBN(lDS, p->muonTra.isbn)->tenSach;
+		if ((temp.compare(tensach)==0 && p->muonTra.trangThai == 0) || (temp.compare(tensach)==0 && p->muonTra.trangThai == 2)) {
+			return true;
+		}
+	}
+	return false;
+}

@@ -39,6 +39,8 @@ extern int toaDo = 0;
 #define PASSWORD "abcdef"
 #define BLACK 0
 #define WHITE 7
+#define LIGHT_RED 12
+
 #define KEY_UP 72
 #define KEY_DOWN 80
 #define KEY_LEFT 75

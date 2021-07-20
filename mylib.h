@@ -134,3 +134,26 @@ void clrscr()
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     cls(hCon);
 }
+
+void setWindowSize()
+{
+        // HWND hWnd = GetConsoleWindow();
+    // ShowWindow(hWnd, SW_SHOWMAXIMIZED);
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r); //stores the console's current dimensions
+
+    MoveWindow(console, r.left, r.top, 1200, 900, TRUE); // 800 width, 100 height
+}
+
+void XoaMotDong(int width) {
+	SetBGColor(BLACK);
+	cout << " " << setw(width) << setfill(' ') << " ";
+}
+
+void XoaMotVung(int x, int y, int ndoc, int width) {
+	for (int i = 0; i < ndoc; i++) {
+		gotoxy(x, y + i);
+		XoaMotDong(width);
+	}
+}

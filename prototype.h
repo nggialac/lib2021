@@ -41,4 +41,17 @@ int randomMaThe(ptrNode_DocGia root);
 
 int NhapMaDocGia(int &msdg);
 void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach);
+pDauSach findDSByISBN(ListDauSach listDS, string isbn);
+//
+int chonItems1(pDauSach &pDS, int &thuTuTrang, int tongtrang);
+void ve_DMS(string key[], int nKey, int xDisplay[]);
+void xuat_DS(string tenSach, string ISBN, string tacGia, string theLoai, int soTrang, int namXB);
+int Menu_MS(ListDauSach &lDS, ptrNode_DocGia nDG);
+int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang);
+//
+void Xoa_DS_lineS();
+void Xoa_DS_line(int locate);
+void ve_DS(string key[], int nKey, int xDisplay[]);
+void xuat_DStheoTrang(ListDauSach &lDS, int index);
+
 #endif

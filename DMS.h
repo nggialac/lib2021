@@ -81,22 +81,20 @@ int add_DS(ListDauSach &listDS, pDauSach &pDS)
     {
         return 0;
     }
-    listDS.nodes[++listDS.n] = pDS;
-    // cout << listDS.nodes[listDS.n]->isbn;
+    listDS.nodes[listDS.n++] = pDS;
+    // cout << listDS.nodes[listDS.n]->tenSach;
     return 1;
 }
 
-ptrNode_DanhMucSach search_DMS(ptrNode_DanhMucSach First, string ms)
-{
-    ptrNode_DanhMucSach p;
-    for (p = First; p != NULL; p = p->next)
-    {
-        if (ms.compare(p->danhMucSach.maSach) == 0)
-        {
-            return p;
-        }
-    }
-    return NULL;
+ptrNode_DanhMucSach Search_DMS_ViTri(ptrNode_DanhMucSach dms, int pos) {
+	int count = -1;
+	for (ptrNode_DanhMucSach temp = dms; temp != NULL; temp = temp->next) {
+		count++;
+		if (pos == count) {
+			return temp;
+		}
+	}
+	return NULL;
 }
 
 int deleteFirst_DMS(ptrNode_DanhMucSach &First)
@@ -169,7 +167,7 @@ int readFile_DS(ListDauSach &listDS)
     {
         string temp;
         fileIn >> soDauSach;
-        cout << endl;
+        cout << "So dau Sach: ";
         cout << soDauSach << endl;
         getline(fileIn, temp);
         for (int i = 0; i < soDauSach; i++)
@@ -179,41 +177,27 @@ int readFile_DS(ListDauSach &listDS)
                 continue;
             // load thong tin vao bien tam.
             getline(fileIn, info.tenSach);
-            cout << "ten sach " + info.tenSach;
             getline(fileIn, info.isbn);
-            cout << "ibsn " + info.isbn;
 
             getline(fileIn, info.tacGia);
-            cout << "tg " + info.tacGia;
             getline(fileIn, info.theLoai);
-            cout << "the loai " + info.theLoai;
 
             fileIn >> info.soTrang;
-            cout << info.soTrang;
             fileIn >> info.namXuatBan;
-            cout << info.namXuatBan;
             fileIn >> info.soLanMuon;
-            cout << info.soLanMuon;
             // load thong tin vao dau sach
             *(pDS) = info; //cout<<*(pDS)->isbn;
             fileIn >> soSach;
-            cout << soSach;
             getline(fileIn, temp);
             initializeListNode_DMS(pDS->ptrListNode_DMS);
             for (int j = 0; j < soSach; j++)
             {
-                cout << endl;
                 getline(fileIn, dms.maSach);
-                cout << "ma sach: " + dms.maSach;
                 fileIn >> dms.trangThai;
-                cout << dms.trangThai;
                 getline(fileIn, temp);
                 getline(fileIn, dms.viTri);
-                cout << "vi tri: " + dms.viTri;
                 themCuoiList_DMS(pDS->ptrListNode_DMS, dms);
             }
-            cout << endl
-                 << endl;
             add_DS(listDS, pDS);
         }
     }
@@ -221,6 +205,11 @@ int readFile_DS(ListDauSach &listDS)
     {
         cout << "file DS.txt khong tim thay! ";
         return 0;
+    }
+
+    for (int j = 0; j < listDS.n; j++)
+    {
+        cout << listDS.nodes[j]->tenSach;
     }
     fileIn.close();
     return 1;
