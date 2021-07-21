@@ -5,7 +5,8 @@
 #include "DS.h"
 
 string masach = "";
-string vitrisach = "";
+// string vitrisach = "";
+string isbnTemp = "";
 
 string keyDisplayDG[5] = {"Ma DG", "     Ho DG", "Ten DG", "Phai  ", "TTr The"};
 string keyDisplayDS[6] = {"        Dau Sach", "ISBN", "    Tac Gia", "  The Loai ", " So Trg ", " NXB"};
@@ -127,134 +128,6 @@ void xuatNgayThang(DateTime dt, int x, int y)
     cout << dt.thang << " /";
     gotoxy(x + 8, y);
     cout << dt.nam;
-}
-
-void show()
-{
-    setWindowSize();
-    int chon;
-    int temp;
-    DocGia dg;
-    DocGia *arr;
-
-    temp = readDG(tree, FILE_PATH);
-    if (temp > 0)
-        cout << "Read file DG success!" << endl;
-
-    temp = readFile_DS(listDS);
-    if (temp > 0)
-        cout << "Read file DS success!" << endl;
-    system("pause");
-
-    while (1)
-    {
-
-        chon = MenuDong(mainMenu);
-        switch (chon)
-        {
-
-        case 1:
-            gotoxy(30, 20);
-            cout << "Vua chon chuc nang " << chon;
-            // int temp = 0;
-            create_Tree(tree);
-            break;
-        case 2:
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon;
-            temp = writeFile_DG(tree, FILE_PATH);
-            if (temp > 0)
-                cout << "Write file success!" << endl;
-            system("pause");
-            break;
-        case 3:
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon;
-            temp = readDG(tree, FILE_PATH);
-            if (temp > 0)
-                cout << "Read file DG success!" << endl;
-            system("pause");
-            break;
-
-        case 4:
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon;
-            temp = readFile_DS(listDS);
-            if (temp > 0)
-                cout << "Read file success!" << endl;
-            system("pause");
-            break;
-        case 5:
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon;
-            temp = preorder_NodeDG_NLR(tree);
-            if (temp > 0)
-                cout << "Records: " << endl;
-            system("pause");
-            break;
-        case 6:
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon << endl;
-            cout << "Nhap ma the doc gia: " << endl;
-            cin >> dg.maThe;
-            cout << dg.maThe;
-            temp = remove_NodeDG(tree, dg);
-            if (temp > 0)
-                cout << "Da xoa thanh cong DG !" << endl;
-            system("pause");
-            break;
-
-        case 7:
-            gotoxy(10, 20);
-            indexDG = 0;
-            cout << "Vua chon chuc nang " << chon;
-            cout << nNodeDocGia << endl;
-
-            arr = new DocGia[nNodeDocGia];
-            tao_Arr(tree, arr);
-            sort_DG(arr, 0, nNodeDocGia - 1);
-            for (int i = 0; i < nNodeDocGia; i++)
-            {
-                cout << arr[i].maThe << endl;
-                cout << arr[i].ho << endl;
-                cout << arr[i].ten << endl;
-            }
-            system("pause");
-            delete[] arr;
-            break;
-
-        case 8:
-            gotoxy(10, 20);
-            indexDG = 0;
-            cout << "Vua chon chuc nang " << chon;
-            cout << nNodeDocGia << endl;
-
-            arr = new DocGia[nNodeDocGia];
-            tao_Arr(tree, arr);
-            for (int i = 0; i < nNodeDocGia; i++)
-            {
-                cout << arr[i].maThe << " ";
-                cout << arr[i].ho << " ";
-                cout << arr[i].ten << " ";
-            }
-            system("pause");
-            delete[] arr;
-            break;
-
-        case 9:
-
-            gotoxy(10, 20);
-            cout << "Vua chon chuc nang " << chon << endl;
-            SetBGColor(BLACK);
-            do_MuonSach(tree, listDS);
-            system("pause");
-            break;
-
-        case so_item:
-            return;
-        }
-        Sleep(500);
-    }
 }
 
 int NhapMaDocGia(int &msdg)
@@ -642,17 +515,25 @@ void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach)
     char thongbao4[] = "           Doc Gia da lam mat sach! ";
     int mt;
     int checkMt;
+    // int index;
     ptrNode_DocGia nodeTemp;
 
 label:
-    int index = 0;
+    indexDG = 0;
+    cout<<"Node doc gia";
+    cout<< nNodeDocGia;
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
+    cout<<" Tao DG";
+    cout<<root->info.maThe;
     tao_Arr(root, ArrTenHo);
+    cout<<" Tao arr";
     ve_DG(keyDisplayDG, 5, x_DG);
-    sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
+    cout<<" Ve";
+    // sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(root, ArrTenHo);
-    //// xoa vung nho
+    cout<<" Xuat List";
     delete[] ArrTenHo;
+
 
     VeHinhBangNhap(95, 3, 50, "Nhap ma doc gia de muon !");
     gotoxy(103, 5);
@@ -751,20 +632,21 @@ label:
             cout << "                                                  ";
 
             //MT
+            cout<<"truoc menu ms";
             check2 = Menu_MS(listDauSach, nodeTemp);
-            // // check cac truong hop
+            cout<<" menu ms";
             if (check2 == -1)
             {
                 return;
             }
             else if (check2 == 1)
             {
-                //muontra.isbn = isbn;
+                muontra.isbn = isbnTemp;
                 muontra.ngayTra.nam = 0;
                 muontra.ngayTra.thang = 0;
                 muontra.ngayTra.ngay = 0;
                 muontra.maSach = masach;
-                // muontra.viTriSach = vitrisach;
+                // muontra. = vitrisach;
                 muontra.trangThai = 0;
                 do
                 {
@@ -976,8 +858,11 @@ label:
     {
         // hien thi bang chua thong tin dau sach
         XoaMotVung(1, 1, 65, 80);
+        cout<<"Da xoa 1 vung";
         ve_DS(keyDisplayDS, 6, x_DS);
+        cout<<" Da ve dau sach";
         xuat_DStheoTrang(lDS, thuTuTrang);
+        cout<<" Da xuat theo trang";
         gotoxy(23, 1);
         cout << "Chon dau sach de muon ! ";
         SetColor(WHITE);
@@ -1046,7 +931,7 @@ label1:
         }
         else
         {
-            ptrNode_DanhMucSach dms = Search_DMS_ViTri(pDS->ptrListNode_DMS.FirstNode_DanhMucSach, choose2);
+            ptrNode_DanhMucSach dms = Search_DMS_ViTri(pDS->ptrListNode_DMS, choose2);
             // trang thai sach = 1 se khong muon sach nay.
             if (dms->danhMucSach.trangThai == 1)
             {
@@ -1069,7 +954,8 @@ label1:
             else if (dms->danhMucSach.trangThai == 0)
             {
                 masach = dms->danhMucSach.maSach;
-                vitrisach = dms->danhMucSach.viTri;
+                // vitrisach = dms->danhMucSach.viTri;
+                isbnTemp = pDS->isbn;
                 dms->danhMucSach.trangThai = 1;
                 pDS->soLanMuon += 1;
             }
@@ -1160,9 +1046,9 @@ void xuat_DStheoTrang(ListDauSach &lDS, int index)
     SetColor(WHITE);
     toaDo = 0;
     index--;
-    if (lDS.n == -1)
+    if (lDS.n == 0)
         return;
-    for (int i = NUMBER_LINES * index; i < NUMBER_LINES * (1 + index) && i <= lDS.n; i++)
+    for (int i = NUMBER_LINES * index; i < NUMBER_LINES * (1 + index) && i < lDS.n; i++)
     {
         xuat_DS(lDS.nodes[i]->tenSach, lDS.nodes[i]->isbn, lDS.nodes[i]->tacGia, lDS.nodes[i]->theLoai, lDS.nodes[i]->soTrang, lDS.nodes[i]->namXuatBan);
     }

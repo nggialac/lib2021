@@ -91,6 +91,7 @@ struct DauSach
     int namXuatBan;
     string theLoai;
     listNodeDMS ptrListNode_DMS;
+    //
     int soLanMuon = 0;
 };
 typedef struct DauSach *pDauSach;

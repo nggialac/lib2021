@@ -86,9 +86,9 @@ int add_DS(ListDauSach &listDS, pDauSach &pDS)
     return 1;
 }
 
-ptrNode_DanhMucSach Search_DMS_ViTri(ptrNode_DanhMucSach dms, int pos) {
+ptrNode_DanhMucSach Search_DMS_ViTri(listNodeDMS dms, int pos) {
 	int count = -1;
-	for (ptrNode_DanhMucSach temp = dms; temp != NULL; temp = temp->next) {
+	for (ptrNode_DanhMucSach temp = dms.FirstNode_DanhMucSach; temp != NULL; temp = temp->next) {
 		count++;
 		if (pos == count) {
 			return temp;
