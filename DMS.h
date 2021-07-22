@@ -97,6 +97,14 @@ ptrNode_DanhMucSach Search_DMS_ViTri(listNodeDMS dms, int pos) {
 	return NULL;
 }
 
+ptrNode_DanhMucSach Search_DMS_MaSach(pDauSach pDS, string masach) {
+	ptrNode_DanhMucSach p;
+	p = pDS->ptrListNode_DMS.FirstNode_DanhMucSach;
+	while (p != NULL && p->danhMucSach.maSach != masach)
+		p = p->next;
+	return (p);
+}
+
 int deleteFirst_DMS(ptrNode_DanhMucSach &First)
 {
     ptrNode_DanhMucSach p;

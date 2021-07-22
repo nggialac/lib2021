@@ -69,4 +69,7 @@ int khoangCachNgay(DateTime nt1)
     return (tinhNgay(nt2) - tinhNgay(nt1));
 }
 
+int soSanhNgay(DateTime nt1, DateTime nt2) {
+	return (tinhNgay(nt2) - tinhNgay(nt1));
+}
 #endif

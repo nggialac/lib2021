@@ -24,7 +24,6 @@ using std::stringstream;
 using std::setfill;
 using std::setw;
 
-extern char *FILE_PATH = "D:\\Lib\\DG.txt";
 extern int nNodeDocGia = 0;
 extern int indexDG = 0;
 extern int MAX_RAND = 500;
@@ -124,12 +123,16 @@ typedef struct MuonTra
 
 struct NodeMuonTra
 {
-    int n;
     MuonTra muonTra;
     NodeMuonTra *next;
 };
 typedef NodeMuonTra *ptrNode_MuonTra;
-ptrNode_MuonTra First_MuonTra = NULL;
+struct ListMuonTra{
+    int n = 0;
+    ptrNode_MuonTra head;
+    ptrNode_MuonTra tail;
+};
+typedef ListMuonTra listMuonTra;
 
 //---DOC GIA---
 
@@ -140,7 +143,7 @@ typedef struct DocGia
     string ten;
     int phai;
     int trangThai;
-    ptrNode_MuonTra ptrMuonTra;
+    listMuonTra ptrMuonTra;
 };
 
 struct NodeDocGia

@@ -6,8 +6,9 @@
 void initialize_NodeDG(ptrNode_DocGia &root)
 {
     root = NULL;
-    // nNDG = 0;
+    nNodeDocGia = 0;
 }
+
 
 ptrNode_DocGia getNode_DG(DocGia dg)
 {
@@ -16,27 +17,15 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     {
         return NULL;
     }
-    // khoi tao DMS
-    // taoListMT(p->listMT);
+    // khoi tao MT
+    // initializeListMuonTra(p->info.ptrMuonTra);
+    // p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
+	// p->info.ptrMuonTra.n = 0;
+    dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+    dg.ptrMuonTra.n = 0;
     p->info = dg;
     p->left = p->right = NULL;
     return (p);
-}
-
-void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x)
-{
-    if (p == NULL) // p = nut la
-    {
-        p = getNode_DG(dg);
-        ++nNodeDocGia;
-    }
-    else
-    {
-        if (x < p->info.maThe)
-            insert_NodeDG(p->left, dg, x);
-        else if (x > p->info.maThe)
-            insert_NodeDG(p->right, dg, x);
-    }
 }
 
 void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
@@ -73,6 +62,11 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
         // cout << p->info.ptrMuonTra->ngayMuon.ngay << endl;
         // cout << p->info.ptrMuonTra->ngayTra.ngay << endl;
         // cout << p->info.ptrMuonTra->trangThai << endl;
+        for (ptrNode_MuonTra q = p->info.ptrMuonTra.head; q != NULL; q = q->next)
+        {
+            cout<<"Muon tra: ";
+            cout << q->muonTra.isbn<<endl;
+        }
         preorder_NodeDG_NLR(p->left);
         preorder_NodeDG_NLR(p->right);
     }
@@ -161,32 +155,6 @@ void remove2Child_NodeDG(ptrNode_DocGia &rp, ptrNode_DocGia &p)
     }
 }
 
-// int remove_NodeDG_maThe(ptrNode_DocGia &p, int maThe)
-// {
-//     if (p == NULL)
-//         return 0;
-//     else
-//     {
-//         if (maThe < p->key)
-//             remove_NodeDG(p->left, dg);
-//         else if (maThe > p->key)
-//             remove_NodeDG(p->right, dg);
-//         else
-//         { //dg.maThe = p->key
-//             ptrNode_DocGia rp = p;
-
-//             if (p->right == NULL)
-//                 p = p->left; //p = nut la or chi co nut left
-//             else if (p->left == NULL)
-//                 p = p->right; //p = nut la or chi co nut right
-//             else
-//                 remove2Child_NodeDG(rp, p->right);
-//             delete rp;
-//         }
-//     }
-//     return 1;
-// }
-
 int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
 {
     if (p == NULL)
@@ -222,7 +190,7 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
     fout << root->info.trangThai << "|";
     fout << "\n";
     fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
-    for (ptrNode_MuonTra p = root->info.ptrMuonTra; p != NULL; p = p->next)
+    for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
     {
         fout << p->muonTra.maSach << "|";
         fout << p->muonTra.ngayMuon.ngay << "|";
@@ -249,7 +217,7 @@ void writeFile_NodeDG(ptrNode_DocGia &root, fstream &fout)
     }
 }
 
-int writeFile_DG(ptrNode_DocGia &root, char *filePath)
+int writeFile_DG(ptrNode_DocGia &root)
 {
     fstream fileOut;
     fileOut.open("DG.txt", ios::out);
@@ -281,7 +249,7 @@ ptrNode_DocGia layDG_NTDG(ptrNode_DocGia t, int MADG)
     return (t);
 }
 
-int readDG(ptrNode_DocGia &root, char *filePath)
+int readDG(ptrNode_DocGia &root)
 {
     initialize_NodeDG(root);
     fstream fileIn;
@@ -291,7 +259,7 @@ int readDG(ptrNode_DocGia &root, char *filePath)
     int countDG;
     MuonTra mt;
     int countMT;
-    fileIn.open(filePath, ios::in);
+    fileIn.open("DG.txt", ios::in);
     if (fileIn.is_open())
     {
         fileIn >> countDG;
@@ -318,43 +286,52 @@ int readDG(ptrNode_DocGia &root, char *filePath)
             dg.ten = arr[2];
             dg.phai = atoi(arr[3].c_str());
             dg.trangThai = atoi(arr[4].c_str());
+
+            cout << "\nMa the: ";
+            cout << dg.maThe;
+
             insert_NodeDG_Load(root, dg);
             pNDG = layDG_NTDG(root, dg.maThe);
+            // if(pNDG->info.ptrMuonTra.head->muonTra.isbn) cout<<"Head NULL";
 
             //Ma doc gia
             fileIn >> soSach;
             cout << "\nSo sach: ";
             cout << soSach << endl;
+            //
             getline(fileIn, temp);
-            while (soSach > 0)
-            {
-                getline(fileIn, temp);
-                cout << temp;
-                stringstream ssin(temp);
-                int j1 = 0;
-                while (ssin.good() && j1 < 9)
+            if (soSach == 0)
+                dg.ptrMuonTra.head= dg.ptrMuonTra.tail = NULL;
+            else
+                for (int i = 0; i < soSach; i++)
                 {
-                    getline(ssin, arr[j1], '|');
-                    // ssin >> arr[j];
-                    ++j1;
+                    getline(fileIn, temp);
+                    cout << temp;
+                    stringstream ssin(temp);
+                    int j1 = 0;
+                    while (ssin.good() && j1 < 9)
+                    {
+                        getline(ssin, arr[j1], '|');
+                        // ssin >> arr[j];
+                        ++j1;
+                    }
+                    mt.maSach = arr[0];
+                    mt.ngayMuon.ngay = atoi(arr[1].c_str());
+                    mt.ngayMuon.thang = atoi(arr[2].c_str());
+                    mt.ngayMuon.nam = atoi(arr[3].c_str());
+                    mt.ngayTra.ngay = atoi(arr[4].c_str());
+                    mt.ngayTra.thang = atoi(arr[5].c_str());
+                    mt.ngayTra.nam = atoi(arr[6].c_str());
+                    mt.trangThai = atoi(arr[7].c_str());
+                    mt.isbn = arr[8];
+                    // cout << mt.maSach << endl;
+                    // cout << mt.ngayMuon.ngay << endl;
+                    // cout << mt.ngayTra.ngay << endl;
+                    // cout << mt.trangThai << endl;
+                    // cout << mt.isbn << endl;
+                    themDauList_MT(pNDG->info.ptrMuonTra, mt);
                 }
-                mt.maSach = arr[0];
-                mt.ngayMuon.ngay = atoi(arr[1].c_str());
-                mt.ngayMuon.thang = atoi(arr[2].c_str());
-                mt.ngayMuon.nam = atoi(arr[3].c_str());
-                mt.ngayTra.ngay = atoi(arr[4].c_str());
-                mt.ngayTra.thang = atoi(arr[5].c_str());
-                mt.ngayTra.nam = atoi(arr[6].c_str());
-                mt.trangThai = atoi(arr[7].c_str());
-                mt.isbn = arr[8];
-                cout << mt.maSach << endl;
-                cout << mt.ngayMuon.ngay << endl;
-                cout << mt.ngayTra.ngay << endl;
-                cout << mt.trangThai << endl;
-                cout << mt.isbn << endl;
-                themDauList_MT(pNDG->info.ptrMuonTra, mt);
-                soSach--;
-            }
+            //insert_NodeDG_Load(root, dg);
             i++;
         }
     }
@@ -363,7 +340,9 @@ int readDG(ptrNode_DocGia &root, char *filePath)
         cout << "File DG.txt not found!";
         return 0;
     }
-    cout << "N Node Doc Gia" << endl;
+
+    preorder_NodeDG_NLR(root);
+    cout << "\nN Node Doc Gia" << endl;
     cout << nNodeDocGia << endl;
     fileIn.close();
     return 1;

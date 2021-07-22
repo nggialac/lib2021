@@ -4,11 +4,13 @@
 #ifndef prototype
 #define prototype
 
+//DateTime
+int khoangCachNgay(DateTime nt1);
+
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
 int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x);
 int insertLinkedList_DMS(ptrNode_DanhMucSach &First, ptrNode_DanhMucSach &Second, DanhMucSach x);
-ptrNode_DanhMucSach search_DMS(ptrNode_DanhMucSach First, char *x);
 int deleteFirst_DMS(ptrNode_DanhMucSach &First);
 int deleteAfter_DMS(ptrNode_DanhMucSach p);
 int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
@@ -49,9 +51,12 @@ void xuat_DS(string tenSach, string ISBN, string tacGia, string theLoai, int soT
 int Menu_MS(ListDauSach &lDS, ptrNode_DocGia nDG);
 int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang);
 //
+void xoaManHinh_MT(int i);
 void Xoa_DS_lineS();
 void Xoa_DS_line(int locate);
 void ve_DS(string key[], int nKey, int xDisplay[]);
 void xuat_DStheoTrang(ListDauSach &lDS, int index);
+void xuat_MT(ptrNode_MuonTra p, int i);
+void xuatNgayThang(DateTime dt, int x, int y);
 
 #endif

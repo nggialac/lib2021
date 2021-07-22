@@ -8,7 +8,7 @@ void show()
     DocGia dg;
     DocGia *arr;
 
-    temp = readDG(tree, FILE_PATH);
+    temp = readDG(tree);
     if (temp > 0)
         cout << "Read file DG success!" << endl;
 
@@ -19,7 +19,6 @@ void show()
 
     while (1)
     {
-
         chon = MenuDong(mainMenu);
         switch (chon)
         {
@@ -33,17 +32,13 @@ void show()
         case 2:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
-            temp = writeFile_DG(tree, FILE_PATH);
-            if (temp > 0)
-                cout << "Write file success!" << endl;
+            // xuatListMT(tree.ptrMuonTra);
+            do_TraSach(tree, listDS);
             system("pause");
             break;
         case 3:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
-            temp = readDG(tree, FILE_PATH);
-            if (temp > 0)
-                cout << "Read file DG success!" << endl;
             system("pause");
             break;
 
@@ -123,6 +118,10 @@ void show()
             break;
 
         case so_item:
+        temp = writeFile_DG(tree, "DG.txt");
+        if(temp > 0) cout<<"Save DG1 thanh cong!";
+        Save_DS(listDS);
+        if(temp > 0) cout<<"Save DS1 thanh cong!";
             return;
         }
         Sleep(500);
