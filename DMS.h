@@ -31,17 +31,8 @@ void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
     }
     else
     {
-        // ptrNode_DanhMucSach temp = ln_dms.FirstNode_DanhMucSach;
-        // while (temp->next != NULL)
-        //     temp = temp->next;
-
-        // //6. Change the next of last node to new node
-        // temp->next = p;
-
         ln_dms.LastNode_DanhMucSach->next = p;
         ln_dms.LastNode_DanhMucSach = p;
-        // cout<<"them cuoi!!!";
-        // cout<<ln_dms.LastNode_DanhMucSach->danhMucSach.maSach;
     }
     ln_dms.n++;
 }
@@ -86,21 +77,25 @@ int add_DS(ListDauSach &listDS, pDauSach &pDS)
     return 1;
 }
 
-ptrNode_DanhMucSach Search_DMS_ViTri(listNodeDMS dms, int pos) {
-	int count = -1;
-	for (ptrNode_DanhMucSach temp = dms.FirstNode_DanhMucSach; temp != NULL; temp = temp->next) {
-		count++;
-		if (pos == count) {
-			return temp;
-		}
-	}
-	return NULL;
+ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos)
+{
+    int count = -1;
+    for (ptrNode_DanhMucSach temp = dms.FirstNode_DanhMucSach; temp != NULL; temp = temp->next)
+    {
+        count++;
+        if (pos == count)
+        {
+            return temp;
+        }
+    }
+    return NULL;
 }
 
-ptrNode_DanhMucSach Search_DMS_MaSach(pDauSach pDS, string masach) {
+ptrNode_DanhMucSach search_DMS_MaSach(pDauSach pDS, string masach)
+{
 	ptrNode_DanhMucSach p;
-	p = pDS->ptrListNode_DMS.FirstNode_DanhMucSach;
-	while (p != NULL && p->danhMucSach.maSach != masach)
+	p = pDS->ptrDMS.FirstNode_DanhMucSach;
+	while (p != NULL && p->danhMucSach.maSach.compare(masach)==0)
 		p = p->next;
 	return (p);
 }
@@ -197,14 +192,14 @@ int readFile_DS(ListDauSach &listDS)
             *(pDS) = info; //cout<<*(pDS)->isbn;
             fileIn >> soSach;
             getline(fileIn, temp);
-            initializeListNode_DMS(pDS->ptrListNode_DMS);
+            initializeListNode_DMS(pDS->ptrDMS);
             for (int j = 0; j < soSach; j++)
             {
                 getline(fileIn, dms.maSach);
                 fileIn >> dms.trangThai;
                 getline(fileIn, temp);
                 getline(fileIn, dms.viTri);
-                themCuoiList_DMS(pDS->ptrListNode_DMS, dms);
+                themCuoiList_DMS(pDS->ptrDMS, dms);
             }
             add_DS(listDS, pDS);
         }

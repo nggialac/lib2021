@@ -10,7 +10,7 @@ pDauSach findDSByISBN(ListDauSach listDS, string isbn) {
 	return NULL;
 }
 
-void Save_DS(ListDauSach listDS) {
+int Save_DS(ListDauSach listDS) {
 	fstream outFile;
 	outFile.open("DS.txt", ios::out);
 	if (outFile.is_open()) {
@@ -23,15 +23,17 @@ void Save_DS(ListDauSach listDS) {
 			outFile << listDS.nodes[i] -> soTrang << endl;
 			outFile << listDS.nodes[i] -> namXuatBan << endl;
 			outFile << listDS.nodes[i]->soLanMuon << endl;
-			outFile << listDS.nodes[i]->ptrListNode_DMS.n << endl;
-			for (ptrNode_DanhMucSach p = listDS.nodes[i]->ptrListNode_DMS.FirstNode_DanhMucSach; p != NULL; p = p -> next) {
+			outFile << listDS.nodes[i]->ptrDMS.n << endl;
+			for (ptrNode_DanhMucSach p = listDS.nodes[i]->ptrDMS.FirstNode_DanhMucSach; p != NULL; p = p -> next) {
 				outFile << p -> danhMucSach.maSach << endl;
 				outFile << p -> danhMucSach.trangThai << endl;
 				outFile << p -> danhMucSach.viTri << endl;
 			}
 		}
 	} else {
-		cout << "ERROR! File DS1 not found!";
+		cout << "ERROR! File DS not found!";
+		return 0;
 	}
 	outFile.close();
+	return 1;
 }

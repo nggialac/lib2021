@@ -35,23 +35,22 @@ void gotoxy(short x, short y)
     SetConsoleCursorPosition(hConsoleOutput, Cursor_an_Pos);
 }
 
-int wherex(void)
-{
-    HANDLE hConsoleOutput;
-    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-    return screen_buffer_info.dwCursorPosition.X;
+int wherex(void) {
+	HANDLE hConsoleOutput;
+	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+	return screen_buffer_info.dwCursorPosition.X + 1;
 }
 
-int wherey(void)
-{
-    HANDLE hConsoleOutput;
-    hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
-    GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
-    return screen_buffer_info.dwCursorPosition.Y;
+int wherey(void) {
+	HANDLE hConsoleOutput;
+	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screen_buffer_info;
+	GetConsoleScreenBufferInfo(hConsoleOutput, &screen_buffer_info);
+	return screen_buffer_info.dwCursorPosition.Y + 1;
 }
+
 void clreol()
 {
     COORD coord;
@@ -143,7 +142,7 @@ void setWindowSize()
     RECT r;
     GetWindowRect(console, &r); //stores the console's current dimensions
 
-    MoveWindow(console, r.left, r.top, 1200, 800, TRUE); // 800 width, 100 height
+    MoveWindow(console, r.left, r.top, 1200, 600, TRUE); // 800 width, 100 height
 }
 
 void XoaMotDong(int width) {

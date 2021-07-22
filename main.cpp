@@ -1,6 +1,6 @@
 #include "draw.h"
 
-void show()
+void show(ptrNode_DocGia &tree, ListDauSach &listDS)
 {
     setWindowSize();
     int chon;
@@ -27,27 +27,28 @@ void show()
             gotoxy(30, 20);
             cout << "Vua chon chuc nang " << chon;
             // int temp = 0;
-            create_Tree(tree);
+            // create_Tree(tree);
+            Menu_DocGia(tree);
             break;
         case 2:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
-            // xuatListMT(tree.ptrMuonTra);
-            do_TraSach(tree, listDS);
+            SetBGColor(BLACK);
+            do_MuonSach(tree, listDS);
+            
             system("pause");
             break;
         case 3:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
+            SetBGColor(BLACK);
+            do_TraSach(tree, listDS);
             system("pause");
             break;
 
         case 4:
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon;
-            temp = readFile_DS(listDS);
-            if (temp > 0)
-                cout << "Read file success!" << endl;
             system("pause");
             break;
         case 5:
@@ -111,18 +112,16 @@ void show()
 
             gotoxy(10, 20);
             cout << "Vua chon chuc nang " << chon << endl;
-            SetBGColor(BLACK);
-
-            do_MuonSach(tree, listDS);
+            // SetBGColor(BLACK);
+            // do_MuonSach(tree, listDS);
             system("pause");
             break;
 
         case so_item:
-        temp = writeFile_DG(tree, "DG.txt");
-        if(temp > 0) cout<<"Save DG1 thanh cong!";
-        Save_DS(listDS);
-        if(temp > 0) cout<<"Save DS1 thanh cong!";
-            return;
+        temp = writeFile_DG(tree);
+        if(temp > 0) cout<<"Save DG thanh cong! \n";
+        temp = Save_DS(listDS);
+        if(temp > 0) cout<<"Save DS thanh cong! ";
         }
         Sleep(500);
     }
@@ -130,7 +129,6 @@ void show()
 
 int main()
 {
-    // readFile_DG(tree, FILE_PATH);
-    show();
+    show(tree, listDS);
     return 0;
 }

@@ -12,6 +12,7 @@
 #include <ios>
 #include <iomanip>
 #include <math.h>
+
 using std::atoi;
 using std::cin;
 using std::cout;
@@ -37,6 +38,7 @@ extern int toaDo = 0;
 #define Enter 13
 #define PASSWORD "abcdef"
 #define BLACK 0
+#define GREEN 2
 #define WHITE 7
 #define LIGHT_RED 12
 
@@ -51,8 +53,21 @@ extern int toaDo = 0;
 #define F5 63
 #define PAGE_DOWN 81
 #define PAGE_UP 73
+#define SPACE  32
 
 #define NUMBER_LINES 29
+
+#define x_Note 77
+#define y_Note 19
+#define MAX_ISBN 6
+#define MAX_TEN 7
+#define MAX_HO 16
+#define MAX_TENTG 16
+#define MAX_TENSACH 24
+#define MAX_THELOAISACH 11
+#define NHAP_TRANG_THAI 1
+#define NHAP_PHAI 0
+
 
 //---DANH MUC SACH (DSLK)---
 typedef struct DanhMucSach
@@ -61,13 +76,11 @@ typedef struct DanhMucSach
     int trangThai;
     string viTri;
 };
-
 struct NodeDanhMucSach
 {
     DanhMucSach danhMucSach;
     NodeDanhMucSach *next;
 };
-// typedef NodeDanhMucSach node_DanhMucSach;
 typedef NodeDanhMucSach *ptrNode_DanhMucSach;
 struct ListNodeDMS
 {
@@ -76,9 +89,6 @@ struct ListNodeDMS
     ptrNode_DanhMucSach LastNode_DanhMucSach;
 };
 typedef ListNodeDMS listNodeDMS;
-
-// ptrNode_DanhMucSach First_DanhMucSach = NULL;
-// ptrNode_DanhMucSach Last_DanhMucSach = NULL;
 
 //----DAU SACH---
 struct DauSach
@@ -89,7 +99,7 @@ struct DauSach
     string tacGia;
     int namXuatBan;
     string theLoai;
-    listNodeDMS ptrListNode_DMS;
+    listNodeDMS ptrDMS;
     //
     int soLanMuon = 0;
 };
@@ -135,7 +145,6 @@ struct ListMuonTra{
 typedef ListMuonTra listMuonTra;
 
 //---DOC GIA---
-
 typedef struct DocGia
 {
     int maThe; //! MATHE (số nguyên ngẫu nhiên tự động)
@@ -152,22 +161,8 @@ struct NodeDocGia
     DocGia info;
     // int nNodeDocGia = 0;
     // int bf;
-    struct NodeDocGia *left;
-    struct NodeDocGia *right;
+    NodeDocGia *left;
+    NodeDocGia *right;
 };
 typedef struct NodeDocGia *ptrNode_DocGia;
-// typedef struct NodeDocGia *ptrNode_DocGia_Name;
 ptrNode_DocGia tree = NULL;
-
-// struct TenHo {
-// 	string ho;
-//     string ten;
-// 	int MADG;
-// };
-// typedef struct TenHo hoTen;
-
-// struct TempList {
-// 	int index;
-// 	int MADG;
-// };
-// typedef struct TempList TempL;

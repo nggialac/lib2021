@@ -1,8 +1,5 @@
 #include "MT.h"
 
-#ifndef TDG
-#define TDG
-
 void initialize_NodeDG(ptrNode_DocGia &root)
 {
     root = NULL;
@@ -17,13 +14,12 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     {
         return NULL;
     }
-    // khoi tao MT
-    // initializeListMuonTra(p->info.ptrMuonTra);
-    // p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
-	// p->info.ptrMuonTra.n = 0;
-    dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
-    dg.ptrMuonTra.n = 0;
+    // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+    // dg.ptrMuonTra.n = 0;
+
     p->info = dg;
+    p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
+    p->info.ptrMuonTra.n=0;
     p->left = p->right = NULL;
     return (p);
 }
@@ -47,30 +43,33 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
 //Traverse
 int preorder_NodeDG_NLR(ptrNode_DocGia p)
 {
+    int count = 0;
     if (p == NULL)
         return 0;
     else
     {
-        // cout << p->key << endl; //Xu ly nut p
-        cout << p->info.maThe << " ";
-        cout << p->info.ho << " ";
-        cout << p->info.ten << " ";
-        cout << p->info.phai << " ";
-        cout << p->info.trangThai << " ";
-        // cout << p->info.ptrMuonTra << endl;
-        // cout << p->info.ptrMuonTra->maSach << endl;
-        // cout << p->info.ptrMuonTra->ngayMuon.ngay << endl;
-        // cout << p->info.ptrMuonTra->ngayTra.ngay << endl;
-        // cout << p->info.ptrMuonTra->trangThai << endl;
-        for (ptrNode_MuonTra q = p->info.ptrMuonTra.head; q != NULL; q = q->next)
-        {
-            cout<<"Muon tra: ";
-            cout << q->muonTra.isbn<<endl;
-        }
+        count++;
+        cout<<p->info.maThe<<" ";
         preorder_NodeDG_NLR(p->left);
         preorder_NodeDG_NLR(p->right);
     }
-    return 1;
+    return count;
+}
+
+int demDocGia(ptrNode_DocGia p)
+{
+    int count = 1;
+    if (p == NULL)
+        return 0;
+    else
+    {
+        // count++;
+        // cout<<p->info.maThe<<" ";
+        count+=preorder_NodeDG_NLR(p->left);
+        count+=preorder_NodeDG_NLR(p->right);
+        return count;
+    }
+    // return count;
 }
 
 bool check_MADG(ptrNode_DocGia t, int MADG)
@@ -183,15 +182,17 @@ int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
 
 void saveDG(ptrNode_DocGia &root, fstream &fout)
 {
+    fout << "\n";
     fout << root->info.maThe << "|";
     fout << root->info.ho << "|";
     fout << root->info.ten << "|";
     fout << root->info.phai << "|";
     fout << root->info.trangThai << "|";
     fout << "\n";
-    fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
+    fout << soSachDangMuon(root->info.ptrMuonTra);
     for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
     {
+        fout << "\n";
         fout << p->muonTra.maSach << "|";
         fout << p->muonTra.ngayMuon.ngay << "|";
         fout << p->muonTra.ngayMuon.thang << "|";
@@ -201,8 +202,8 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
         fout << p->muonTra.ngayTra.nam << "|";
         fout << p->muonTra.trangThai << "|";
         fout << p->muonTra.isbn << "|";
+        fout << '\n';
     }
-    fout << '\n';
 }
 
 void writeFile_NodeDG(ptrNode_DocGia &root, fstream &fout)
@@ -223,7 +224,7 @@ int writeFile_DG(ptrNode_DocGia &root)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << nNodeDocGia << endl;
+        fileOut << nNodeDocGia;
         writeFile_NodeDG(root, fileOut);
     }
     else
@@ -324,11 +325,6 @@ int readDG(ptrNode_DocGia &root)
                     mt.ngayTra.nam = atoi(arr[6].c_str());
                     mt.trangThai = atoi(arr[7].c_str());
                     mt.isbn = arr[8];
-                    // cout << mt.maSach << endl;
-                    // cout << mt.ngayMuon.ngay << endl;
-                    // cout << mt.ngayTra.ngay << endl;
-                    // cout << mt.trangThai << endl;
-                    // cout << mt.isbn << endl;
                     themDauList_MT(pNDG->info.ptrMuonTra, mt);
                 }
             //insert_NodeDG_Load(root, dg);
@@ -357,8 +353,6 @@ int checkSortHoTen(DocGia dg1, DocGia dg2)
     }
     return compareResult;
 }
-
-// sort(friends, friends + ARRAY_MAX, NameComparer());
 
 void sort_DG(DocGia *arr, int low, int high)
 {
@@ -429,5 +423,3 @@ int randomMaThe(ptrNode_DocGia t)
     } while (check_MADG(t, temp) && checkAvl(t));
     return temp;
 }
-
-#endif
