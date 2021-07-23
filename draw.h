@@ -1980,6 +1980,8 @@ void capNhat_DG(ptrNode_DocGia &t, DocGia &dg, bool isEdited)
             else
             {
                 // nNodeDocGia+=1;
+                dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+                dg.ptrMuonTra.n = 0;
                 insert_NodeDG_Load(t, dg);
             }
             for (int i = 0; i < 5; i++)
@@ -2030,7 +2032,6 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
     int choose;
     bool check;
     // thu tu trang
-    cout<<"xuat list";
     int tongtrang;
     tongtrang = (nNodeDocGia / NUMBER_LINES) + 1;
     xuat_DG_Page(t, arr, thuTuTrang);
@@ -2056,9 +2057,6 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
                 // them
             case F1:
                 capNhat_DG(t, dg, false);
-
-                cout<<"So luong doc gia ";
-                cout<<demDocGia(t);
                 system("pause");
                 delete[]arr;
                 return 1;
@@ -2092,7 +2090,7 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
                 }
                 else
                 {
-                    // chá»— biáº¿n check nÃ y Ä‘á»ƒ thÃ´ng bÃ¡o lÃ  check thÃ nh cÃ´ng.....
+                    
                     check = remove_NodeDG(t, arr[choose]);
                     delete[]arr;
                     return 1;
@@ -2129,8 +2127,8 @@ void Menu_DocGia(ptrNode_DocGia &t)
 
         DocGia dg;
         indexDG = 0;
-        nNodeDocGia = demDocGia(t);
-        cout<<"So node: "<<nNodeDocGia;
+        // nNodeDocGia = demDocGia(t);
+        cout<<"So node: "<< nNodeDocGia;
         DocGia *arr;
         arr = new DocGia[nNodeDocGia];
 

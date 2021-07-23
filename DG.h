@@ -14,13 +14,14 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     {
         return NULL;
     }
-    // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
-    // dg.ptrMuonTra.n = 0;
+    dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+    dg.ptrMuonTra.n = 0;
 
     p->info = dg;
-    p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
-    p->info.ptrMuonTra.n=0;
-    p->left = p->right = NULL;
+    // p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
+    // p->info.ptrMuonTra.n=0;
+    p->left = NULL;
+    p->right = NULL;
     return (p);
 }
 
@@ -30,6 +31,7 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
     {
         p = getNode_DG(dg);
         ++nNodeDocGia;
+        cout<<"Da them!";
     }
     else
     {
@@ -64,7 +66,7 @@ int demDocGia(ptrNode_DocGia p)
     else
     {
         // count++;
-        // cout<<p->info.maThe<<" ";
+        cout<<p->info.maThe<<" ";
         count+=preorder_NodeDG_NLR(p->left);
         count+=preorder_NodeDG_NLR(p->right);
         return count;
@@ -175,21 +177,22 @@ int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
             else
                 remove2Child_NodeDG(rp, p->right);
             delete rp;
+            nNodeDocGia--;
+            return 1;
         }
+        return 1;
     }
-    return 1;
 }
 
 void saveDG(ptrNode_DocGia &root, fstream &fout)
 {
-    fout << "\n";
     fout << root->info.maThe << "|";
     fout << root->info.ho << "|";
     fout << root->info.ten << "|";
     fout << root->info.phai << "|";
     fout << root->info.trangThai << "|";
     fout << "\n";
-    fout << soSachDangMuon(root->info.ptrMuonTra);
+    fout << soSachDangMuon(root->info.ptrMuonTra)<<endl;
     for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
     {
         fout << "\n";
@@ -224,7 +227,7 @@ int writeFile_DG(ptrNode_DocGia &root)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << nNodeDocGia;
+        fileOut << nNodeDocGia<<endl;
         writeFile_NodeDG(root, fileOut);
     }
     else

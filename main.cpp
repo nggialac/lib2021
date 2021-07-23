@@ -7,7 +7,6 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
     int temp;
     DocGia dg;
     DocGia *arr;
-
     temp = readDG(tree);
     if (temp > 0)
         cout << "Read file DG success!" << endl;
