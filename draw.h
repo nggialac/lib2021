@@ -34,24 +34,31 @@ int x_DS[7] = {1, 29, 36, 55, 67, 74, 80};
 int x_DMS[4] = {2, 14, 29, 64};
 int x_MT[8] = {2, 30, 39, 55, 70, 88, 115, 132};
 
-const int so_item = 10;
+const int so_item = 4;
+const int so_item_sub_dg = 5;
+const int so_item_sub_mt = 5;
 const int dong = 1;
 const int cot = 0;
+// const int subDong = 1;
 const int Up = 72;
 const int Down = 80;
 
-char mainMenu[so_item][50] = {"1. Nhap Doc Gia    ",
-                              //   "2. Ghi file Doc Gia         ",
-                              "2. Muon Sach            ",
-                              "3. Tra Sach    ",
-                              "4. Empty     ",
-                              "5. Show records Doc Gia  ",
-                              "6. Xoa Doc Gia  ",
-                              "7. In Doc Gia theo ten ",
-                              "8. In Doc Gia theo ma the ",
-                              "9. Muon sach ",
+char mainMenu[so_item][50] = {"1. Doc Gia                    ",
+                              "2. Muon tra sach              ",
+                              "3. Dau Sach & Danh muc        ",
+                              "4. Exit                       "};
 
-                              "10. Exit"};
+char subMenuDG[so_item_sub_dg][50] = {"1. Chinh Sua Doc Gia             ",
+                                      "2. In Doc Gia theo Ten Ho        ",
+                                      "3. In Doc Gia theo Ma The        ",
+                                      "4. In Doc Gia qua han            ",
+                                      "5. Back                          "};
+
+char subMenuMT[so_item_sub_mt][50] = {"1. Muon sach                            ",
+                                      "2. Tra Sach                             ",
+                                      "3. Danh sach Muon qua han               ",
+                                      "4. Top 10 sach co luot muon nhieu nhat  ",
+                                      "5. Back                                 "};
 
 void Normal()
 {
@@ -70,7 +77,7 @@ int MenuDong(char td[so_item][50])
     system("cls");
     int chon = 0;
     int i;
-    for (i = 0; i < so_item; i++) //show 4 chuc nang
+    for (i = 0; i < so_item; i++)
     {
         gotoxy(cot, dong + i);
         cout << td[i];
@@ -116,6 +123,61 @@ int MenuDong(char td[so_item][50])
         case 13:
             return chon + 1;
         } // end switch
+    } while (1);
+}
+
+int SubMenuDong(char td[10][50], int item)
+{
+    Normal();
+    // system("cls");
+    int chon = 0;
+    int i;
+    for (i = 0; i < item; i++)
+    {
+        gotoxy(cot, dong + i);
+        cout << td[i];
+    }
+
+    //them mau dong dau tien khi show
+    HighLight();
+    gotoxy(cot, dong + chon);
+    cout << td[chon];
+
+    char kytu;
+    do
+    {
+        kytu = getch();
+        if (kytu == -32)
+            kytu = getch();
+        switch (kytu)
+        {
+        case Up:
+            if (chon > 0)
+            {
+                Normal();
+                gotoxy(cot, dong + chon);
+                cout << td[chon];
+                chon--;
+                HighLight();
+                gotoxy(cot, dong + chon);
+                cout << td[chon];
+            }
+            break;
+        case Down:
+            if (chon + 1 < item)
+            {
+                Normal();
+                gotoxy(cot, dong + chon);
+                cout << td[chon];
+                chon++;
+                HighLight();
+                gotoxy(cot, dong + chon);
+                cout << td[chon];
+            }
+            break;
+        case ENTER:
+            return chon + 1;
+        }
     } while (1);
 }
 
@@ -2058,7 +2120,7 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
             case F1:
                 capNhat_DG(t, dg, false);
                 system("pause");
-                delete[]arr;
+                delete[] arr;
                 return 1;
                 // hieu chinh
             case F2:
@@ -2090,9 +2152,9 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
                 }
                 else
                 {
-                    
+
                     check = remove_NodeDG(t, arr[choose]);
-                    delete[]arr;
+                    delete[] arr;
                     return 1;
                 }
 
@@ -2128,7 +2190,7 @@ void Menu_DocGia(ptrNode_DocGia &t)
         DocGia dg;
         indexDG = 0;
         // nNodeDocGia = demDocGia(t);
-        cout<<"So node: "<< nNodeDocGia;
+        cout << "So node: " << nNodeDocGia;
         DocGia *arr;
         arr = new DocGia[nNodeDocGia];
 

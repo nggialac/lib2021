@@ -6,7 +6,6 @@ void initialize_NodeDG(ptrNode_DocGia &root)
     nNodeDocGia = 0;
 }
 
-
 ptrNode_DocGia getNode_DG(DocGia dg)
 {
     ptrNode_DocGia p = new NodeDocGia;
@@ -31,7 +30,7 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
     {
         p = getNode_DG(dg);
         ++nNodeDocGia;
-        cout<<"Da them!";
+        cout << "Da them!";
     }
     else
     {
@@ -51,7 +50,7 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
     else
     {
         count++;
-        cout<<p->info.maThe<<" ";
+        cout << p->info.maThe << " ";
         preorder_NodeDG_NLR(p->left);
         preorder_NodeDG_NLR(p->right);
     }
@@ -66,9 +65,9 @@ int demDocGia(ptrNode_DocGia p)
     else
     {
         // count++;
-        cout<<p->info.maThe<<" ";
-        count+=preorder_NodeDG_NLR(p->left);
-        count+=preorder_NodeDG_NLR(p->right);
+        cout << p->info.maThe << " ";
+        count += preorder_NodeDG_NLR(p->left);
+        count += preorder_NodeDG_NLR(p->right);
         return count;
     }
     // return count;
@@ -192,7 +191,7 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
     fout << root->info.phai << "|";
     fout << root->info.trangThai << "|";
     fout << "\n";
-    fout << soSachDangMuon(root->info.ptrMuonTra)<<endl;
+    fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
     for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
     {
         fout << "\n";
@@ -227,7 +226,7 @@ int writeFile_DG(ptrNode_DocGia &root)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << nNodeDocGia<<endl;
+        fileOut << nNodeDocGia << endl;
         writeFile_NodeDG(root, fileOut);
     }
     else
@@ -305,7 +304,7 @@ int readDG(ptrNode_DocGia &root)
             //
             getline(fileIn, temp);
             if (soSach == 0)
-                dg.ptrMuonTra.head= dg.ptrMuonTra.tail = NULL;
+                dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
             else
                 for (int i = 0; i < soSach; i++)
                 {
@@ -385,13 +384,26 @@ void sort_DG(DocGia *arr, int low, int high)
         sort_DG(arr, left, high); // phan thu 3 co tu 2 ptu tro len
 }
 
-void tao_Arr(ptrNode_DocGia p, DocGia *arr)
+// void tao_Arr(ptrNode_DocGia p, DocGia *arr)
+// {
+//     if (p == NULL)
+//         return;
+//     tao_Arr(p->left, arr);
+//     arr[indexDG++] = p->info;
+//     tao_Arr(p->right, arr);
+// }
+
+ArrayDocGia tao_ArrDG(ptrNode_DocGia p, ArrayDocGia arr)
 {
     if (p == NULL)
         return;
-    tao_Arr(p->left, arr);
-    arr[indexDG++] = p->info;
-    tao_Arr(p->right, arr);
+    else
+    {
+        tao_Arr(p->left, arr);
+        *(arr.docGia[arr.soDocGia++]) = p->info;
+        tao_Arr(p->right, arr);
+    }
+    return arr;
 }
 
 int taoRandom()

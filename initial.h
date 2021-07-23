@@ -26,16 +26,17 @@ using std::setfill;
 using std::setw;
 
 extern int nNodeDocGia = 0;
-extern int indexDG = 0;
+// extern int indexDG = 0;
 extern int MAX_RAND = 500;
 extern int toaDo = 0;
 
 #define MAX_LIST 1000
+#define MAX_DG 1000
+
 #define BACKSPACE 8
 #define ENTER 13
 #define ESC 27
 
-#define Enter 13
 #define PASSWORD "abcdef"
 #define BLACK 0
 #define GREEN 2
@@ -166,3 +167,11 @@ struct NodeDocGia
 };
 typedef struct NodeDocGia *ptrNode_DocGia;
 ptrNode_DocGia tree = NULL;
+
+struct ArrayDocGia
+{
+    // int indexDG = 0;
+    int soDocGia;
+    DocGia *docGia[MAX_DG];
+};
+typedef struct ArrayDocGia;
