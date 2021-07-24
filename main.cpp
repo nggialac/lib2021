@@ -6,6 +6,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
     int chon;
     int chonSub;
     int temp;
+    // int indexDG = 0;
 
     temp = readDG(tree);
     if (temp > 0)
@@ -14,7 +15,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
     temp = readFile_DS(listDS);
     if (temp > 0)
         cout << "Read file DS success!" << endl;
-
+    system("pause");
     DocGia dg;
     clrscr();
 
@@ -30,6 +31,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             switch (chonSub)
             {
             case 1:
+                indexDG = 0;
                 gotoxy(50, 20);
                 Menu_DocGia(tree);
                 system("pause");
@@ -37,12 +39,13 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             case 2:
                 gotoxy(50, 20);
                 cout << "Vua chon: " << chonSub;
-                indexDG = 0;
+
                 cout << "Vua chon chuc nang " << chon;
+
                 DocGia *arr;
 
                 arr = new DocGia[nNodeDocGia];
-                tao_Arr(tree, arr);
+                treeToArr(tree, arr);
                 sort_DG(arr, 0, nNodeDocGia - 1);
                 for (int i = 0; i < nNodeDocGia; i++)
                 {
@@ -57,7 +60,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             case 3:
                 indexDG = 0;
                 arr = new DocGia[nNodeDocGia];
-                tao_Arr(tree, arr);
+                treeToArr(tree, arr);
                 for (int i = 0; i < nNodeDocGia; i++)
                 {
                     cout << arr[i].maThe << " ";
@@ -82,12 +85,12 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             {
             case 1:
                 SetBGColor(BLACK);
-                do_MuonSach(tree, listDS);
+                do_MuonSach(tree, listDS, indexDG);
                 system("pause");
                 break;
             case 2:
                 SetBGColor(BLACK);
-                do_TraSach(tree, listDS);
+                do_TraSach(tree, listDS, indexDG);
                 system("pause");
                 break;
             case 3:
@@ -110,11 +113,11 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
 
         case so_item:
             boolean isSave = writeFile_DG(tree);
-            gotoxy(10,20);
-            (isSave ? cout<<"Da save DG!" : cout<<"That bai");
+            gotoxy(10, 20);
+            (isSave ? cout << "Da save DG!" : cout << "That bai");
             boolean isSave1 = Save_DS(listDS);
-            gotoxy(15,20);
-            (isSave1 ? cout<<"Da save DG!" : cout<<"That bai");
+            gotoxy(15, 20);
+            (isSave1 ? cout << "Da save DG!" : cout << "That bai");
             break;
         }
         Sleep(500);

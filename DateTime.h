@@ -72,4 +72,23 @@ int khoangCachNgay(DateTime nt1)
 int soSanhNgay(DateTime nt1, DateTime nt2) {
 	return (tinhNgay(nt2) - tinhNgay(nt1));
 }
+
+int quaHan(listMuonTra lMT) {
+	int soNgay = 0;
+	int nngay;
+	for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next) {
+		if ((p->muonTra.trangThai == 0) || (p->muonTra.trangThai == 2)) {
+			nngay = khoangCachNgay(p->muonTra.ngayMuon);
+			if (nngay > soNgay) {
+				soNgay = nngay;
+			}
+		}
+	}
+	return soNgay;
+}
+
+int isQuaHan(listMuonTra lMT) {
+	return (quaHan(lMT) - 7);
+}
+
 #endif

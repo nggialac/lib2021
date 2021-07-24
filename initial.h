@@ -26,7 +26,7 @@ using std::setfill;
 using std::setw;
 
 extern int nNodeDocGia = 0;
-// extern int indexDG = 0;
+extern int indexDG = 0;
 extern int MAX_RAND = 500;
 extern int toaDo = 0;
 
@@ -161,17 +161,9 @@ struct NodeDocGia
     int key;
     DocGia info;
     // int nNodeDocGia = 0;
-    // int bf;
+    int bf;
     NodeDocGia *left;
     NodeDocGia *right;
 };
 typedef struct NodeDocGia *ptrNode_DocGia;
 ptrNode_DocGia tree = NULL;
-
-struct ArrayDocGia
-{
-    // int indexDG = 0;
-    int soDocGia;
-    DocGia *docGia[MAX_DG];
-};
-typedef struct ArrayDocGia;

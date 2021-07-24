@@ -4,7 +4,7 @@ char *Pwd()
 {
     char S[40];
     int i = 0;
-    while ((S[i] = getch()) != Enter)
+    while ((S[i] = getch()) != ENTER)
     {
         printf("%c", '*');
         i++;

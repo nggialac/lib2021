@@ -238,8 +238,10 @@ int writeFile_DG(ptrNode_DocGia &root)
     return 1;
 }
 
-ptrNode_DocGia layDG_NTDG(ptrNode_DocGia t, int MADG)
+ptrNode_DocGia layDG_NTDG(ptrNode_DocGia root, int MADG)
 {
+    ptrNode_DocGia t;
+    t = root;
     while (t != NULL && t->info.maThe != MADG)
     {
         if (MADG < t->info.maThe)
@@ -384,26 +386,38 @@ void sort_DG(DocGia *arr, int low, int high)
         sort_DG(arr, left, high); // phan thu 3 co tu 2 ptu tro len
 }
 
-// void tao_Arr(ptrNode_DocGia p, DocGia *arr)
-// {
-//     if (p == NULL)
-//         return;
-//     tao_Arr(p->left, arr);
-//     arr[indexDG++] = p->info;
-//     tao_Arr(p->right, arr);
-// }
-
-ArrayDocGia tao_ArrDG(ptrNode_DocGia p, ArrayDocGia arr)
+ptrNode_DocGia sortedArrayToBST(DocGia arr[],
+                                int start, int end)
 {
+    /* Base Case */
+    if (start > end)
+        return NULL;
+
+    /* Get the middle element and make it root */
+    int mid = (start + end) / 2;
+    ptrNode_DocGia root = getNode_DG(arr[mid]);
+
+    /* Recursively construct the left subtree
+    and make it left child of root */
+    root->left = sortedArrayToBST(arr, start,
+                                  mid - 1);
+
+    /* Recursively construct the right subtree
+    and make it right child of root */
+    root->right = sortedArrayToBST(arr, mid + 1, end);
+
+    return root;
+}
+
+void treeToArr(ptrNode_DocGia p, DocGia *arr)
+{
+    // static int index = 0;
     if (p == NULL)
         return;
-    else
-    {
-        tao_Arr(p->left, arr);
-        *(arr.docGia[arr.soDocGia++]) = p->info;
-        tao_Arr(p->right, arr);
-    }
-    return arr;
+
+    treeToArr(p->left, arr);
+    arr[indexDG++] = p->info;
+    treeToArr(p->right, arr);
 }
 
 int taoRandom()
@@ -414,27 +428,171 @@ int taoRandom()
     return x;
 }
 
-int treeLevel(ptrNode_DocGia t)
-{
-    if (t == NULL)
-        return -1;
-    return 1 + max(treeLevel(t->left), treeLevel(t->right));
-}
-bool checkAvl(ptrNode_DocGia t)
-{
-    if (t == NULL)
-        return true;
-    if (abs(treeLevel(t->left) - treeLevel(t->right)) > 1)
-        return false;
-    return checkAvl(t->left) && checkAvl(t->right);
-}
-
 int randomMaThe(ptrNode_DocGia t)
 {
     int temp;
     do
     {
         temp = taoRandom();
-    } while (check_MADG(t, temp) && checkAvl(t));
+    } while (check_MADG(t, temp));
     return temp;
+}
+
+ptrNode_DocGia Rotate_Left(ptrNode_DocGia root)
+{
+    ptrNode_DocGia p;
+    if (root == NULL)
+        printf("Khong the xoay trai vi cay bi rong.");
+    else if (root->right == NULL)
+        printf("Khong the xoay trai vi khong co nut con ben phai.");
+    else
+    {
+        p = root->right;
+        root->right = p->left;
+        p->left = root;
+    }
+    return p;
+}
+
+ptrNode_DocGia Rotate_Right(ptrNode_DocGia ya)
+{
+    ptrNode_DocGia s;
+    if (ya == NULL)
+        printf("Khong the xoay phai vi cay bi rong.");
+    else if (ya->left == NULL)
+        printf("Khong the xoay phai vi khong co nut con ben trai.");
+    else
+    {
+        s = ya->left;
+        ya->left = s->right;
+        s->right = ya;
+    }
+    return s;
+}
+
+void Insert(ptrNode_DocGia &pavltree, int x, DocGia a)
+{
+    ptrNode_DocGia fp, p, q, // fp là nút cha của p, q là con của p
+        fya, ya,             /* ya là nút trước gần nhất có thể mất cân bằng
+                           	   fya là nút cha của ya */
+        s;                   // s là nút con của ya theo hướng mất cân bằng
+    int imbal;               /* imbal =  1 nếu bị lệch về nhánh trái
+                                 	   	  = -1 nếu bị lệch về nhánh phải */
+    // Khởi động các giá trị
+    fp = NULL;
+    p = pavltree;
+    fya = NULL;
+    ya = p;
+    // tim nut fp, ya va fya, nut moi them vao la nut la con cua nut fp
+    while (p != NULL)
+    {
+        if (x == p->key) // bi trung khoa
+            return;
+        if (x < p->key)
+            q = p->left;
+        else
+            q = p->right;
+        if (q != NULL)
+            if (q->bf != 0) // truong hop chi so can bang cua q la 1 hay -1
+            {
+                fya = p;
+                ya = q;
+            }
+        fp = p;
+        p = q;
+    }
+    // Thêm nút mới (nut la) la con cua nut fp
+    q = new NodeDocGia; // cấp phát vùng nhớ
+    q->key = x;
+    q->info = a;
+    q->bf = 0;
+    q->left = NULL;
+    q->right = NULL;
+    if (x < fp->key)
+        fp->left = q;
+    else
+        fp->right = q;
+    /*Hieu chinh chi so can bang cua tat ca cac nut giua ya va q, neu bi lech
+      ve phia trai thi chi so can bang cua tat ca cac nut giua ya va q deu la
+      1, neu bi lech ve phia phai thi chi so can bang cua tat ca cac nut giua
+      ya va q deu la -1 */
+    if (x < ya->key)
+        p = ya->left;
+    else
+        p = ya->right;
+    s = p; // s la con nut ya
+    while (p != q)
+    {
+        if (x < p->key)
+        {
+            p->bf = 1;
+            p = p->left;
+        }
+        else
+        {
+            p->bf = -1;
+            p = p->right;
+        }
+    }
+    // xac dinh huong lech
+    if (x < ya->key)
+        imbal = 1;
+    else
+        imbal = -1;
+
+    if (ya->bf == 0)
+    {
+        ya->bf = imbal;
+        return;
+    }
+    if (ya->bf != imbal)
+    {
+        ya->bf = 0;
+        return;
+    }
+
+    if (s->bf == imbal) // Truong hop xoay don
+    {
+        if (imbal == 1) // xoay phai
+            p = Rotate_Right(ya);
+        else // xoay trai
+            p = Rotate_Left(ya);
+        ya->bf = 0;
+        s->bf = 0;
+    }
+    else // Truong hop xoay kep
+    {
+        if (imbal == 1) // xoay kep trai-phai
+        {
+            ya->left = Rotate_Left(s);
+            p = Rotate_Right(ya);
+        }
+        else // xoay kep phai-trai -
+        {
+            ya->right = Rotate_Right(s);
+            p = Rotate_Left(ya);
+        }
+        if (p->bf == 0) // truong hop p la nut moi them vao
+        {
+            ya->bf = 0;
+            s->bf = 0;
+        }
+        else if (p->bf == imbal)
+        {
+            ya->bf = -imbal;
+            s->bf = 0;
+        }
+        else
+        {
+            ya->bf = 0;
+            s->bf = imbal;
+        }
+        p->bf = 0;
+    }
+    if (fya == NULL)
+        pavltree = p;
+    else if (ya == fya->right)
+        fya->right = p;
+    else
+        fya->left = p;
 }

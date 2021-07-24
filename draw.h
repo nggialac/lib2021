@@ -1223,7 +1223,7 @@ void ve_DMS(string key[], int nKey, int xDisplay[])
     }
 }
 
-void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach)
+void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach, int indexDG)
 {
     clrscr();
     system("color 0");
@@ -1245,7 +1245,7 @@ label:
     cout << nNodeDocGia;
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
     cout << root->info.maThe;
-    tao_Arr(root, ArrTenHo);
+    treeToArr(root, ArrTenHo);
     ve_DG(keyDisplayDG, 5, x_DG);
     // sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(root, ArrTenHo);
@@ -1629,7 +1629,7 @@ void xuat_MT(ptrNode_MuonTra p, int i)
         cout << " Da Tra";
 }
 
-void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS)
+void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS, int indexDG)
 {
     clrscr();
     // system("color 0");
@@ -1646,7 +1646,7 @@ label:
     SetBGColor(BLACK);
     indexDG = 0;
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
-    tao_Arr(t, ArrTenHo);
+    treeToArr(t, ArrTenHo);
     ve_DG(keyDisplayDG, 5, x_DG);
     sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(t, ArrTenHo);
@@ -2042,8 +2042,8 @@ void capNhat_DG(ptrNode_DocGia &t, DocGia &dg, bool isEdited)
             else
             {
                 // nNodeDocGia+=1;
-                dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
-                dg.ptrMuonTra.n = 0;
+                // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+                // dg.ptrMuonTra.n = 0;
                 insert_NodeDG_Load(t, dg);
             }
             for (int i = 0; i < 5; i++)
@@ -2083,6 +2083,8 @@ void xuat_DG_Page(ptrNode_DocGia t, DocGia *arr, int index)
         for (int i = NUMBER_LINES * index; i < NUMBER_LINES * (1 + index) && i < nNodeDocGia; i++)
         {
             temp = layDG_NTDG(t, arr[i].maThe);
+            if (temp == NULL)
+                return;
             xuat_DG(temp);
         }
     }
@@ -2189,12 +2191,15 @@ void Menu_DocGia(ptrNode_DocGia &t)
 
         DocGia dg;
         indexDG = 0;
-        // nNodeDocGia = demDocGia(t);
         cout << "So node: " << nNodeDocGia;
-        DocGia *arr;
-        arr = new DocGia[nNodeDocGia];
+        DocGia *arr = new DocGia[nNodeDocGia];
+        treeToArr(t, arr);
 
-        tao_Arr(t, arr);
+        sort_DG(arr, 0, nNodeDocGia - 1);
+        t = sortedArrayToBST(arr, 0, nNodeDocGia - 1);
+        cout << "preorder: ";
+        cout << preorder_NodeDG_NLR(t);
+
         ve_DG(keyDisplayDG, 5, x_DG);
         esc = xuat_ListDG(t, arr, dg, tttrang);
     } while (esc);
