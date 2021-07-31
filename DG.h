@@ -30,7 +30,6 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
     {
         p = getNode_DG(dg);
         ++nNodeDocGia;
-        cout << "Da them!";
     }
     else
     {
@@ -191,10 +190,10 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
     fout << root->info.phai << "|";
     fout << root->info.trangThai << "|";
     fout << "\n";
-    fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
+    // fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
+    fout << root->info.ptrMuonTra.n << endl;
     for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
     {
-        fout << "\n";
         fout << p->muonTra.maSach << "|";
         fout << p->muonTra.ngayMuon.ngay << "|";
         fout << p->muonTra.ngayMuon.thang << "|";
@@ -369,6 +368,34 @@ void sort_DG(DocGia *arr, int low, int high)
         while (checkSortHoTen(arr[left], pivot) < 0)
             left++;
         while (checkSortHoTen(arr[right], pivot) > 0)
+            right--;
+
+        if (left <= right)
+        {
+            temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+    } while (left <= right);
+    if (low < right)
+        sort_DG(arr, low, right); // phan thu 1 co tu 2 ptu tro len
+    if (left < high)
+        sort_DG(arr, left, high); // phan thu 3 co tu 2 ptu tro len
+}
+
+void sort_QH(DocGia *arr, int low, int high)
+{
+    DocGia temp;
+    DocGia pivot = arr[(low + high) / 2]; // pivot
+    int left = low;
+    int right = high;
+    do
+    {
+        while (soNgayQuaHan(arr[left].ptrMuonTra) < 0)
+            left++;
+        while (soNgayQuaHan(arr[right].ptrMuonTra) > 0)
             right--;
 
         if (left <= right)

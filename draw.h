@@ -36,7 +36,7 @@ int x_MT[8] = {2, 30, 39, 55, 70, 88, 115, 132};
 
 const int so_item = 4;
 const int so_item_sub_dg = 5;
-const int so_item_sub_mt = 5;
+const int so_item_sub_mt = 4;
 const int dong = 1;
 const int cot = 0;
 // const int subDong = 1;
@@ -56,9 +56,8 @@ char subMenuDG[so_item_sub_dg][50] = {"1. Chinh Sua Doc Gia             ",
 
 char subMenuMT[so_item_sub_mt][50] = {"1. Muon sach                            ",
                                       "2. Tra Sach                             ",
-                                      "3. Danh sach Muon qua han               ",
-                                      "4. Top 10 sach co luot muon nhieu nhat  ",
-                                      "5. Back                                 "};
+                                      "3. Top 10 sach co luot muon nhieu nhat  ",
+                                      "4. Back                                 "};
 
 void Normal()
 {
@@ -1223,7 +1222,7 @@ void ve_DMS(string key[], int nKey, int xDisplay[])
     }
 }
 
-void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach, int indexDG)
+void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach)
 {
     clrscr();
     system("color 0");
@@ -1629,7 +1628,7 @@ void xuat_MT(ptrNode_MuonTra p, int i)
         cout << " Da Tra";
 }
 
-void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS, int indexDG)
+void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS)
 {
     clrscr();
     // system("color 0");
@@ -1648,7 +1647,7 @@ label:
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
     treeToArr(t, ArrTenHo);
     ve_DG(keyDisplayDG, 5, x_DG);
-    sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
+    // sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(t, ArrTenHo);
     //// xoa vung nho
     delete[] ArrTenHo;
@@ -2195,12 +2194,125 @@ void Menu_DocGia(ptrNode_DocGia &t)
         DocGia *arr = new DocGia[nNodeDocGia];
         treeToArr(t, arr);
 
-        sort_DG(arr, 0, nNodeDocGia - 1);
-        t = sortedArrayToBST(arr, 0, nNodeDocGia - 1);
+        // sort_DG(arr, 0, nNodeDocGia - 1);
+        // t = sortedArrayToBST(arr, 0, nNodeDocGia - 1);
         cout << "preorder: ";
         cout << preorder_NodeDG_NLR(t);
 
         ve_DG(keyDisplayDG, 5, x_DG);
         esc = xuat_ListDG(t, arr, dg, tttrang);
     } while (esc);
+}
+
+void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
+{
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    clrscr();
+
+    // int soDG = demDocGia(t);
+    indexDG = 0;
+    DocGia *arr = new DocGia[nNodeDocGia];
+    treeToArr(t, arr);
+    // sort_DG(arr, 0, soDG - 1);
+    //
+    string text = "Danh Sach Doc Gia Muon Qua Han ";
+    //taoBox(48, 2, text, (int)text.length());
+
+    gotoxy(47, 2);
+    cout << "Danh Sach DG Muon Qua Han ";
+    gotoxy(3, 5);
+    cout << "Stt";
+    gotoxy(10, 5);
+    cout << "Ma doc gia";
+    gotoxy(25, 5);
+    cout << "Ho DG";
+    gotoxy(40, 5);
+    cout << "Ten DG";
+    gotoxy(55, 5);
+    cout << "Ma sach";
+    gotoxy(70, 5);
+    cout << "Ten sach";
+    gotoxy(97, 5);
+    cout << "Ngay muon";
+    gotoxy(110, 5);
+    cout << "Tong so ngay qua han";
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+
+    int j = 0;
+    for (int i = 0; i < nNodeDocGia; i++)
+    {
+        if (soNgayQuaHan(arr[i].ptrMuonTra) > 0)
+        {
+            // ptrNode_DocGia p = layDG_NTDG(t, arr[i].maThe);
+            gotoxy(12, 6 + j);
+            cout << arr[i].maThe;
+            gotoxy(23, 6 + j);
+            cout << arr[i].ho;
+            gotoxy(40, 6 + j);
+            cout << arr[i].ten;
+            gotoxy(55, 6 + j);
+            cout << arr[i].ptrMuonTra.head->muonTra.maSach;
+            gotoxy(68, 6 + j);
+            cout << findDSByISBN(lDS, arr[i].ptrMuonTra.head->muonTra.maSach)->tenSach;
+            gotoxy(96, 6 + j);
+            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.ngay;
+            gotoxy(98, 6 + j);
+            cout << "/";
+            gotoxy(99, 6 + j);
+            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.thang;
+            gotoxy(101, 6 + j);
+            cout << "/";
+            gotoxy(102, 6 + j);
+            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.nam;
+            gotoxy(120, 6 + j);
+            cout << soNgayQuaHan(arr[i].ptrMuonTra);
+            gotoxy(4, 6 + j);
+            j++;
+            cout << j;
+        }
+        else
+        {
+            cout << "Khong co ai qua han!" << endl;
+        }
+    }
+    _getch();
+    delete[] arr;
+}
+
+void do_Top10(ListDauSach lDS)
+{
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    clrscr();
+    int count = 0;
+    // sort_TopDS(lDS, 0, lDS.n);
+    // in thong tin ra  console
+    gotoxy(50, 2);
+    cout << "10 Dau Sach Duoc Muon Nhieu Nhat !";
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    int j = 0;
+    while (j < 10)
+    {
+        if (lDS.nodes[j] != NULL)
+        {
+            SetColor(WHITE);
+            gotoxy(45 + 3, 5 + 2 + j);
+            cout << lDS.nodes[j]->tenSach;
+            gotoxy(77 + 16, 5 + 2 + j);
+            cout << lDS.nodes[j]->soLanMuon;
+            gotoxy(30 + 7, 5 + 2 + j);
+            j++;
+            cout << j;
+        }
+        else
+        {
+            cout << ++j << endl;
+        }
+    }
+
+    // ve_Top10(keyDisplayTop10, 3, 5, j + 2);
+    _getch();
 }

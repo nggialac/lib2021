@@ -17,6 +17,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
         cout << "Read file DS success!" << endl;
     system("pause");
     DocGia dg;
+    DocGia *arr;
     clrscr();
 
     while (1)
@@ -37,13 +38,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 system("pause");
                 break;
             case 2:
-                gotoxy(50, 20);
-                cout << "Vua chon: " << chonSub;
-
-                cout << "Vua chon chuc nang " << chon;
-
-                DocGia *arr;
-
+                indexDG=0;
                 arr = new DocGia[nNodeDocGia];
                 treeToArr(tree, arr);
                 sort_DG(arr, 0, nNodeDocGia - 1);
@@ -71,6 +66,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 delete[] arr;
                 break;
             case 4:
+                do_QuaHan(tree, listDS);
                 system("pause");
                 break;
 
@@ -85,20 +81,17 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             {
             case 1:
                 SetBGColor(BLACK);
-                do_MuonSach(tree, listDS, indexDG);
+                do_MuonSach(tree, listDS);
                 system("pause");
                 break;
             case 2:
                 SetBGColor(BLACK);
-                do_TraSach(tree, listDS, indexDG);
+                do_TraSach(tree, listDS);
                 system("pause");
                 break;
             case 3:
-                cout << "Danh sach muon qua han !";
-                system("pause");
-                break;
-            case 4:
                 cout << "Top 10 sach !";
+                do_Top10(listDS);
                 system("pause");
                 break;
             case so_item_sub_mt:

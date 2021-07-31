@@ -7,6 +7,9 @@
 //DateTime
 int khoangCachNgay(DateTime nt1);
 
+//DS
+int soNgayQuaHan(listMuonTra lMT);
+
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
 int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x);

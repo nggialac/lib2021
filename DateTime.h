@@ -87,7 +87,7 @@ int quaHan(listMuonTra lMT) {
 	return soNgay;
 }
 
-int isQuaHan(listMuonTra lMT) {
+int soNgayQuaHan(listMuonTra lMT) {
 	return (quaHan(lMT) - 7);
 }
 
