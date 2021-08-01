@@ -132,6 +132,7 @@ void clrscr()
     // system("cls");
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     cls(hCon);
+    // system("cls");
 }
 
 void setWindowSize()
@@ -157,10 +158,10 @@ void XoaMotVung(int x, int y, int ndoc, int width) {
 	}
 }
 
-void setFontSize(int FontSize) {
-	CONSOLE_FONT_INFOEX info = { 0 };
-	info.cbSize = sizeof(info);
-	info.dwFontSize.Y = FontSize; // leave X as zero
-	info.FontWeight = FW_NORMAL;
-	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
-}
+// void setFontSize(int FontSize) {
+// 	CONSOLE_FONT_INFOEX info = { 0 };
+// 	info.cbSize = sizeof(info);
+// 	info.dwFontSize.Y = FontSize; // leave X as zero
+// 	info.FontWeight = FW_NORMAL;
+// 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
+// }

@@ -1073,7 +1073,7 @@ int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
     int pos = 0;
     int kb_hit;
     pos = 0;
-    SetColor(LIGHT_RED);
+    SetColor(WHITE);
     gotoxy(x_DS[0] + 1, 2 + 3 + pos);
     cout << "->";
     gotoxy(x_DS[0] + 26, 2 + 3 + pos);
@@ -1095,7 +1095,7 @@ int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
                 cout << "  ";
                 (pos > 0) ? pos-- : pos = 28;
                 // to mau muc moi
-                SetColor(LIGHT_RED);
+                SetColor(WHITE);
                 gotoxy(x_DS[0] + 1, 2 + 3 + pos);
                 cout << "->";
                 gotoxy(x_DS[0] + 26, 2 + 3 + pos);
@@ -1109,7 +1109,7 @@ int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
                 cout << "  ";
                 (pos < 28) ? pos++ : pos = 0;
                 // to mau muc moi
-                SetColor(LIGHT_RED);
+                SetColor(WHITE);
                 gotoxy(x_DS[0] + 1, 2 + 3 + pos);
                 cout << "->";
                 gotoxy(x_DS[0] + 26, 2 + 3 + pos);
@@ -1127,7 +1127,7 @@ int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
                 xuat_DStheoTrang(lDS, thuTuTrang);
                 // hight light dong dau.
                 pos = 0;
-                SetColor(LIGHT_RED);
+                SetColor(WHITE);
                 gotoxy(x_DS[0] + 1, 2 + 3 + pos);
                 cout << "->";
                 gotoxy(x_DS[0] + 26, 2 + 3 + pos);
@@ -1145,7 +1145,7 @@ int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
                 xuat_DStheoTrang(lDS, thuTuTrang);
                 // high light dong dau.
                 pos = 0;
-                SetColor(LIGHT_RED);
+                SetColor(WHITE);
                 gotoxy(x_DS[0] + 1, 2 + 3 + pos);
                 cout << "->";
                 gotoxy(x_DS[0] + 26, 2 + 3 + pos);

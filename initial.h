@@ -13,8 +13,7 @@
 #include <iomanip>
 #include <math.h>
 #include <wchar.h>
-#include <locale.h>
-#include <errno.h>
+// #include <thread>
 
 using std::atoi;
 using std::cin;
@@ -27,6 +26,7 @@ using std::string;
 using std::stringstream;
 using std::setfill;
 using std::setw;
+
 
 extern int nNodeDocGia = 0;
 extern int indexDG = 0;
