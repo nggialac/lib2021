@@ -142,7 +142,7 @@ void setWindowSize()
     RECT r;
     GetWindowRect(console, &r); //stores the console's current dimensions
 
-    MoveWindow(console, r.left, r.top, 1200, 600, TRUE); // 800 width, 100 height
+    MoveWindow(console, r.left, r.top, 1200, 620, TRUE); // 800 width, 100 height
 }
 
 void XoaMotDong(int width) {
@@ -155,4 +155,12 @@ void XoaMotVung(int x, int y, int ndoc, int width) {
 		gotoxy(x, y + i);
 		XoaMotDong(width);
 	}
+}
+
+void setFontSize(int FontSize) {
+	CONSOLE_FONT_INFOEX info = { 0 };
+	info.cbSize = sizeof(info);
+	info.dwFontSize.Y = FontSize; // leave X as zero
+	info.FontWeight = FW_NORMAL;
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }

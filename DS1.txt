@@ -1,0 +1,9 @@
+5
+isbn|tenSach|tacGia|the loai|nam xuat ban|so trang|11|0|
+isbn2|tenSach|tacGia|the loai|nam xuat ban|so trang|12|0|
+isbn3|tenSach|tacGia|the loai|nam xuat ban|so trang|9|0|
+isbn|tenSach|tacGia|the loai|nam xuat ban|so trang|10|0|
+isbn|tenSach|tacGia|the loai|nam xuat ban|so trang|1|2|
+SADZXC1|0|tu 3|
+SADZXC2|1|tu 4|
+

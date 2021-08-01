@@ -1,8 +1,5 @@
 #include "prototype.h"
 
-#ifndef DMS
-#define DMS
-
 void initializeListNode_DMS(listNodeDMS &ln_dms)
 {
     ln_dms.n = 0;
@@ -37,15 +34,6 @@ void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
     ln_dms.n++;
 }
 
-void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
-{
-    ptrNode_DanhMucSach p;
-    p = new NodeDanhMucSach();
-    p->danhMucSach = x;
-    p->next = First;
-    First = p;
-}
-
 int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
 {
     ptrNode_DanhMucSach q;
@@ -61,20 +49,13 @@ int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
     return 1;
 }
 
-int isFull_DS(ListDauSach listDS)
+void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
 {
-    return listDS.n == MAX_LIST;
-}
-
-int add_DS(ListDauSach &listDS, pDauSach &pDS)
-{
-    if (isFull_DS(listDS))
-    {
-        return 0;
-    }
-    listDS.nodes[listDS.n++] = pDS;
-    // cout << listDS.nodes[listDS.n]->tenSach;
-    return 1;
+    ptrNode_DanhMucSach p;
+    p = new NodeDanhMucSach();
+    p->danhMucSach = x;
+    p->next = First;
+    First = p;
 }
 
 ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos)
@@ -158,64 +139,62 @@ int traverse_DMS(listNodeDMS ln_dms)
     return count;
 }
 
-int readFile_DS(ListDauSach &listDS)
-{
-    fstream fileIn;
-    DauSach info;
-    fileIn.open("DS.txt", ios::in);
-    pDauSach pDS;
-    DanhMucSach dms;
-    int soDauSach, soSach;
-    if (fileIn.is_open())
-    {
-        string temp;
-        fileIn >> soDauSach;
-        cout << "So dau Sach: ";
-        cout << soDauSach << endl;
-        getline(fileIn, temp);
-        for (int i = 0; i < soDauSach; i++)
-        {
-            pDS = new DauSach;
-            if (pDS == NULL)
-                continue;
-            // load thong tin vao bien tam.
-            getline(fileIn, info.tenSach);
-            getline(fileIn, info.isbn);
+// int readFile_DS(ListDauSach &listDS)
+// {
+//     fstream fileIn;
+//     DauSach info;
+//     fileIn.open("DS.txt", ios::in);
+//     pDauSach pDS;
+//     DanhMucSach dms;
+//     int soDauSach, soSach;
+//     if (fileIn.is_open())
+//     {
+//         string temp;
+//         fileIn >> soDauSach;
+//         cout << "So dau Sach: ";
+//         cout << soDauSach << endl;
+//         getline(fileIn, temp);
+//         for (int i = 0; i < soDauSach; i++)
+//         {
+//             pDS = new DauSach;
+//             if (pDS == NULL)
+//                 continue;
+//             // load thong tin vao bien tam.
+//             getline(fileIn, info.tenSach);
+//             getline(fileIn, info.isbn);
 
-            getline(fileIn, info.tacGia);
-            getline(fileIn, info.theLoai);
+//             getline(fileIn, info.tacGia);
+//             getline(fileIn, info.theLoai);
 
-            fileIn >> info.soTrang;
-            fileIn >> info.namXuatBan;
-            fileIn >> info.soLanMuon;
-            // load thong tin vao dau sach
-            *(pDS) = info; //cout<<*(pDS)->isbn;
-            fileIn >> soSach;
-            getline(fileIn, temp);
-            initializeListNode_DMS(pDS->ptrDMS);
-            for (int j = 0; j < soSach; j++)
-            {
-                getline(fileIn, dms.maSach);
-                fileIn >> dms.trangThai;
-                getline(fileIn, temp);
-                getline(fileIn, dms.viTri);
-                themCuoiList_DMS(pDS->ptrDMS, dms);
-            }
-            add_DS(listDS, pDS);
-        }
-    }
-    else
-    {
-        cout << "file DS.txt khong tim thay! ";
-        return 0;
-    }
+//             fileIn >> info.soTrang;
+//             fileIn >> info.namXuatBan;
+//             fileIn >> info.soLanMuon;
+//             // load thong tin vao dau sach
+//             *(pDS) = info; //cout<<*(pDS)->isbn;
+//             fileIn >> soSach;
+//             getline(fileIn, temp);
+//             initializeListNode_DMS(pDS->ptrDMS);
+//             for (int j = 0; j < soSach; j++)
+//             {
+//                 getline(fileIn, dms.maSach);
+//                 fileIn >> dms.trangThai;
+//                 getline(fileIn, temp);
+//                 getline(fileIn, dms.viTri);
+//                 themCuoiList_DMS(pDS->ptrDMS, dms);
+//             }
+//             add_DS(listDS, pDS);
+//         }
+//     }
+//     else
+//     {
+//         cout << "file DS.txt khong tim thay! ";
+//         return 0;
+//     }
 
-    for (int j = 0; j < listDS.n; j++)
-    {
-        cout << listDS.nodes[j]->tenSach;
-    }
-    fileIn.close();
-    return 1;
-}
-
-#endif
+//     for (int j = 0; j < listDS.n; j++)
+//     {
+//         cout << listDS.nodes[j]->tenSach;
+//     }
+//     fileIn.close();
+//     return 1;
+// }

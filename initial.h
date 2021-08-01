@@ -12,6 +12,9 @@
 #include <ios>
 #include <iomanip>
 #include <math.h>
+#include <wchar.h>
+#include <locale.h>
+#include <errno.h>
 
 using std::atoi;
 using std::cin;

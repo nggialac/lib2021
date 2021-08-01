@@ -34,30 +34,45 @@ int x_DS[7] = {1, 29, 36, 55, 67, 74, 80};
 int x_DMS[4] = {2, 14, 29, 64};
 int x_MT[8] = {2, 30, 39, 55, 70, 88, 115, 132};
 
-const int so_item = 4;
-const int so_item_sub_dg = 5;
-const int so_item_sub_mt = 4;
-const int dong = 1;
+const int so_item = 3;
+// const int so_item_sub_dg = 5;
+const int so_item_sub_dg = 4;
+const int so_item_sub_mt = 3;
+const int dong = 50;
 const int cot = 0;
 // const int subDong = 1;
 const int Up = 72;
 const int Down = 80;
 
-char mainMenu[so_item][50] = {"1. Doc Gia                    ",
-                              "2. Muon tra sach              ",
-                              "3. Dau Sach & Danh muc        ",
-                              "4. Exit                       "};
+// char mainMenu[so_item][50] = {"1. Doc Gia                    ",
+//                               "2. Muon tra sach              ",
+//                               "3. Dau Sach & Danh muc        ",
+//                               "4. Exit                       "};
 
-char subMenuDG[so_item_sub_dg][50] = {"1. Chinh Sua Doc Gia             ",
-                                      "2. In Doc Gia theo Ten Ho        ",
-                                      "3. In Doc Gia theo Ma The        ",
-                                      "4. In Doc Gia qua han            ",
-                                      "5. Back                          "};
+// char subMenuDG[so_item_sub_dg][50] = {"1. Chinh Sua Doc Gia             ",
+//                                       "2. In Doc Gia theo Ten Ho        ",
+//                                       "3. In Doc Gia theo Ma The        ",
+//                                       "4. In Doc Gia qua han            ",
+//                                       "5. Back                          "};
 
-char subMenuMT[so_item_sub_mt][50] = {"1. Muon sach                            ",
-                                      "2. Tra Sach                             ",
-                                      "3. Top 10 sach co luot muon nhieu nhat  ",
-                                      "4. Back                                 "};
+// char subMenuMT[so_item_sub_mt][50] = {"1. Muon sach                            ",
+//                                       "2. Tra Sach                             ",
+//                                       "3. Top 10 sach co luot muon nhieu nhat  ",
+//                                       "4. Back                                 "};
+string keyMainMenu[4] = {"QUAN LY DAU SACH", "QUAN LY DOC GIA ", "QUAN LY SACH", "THOAT"};
+
+string keySubMainMenuDS[3] = {"   CAP NHAT DAU SACH   ",
+                              " HIEN THI CAC DAU SACH ",
+                              " CAP NHAT DANH MUC SACH "};
+
+string keySubMainMenuDG[4] = {"    CAP NHAT DOC GIA     ",
+                              "    DS DOC GIA THEO HO   ",
+                              " DS DOC GIA THEO MA THE  ",
+                              " DS DG MUON SACH QUA HAN "};
+
+string keySubMainMenuMT[3] = {"       TRA SACH       ",
+                              "       MUON SACH      ",
+                              " SACH MUON NHIEU NHAT "};
 
 void Normal()
 {
@@ -73,7 +88,7 @@ void HighLight()
 int MenuDong(char td[so_item][50])
 {
     Normal();
-    system("cls");
+    // system("cls");
     int chon = 0;
     int i;
     for (i = 0; i < so_item; i++)

@@ -9,6 +9,7 @@ int khoangCachNgay(DateTime nt1);
 
 //DS
 int soNgayQuaHan(listMuonTra lMT);
+void add_DS(ListDauSach listDS, pDauSach pDS);
 
 //DMS
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
