@@ -13,12 +13,12 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     {
         return NULL;
     }
-    dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
-    dg.ptrMuonTra.n = 0;
+    // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+    // dg.ptrMuonTra.n = 0;
 
     p->info = dg;
-    // p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
-    // p->info.ptrMuonTra.n=0;
+    p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
+    p->info.ptrMuonTra.n = 0;
     p->left = NULL;
     p->right = NULL;
     return (p);
@@ -48,12 +48,11 @@ int preorder_NodeDG_NLR(ptrNode_DocGia p)
         return 0;
     else
     {
-        count++;
-        cout << p->info.maThe << " ";
+        cout << " " << p->info.maThe;
         preorder_NodeDG_NLR(p->left);
         preorder_NodeDG_NLR(p->right);
     }
-    return count;
+    return 1;
 }
 
 int demDocGia(ptrNode_DocGia p)
@@ -64,9 +63,8 @@ int demDocGia(ptrNode_DocGia p)
     else
     {
         // count++;
-        cout << p->info.maThe << " ";
-        count += preorder_NodeDG_NLR(p->left);
-        count += preorder_NodeDG_NLR(p->right);
+        count += demDocGia(p->left);
+        count += demDocGia(p->right);
         return count;
     }
     // return count;
@@ -268,7 +266,7 @@ int readDG(ptrNode_DocGia &root)
     {
         fileIn >> countDG;
         // nNodeDocGia=countDG;
-        cout << countDG << endl;
+        // cout << countDG << endl;
         string temp;
         getline(fileIn, temp);
         string arr[10];
@@ -291,17 +289,18 @@ int readDG(ptrNode_DocGia &root)
             dg.phai = atoi(arr[3].c_str());
             dg.trangThai = atoi(arr[4].c_str());
 
-            cout << "\nMa the: ";
-            cout << dg.maThe;
+            // cout << "\nMa the: ";
+            // cout << dg.maThe;
 
-            insert_NodeDG_Load(root, dg);
+            // insert_NodeDG_Load(root, dg);
+            root = insert(root, dg);
             pNDG = layDG_NTDG(root, dg.maThe);
             // if(pNDG->info.ptrMuonTra.head->muonTra.isbn) cout<<"Head NULL";
 
             //Ma doc gia
             fileIn >> soSach;
-            cout << "\nSo sach: ";
-            cout << soSach << endl;
+            // cout << "\nSo sach: ";
+            // cout << soSach << endl;
             //
             getline(fileIn, temp);
             if (soSach == 0)
@@ -436,15 +435,21 @@ ptrNode_DocGia sortedArrayToBST(DocGia arr[],
     return root;
 }
 
-void treeToArr(ptrNode_DocGia p, DocGia *arr)
+int treeToArr(ptrNode_DocGia p, DocGia *arr, int indexDG)
 {
     // static int index = 0;
     if (p == NULL)
-        return;
+        return indexDG;
 
-    treeToArr(p->left, arr);
+    // treeToArr(p->left, arr, indexDG);
+    
+    // treeToArr(p->right, arr, indexDG);
+    if (p->left != NULL)
+        indexDG = treeToArr(p->left, arr, indexDG);
     arr[indexDG++] = p->info;
-    treeToArr(p->right, arr);
+    if (p->right != NULL)
+        indexDG = treeToArr(p->right, arr, indexDG);
+    return indexDG;
 }
 
 int taoRandom()
@@ -494,132 +499,144 @@ ptrNode_DocGia Rotate_Right(ptrNode_DocGia ya)
         ya->left = s->right;
         s->right = ya;
     }
-    return s;
+    return s; //tra ve node goc moi
 }
 
-void Insert(ptrNode_DocGia &pavltree, int x, DocGia a)
+int height(ptrNode_DocGia p)
 {
-    ptrNode_DocGia fp, p, q, // fp là nút cha của p, q là con của p
-        fya, ya,             /* ya là nút trước gần nhất có thể mất cân bằng
-                           	   fya là nút cha của ya */
-        s;                   // s là nút con của ya theo hướng mất cân bằng
-    int imbal;               /* imbal =  1 nếu bị lệch về nhánh trái
-                                 	   	  = -1 nếu bị lệch về nhánh phải */
-    // Khởi động các giá trị
-    fp = NULL;
-    p = pavltree;
-    fya = NULL;
-    ya = p;
-    // tim nut fp, ya va fya, nut moi them vao la nut la con cua nut fp
-    while (p != NULL)
-    {
-        if (x == p->key) // bi trung khoa
-            return;
-        if (x < p->key)
-            q = p->left;
-        else
-            q = p->right;
-        if (q != NULL)
-            if (q->bf != 0) // truong hop chi so can bang cua q la 1 hay -1
-            {
-                fya = p;
-                ya = q;
-            }
-        fp = p;
-        p = q;
-    }
-    // Thêm nút mới (nut la) la con cua nut fp
-    q = new NodeDocGia; // cấp phát vùng nhớ
-    q->key = x;
-    q->info = a;
-    q->bf = 0;
-    q->left = NULL;
-    q->right = NULL;
-    if (x < fp->key)
-        fp->left = q;
-    else
-        fp->right = q;
-    /*Hieu chinh chi so can bang cua tat ca cac nut giua ya va q, neu bi lech
-      ve phia trai thi chi so can bang cua tat ca cac nut giua ya va q deu la
-      1, neu bi lech ve phia phai thi chi so can bang cua tat ca cac nut giua
-      ya va q deu la -1 */
-    if (x < ya->key)
-        p = ya->left;
-    else
-        p = ya->right;
-    s = p; // s la con nut ya
-    while (p != q)
-    {
-        if (x < p->key)
-        {
-            p->bf = 1;
-            p = p->left;
-        }
-        else
-        {
-            p->bf = -1;
-            p = p->right;
-        }
-    }
-    // xac dinh huong lech
-    if (x < ya->key)
-        imbal = 1;
-    else
-        imbal = -1;
+    if (p == NULL)
+        return 0;
+    return p->height;
+}
 
-    if (ya->bf == 0)
+// A utility function to get maximum
+// of two integers
+int max(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+
+// Get Balance factor of node N
+int getBalance(ptrNode_DocGia p)
+{
+    if (p == NULL)
+        return 0;
+    return height(p->left) - height(p->right);
+}
+
+// A utility function to right
+// rotate subtree rooted with y
+// See the diagram given above.
+ptrNode_DocGia rightRotate(ptrNode_DocGia y)
+{
+    ptrNode_DocGia x = y->left;
+    ptrNode_DocGia T2 = x->right;
+
+    // Perform rotation
+    x->right = y;
+    y->left = T2;
+
+    // Update heights
+    y->height = max(height(y->left),
+                    height(y->right)) +
+                1;
+    x->height = max(height(x->left),
+                    height(x->right)) +
+                1;
+
+    // Return new root
+    return x;
+}
+
+// A utility function to left
+// rotate subtree rooted with x
+// See the diagram given above.
+ptrNode_DocGia leftRotate(ptrNode_DocGia x)
+{
+    ptrNode_DocGia y = x->right;
+    ptrNode_DocGia T2 = y->left;
+
+    // Perform rotation
+    y->left = x;
+    x->right = T2;
+
+    // Update heights
+    x->height = max(height(x->left),
+                    height(x->right)) +
+                1;
+    y->height = max(height(y->left),
+                    height(y->right)) +
+                1;
+
+    // Return new root
+    return y;
+}
+
+ptrNode_DocGia newNode(DocGia dg)
+{
+    ptrNode_DocGia node = new NodeDocGia();
+    node->info.ptrMuonTra.head = node->info.ptrMuonTra.tail = NULL;
+    node->info.ptrMuonTra.n = 0;
+    node->left = NULL;
+    node->right = NULL;
+    node->info = dg;
+    ++nNodeDocGia;
+
+    node->height = 1; // new node is initially
+                      // added at leaf
+    return (node);
+}
+
+// Recursive function to insert a key
+// in the subtree rooted with node and
+// returns the new root of the subtree.
+ptrNode_DocGia insert(ptrNode_DocGia node, DocGia dg)
+{
+    /* 1. Perform the normal BST insertion */
+    if (node == NULL)
+        return (newNode(dg));
+
+    if (dg.maThe < node->info.maThe)
+        node->left = insert(node->left, dg);
+    else if (dg.maThe > node->info.maThe)
+        node->right = insert(node->right, dg);
+    else // Equal keys are not allowed in BST
+        return node;
+
+    /* 2. Update height of this ancestor node */
+    node->height = 1 + max(height(node->left),
+                           height(node->right));
+
+    /* 3. Get the balance factor of this ancestor
+        node to check whether this node became
+        unbalanced */
+    int balance = getBalance(node);
+
+    // If this node becomes unbalanced, then
+    // there are 4 cases
+
+    // Left Left Case
+    if (balance > 1 && dg.maThe < node->left->info.maThe)
+        return rightRotate(node);
+
+    // Right Right Case
+    if (balance < -1 && dg.maThe > node->right->info.maThe)
+        return leftRotate(node);
+
+    // Left Right Case
+    if (balance > 1 && dg.maThe > node->left->info.maThe)
     {
-        ya->bf = imbal;
-        return;
-    }
-    if (ya->bf != imbal)
-    {
-        ya->bf = 0;
-        return;
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
     }
 
-    if (s->bf == imbal) // Truong hop xoay don
+    // Right Left Case
+    if (balance < -1 && dg.maThe < node->right->info.maThe)
     {
-        if (imbal == 1) // xoay phai
-            p = Rotate_Right(ya);
-        else // xoay trai
-            p = Rotate_Left(ya);
-        ya->bf = 0;
-        s->bf = 0;
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
     }
-    else // Truong hop xoay kep
-    {
-        if (imbal == 1) // xoay kep trai-phai
-        {
-            ya->left = Rotate_Left(s);
-            p = Rotate_Right(ya);
-        }
-        else // xoay kep phai-trai -
-        {
-            ya->right = Rotate_Right(s);
-            p = Rotate_Left(ya);
-        }
-        if (p->bf == 0) // truong hop p la nut moi them vao
-        {
-            ya->bf = 0;
-            s->bf = 0;
-        }
-        else if (p->bf == imbal)
-        {
-            ya->bf = -imbal;
-            s->bf = 0;
-        }
-        else
-        {
-            ya->bf = 0;
-            s->bf = imbal;
-        }
-        p->bf = 0;
-    }
-    if (fya == NULL)
-        pavltree = p;
-    else if (ya == fya->right)
-        fya->right = p;
-    else
-        fya->left = p;
+
+    /* return the (unchanged) node pointer */
+    return node;
 }

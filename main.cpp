@@ -8,9 +8,9 @@
 
 // int x_MainMenus[5] = { 8,26,52, 81,105 };
 int y_MainMenus[4] = {16, 19, 22, 25};
-int y_SMainMenusDS[3] = {16, 19, 22};
-int y_SMainMenusDG[3] = {16, 19, 22};
-int y_SMainMenusMT[3] = {16, 19, 22};
+int y_SMainMenusDS[4] = {16, 19, 22, 25};
+int y_SMainMenusDG[5] = {16, 19, 22, 25, 28};
+int y_SMainMenusMT[4] = {16, 19, 22, 25};
 
 void taoBox(int x, int y, string text, int length)
 {
@@ -177,17 +177,20 @@ void ManHinhChinh()
     SetColor(WHITE);
     SetBGColor(BLACK);
 
-    for (int doc = 10; doc < 25; doc++)
+    gotoxy(10, 12);
+    cout<< "__MENU__";
+
+    for (int doc = 10; doc < 33; doc++)
     {
         gotoxy(30, doc);
-        cout << "||";
+        cout << char(185);
     }
     for (int ngang = 0; ngang < 30; ngang++)
     {
         gotoxy(ngang, 10);
-        cout << "=";
-        gotoxy(ngang, 15 + 14);
-        cout << "=";
+        cout << char(204);
+        gotoxy(ngang, 18 + 14);
+        cout << char(204);
     }
 
     string text;
@@ -287,15 +290,14 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
     temp = DocFile_DS(listDS);
     if (temp > 0)
         cout << "Read file DS success!" << endl;
-    system("pause");
+    // system("pause");
     DocGia dg;
-    DocGia *arr;
+
     clrscr();
 
     while (1)
     {
         ManHinhChinh();
-
         while (1)
         {
 
@@ -319,11 +321,12 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
         switch (chon)
         {
         case 0:
-
             // create_Tree(tree);
-            SMainMenuDG(keySubMainMenuDG, 4);
+            SMainMenuDG(keySubMainMenuDG, 5);
             // chonSub = SubMenuDong(subMenuDG, so_item_sub_dg);
-            chonSub = ChonSMenu(keySubMainMenuDG, x_SMainMenusDG, y_SMainMenusDG, 3);
+            chonSub = ChonSMenu(keySubMainMenuDG, x_SMainMenusDG, y_SMainMenusDG, 5);
+            DocGia *arr;
+            int indexDG;
             switch (chonSub)
             {
             case 0:
@@ -332,29 +335,25 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 system("pause");
                 break;
             case 1:
+                clrscr();
+                indexDG = 0;
                 arr = new DocGia[nNodeDocGia];
-                treeToArr(tree, arr);
+                treeToArr(tree, arr, indexDG);
                 sort_DG(arr, 0, nNodeDocGia - 1);
-                for (int i = 0; i < nNodeDocGia; i++)
-                {
-                    cout << arr[i].maThe << endl;
-                    cout << arr[i].ho << endl;
-                    cout << arr[i].ten << endl;
-                }
+                ve_DG(keyDisplayDG, 5, x_DG);
+                xuat_ListDG_1(tree, arr);
                 system("pause");
                 delete[] arr;
                 break;
 
             case 2:
+                clrscr();
                 indexDG = 0;
                 arr = new DocGia[nNodeDocGia];
-                treeToArr(tree, arr);
-                for (int i = 0; i < nNodeDocGia; i++)
-                {
-                    cout << arr[i].maThe << " ";
-                    cout << arr[i].ho << " ";
-                    cout << arr[i].ten << " ";
-                }
+                treeToArr(tree, arr, indexDG);
+                // sort_DG(arr, 0, nNodeDocGia - 1);
+                ve_DG(keyDisplayDG, 5, x_DG);
+                xuat_ListDG_1(tree, arr);
                 system("pause");
                 delete[] arr;
                 break;
@@ -388,8 +387,8 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             }
             break;
         case 2:
-            SMainMenuMT(keySubMainMenuMT, 3);
-            chonSub = ChonSMenu(keySubMainMenuMT, x_SMainMenusMT, y_SMainMenusMT, 3);
+            SMainMenuMT(keySubMainMenuMT, 4);
+            chonSub = ChonSMenu(keySubMainMenuMT, x_SMainMenusMT, y_SMainMenusMT, 4);
             switch (chonSub)
             {
             case 0:
@@ -410,19 +409,17 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             case so_item_sub_mt:
                 break;
             }
-            system("pause");
             break;
 
         case so_item:
-
             boolean isSave = writeFile_DG(tree);
-            gotoxy(10, 20);
-            (isSave ? cout << "Da save DG!" : cout << "That bai");
+            // gotoxy(10, 20);
+            // (isSave ? cout << "Da save DG!" : cout << "That bai");
             //boolean isSave1 = Save_DS(listDS);
             int isSave1 = GhiFile_DS(listDS);
-            gotoxy(15, 20);
-            (isSave1 ? cout << "Da save DG!" : cout << "That bai");
-            break;
+            // gotoxy(15, 20);
+            // (isSave1 ? cout << "Da save DG!" : cout << "That bai");
+            return;
         }
         Sleep(500);
     }

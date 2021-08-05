@@ -47,7 +47,7 @@ void Nhap(int &result, int choice, int &tienTrinh, bool &isSave, bool &isEscape)
 		while (_kbhit())
 		{
 			int kb_hit = _getch();
-			if ((kb_hit == 48 || kb_hit == 49) && count < 1)
+			if ((kb_hit == 48 || kb_hit == 49) && count < 1) //0 || 1
 			{
 				count++;
 				result = kb_hit - 48;

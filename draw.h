@@ -59,20 +59,22 @@ const int Down = 80;
 //                                       "2. Tra Sach                             ",
 //                                       "3. Top 10 sach co luot muon nhieu nhat  ",
 //                                       "4. Back                                 "};
-string keyMainMenu[4] = {"QUAN LY DAU SACH", "QUAN LY DOC GIA ", "QUAN LY SACH", "THOAT"};
+string keyMainMenu[4] = {"QUAN LY DOC GIA", "QUAN LY DAU SACH ", "QUAN LY MUON TRA SACH", "THOAT"};
 
 string keySubMainMenuDS[3] = {"   CAP NHAT DAU SACH   ",
                               " HIEN THI CAC DAU SACH ",
                               " CAP NHAT DANH MUC SACH "};
 
-string keySubMainMenuDG[4] = {"    CAP NHAT DOC GIA     ",
+string keySubMainMenuDG[5] = {"    CAP NHAT DOC GIA     ",
                               "    DS DOC GIA THEO HO   ",
                               " DS DOC GIA THEO MA THE  ",
-                              " DS DG MUON SACH QUA HAN "};
+                              " DS DG MUON SACH QUA HAN ",
+                              "          BACK           "};
 
-string keySubMainMenuMT[3] = {"       TRA SACH       ",
-                              "       MUON SACH      ",
-                              " SACH MUON NHIEU NHAT "};
+string keySubMainMenuMT[4] = {"      MUON SACH       ",
+                              "       TRA SACH       ",
+                              " SACH MUON NHIEU NHAT ",
+                              "         BACK         "};
 
 void Normal()
 {
@@ -1255,11 +1257,11 @@ void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach)
     ptrNode_DocGia nodeTemp;
 
 label:
-    indexDG = 0;
-    cout << nNodeDocGia;
+    int index;
+    // cout << nNodeDocGia;
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
-    cout << root->info.maThe;
-    treeToArr(root, ArrTenHo);
+    // cout << root->info.maThe;
+    treeToArr(root, ArrTenHo, index);
     ve_DG(keyDisplayDG, 5, x_DG);
     // sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(root, ArrTenHo);
@@ -1658,9 +1660,9 @@ void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS)
 
 label:
     SetBGColor(BLACK);
-    indexDG = 0;
+    int index = 0;
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
-    treeToArr(t, ArrTenHo);
+    treeToArr(t, ArrTenHo, index);
     ve_DG(keyDisplayDG, 5, x_DG);
     // sort_DG(ArrTenHo, 0, nNodeDocGia - 1);
     xuat_ListDG_MT(t, ArrTenHo);
@@ -1992,11 +1994,11 @@ void capNhat_DG(ptrNode_DocGia &t, DocGia &dg, bool isEdited)
             break;
         case 2:
             gotoxy((x_DG[5] + 7 + nngang / 2), positionY + 9);
-            Nhap(phai, NHAP_PHAI, trinhTu, isSave, isEscape);
+            Nhap(phai, 0, trinhTu, isSave, isEscape);
             break;
         case 3:
             gotoxy((x_DG[5] + 7 + nngang / 2), positionY + 11);
-            Nhap(ttthe, NHAP_TRANG_THAI, trinhTu, isSave, isEscape);
+            Nhap(ttthe, 1, trinhTu, isSave, isEscape);
             break;
         }
         if (isSave)
@@ -2058,7 +2060,9 @@ void capNhat_DG(ptrNode_DocGia &t, DocGia &dg, bool isEdited)
                 // nNodeDocGia+=1;
                 // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
                 // dg.ptrMuonTra.n = 0;
-                insert_NodeDG_Load(t, dg);
+                // insert_NodeDG_Load(t, dg);
+                // insertAVL(t, dg);
+                t = insert(t, dg);
             }
             for (int i = 0; i < 5; i++)
             {
@@ -2184,6 +2188,45 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
     } while (true);
 }
 
+void xuat_ListDG_1(ptrNode_DocGia t, DocGia *arr)
+{
+    ShowCur(false);
+    // nDG = demDocGia(t);
+    // thu tu trang
+    int tttrang, tongtrang;
+    tttrang = 1;
+    tongtrang = (nNodeDocGia / NUMBER_LINES) + 1;
+    xuat_DG_Page1(t, arr, tttrang);
+
+    int kb_hit;
+    do
+    {
+        if (_kbhit())
+        {
+            kb_hit = _getch();
+            if (kb_hit == 224 || kb_hit == 0)
+                kb_hit = _getch();
+            switch (kb_hit)
+            {
+            case PAGE_UP:
+                (tttrang > 1) ? tttrang-- : tttrang = tongtrang;
+                xuat_DG_Page1(t, arr, tttrang);
+                break;
+            case PAGE_DOWN:
+                (tttrang < tongtrang) ? tttrang++ : tttrang = 1;
+                xuat_DG_Page1(t, arr, tttrang);
+                break;
+            case ESC:
+                return;
+            }
+        }
+        gotoxy(3, 35);
+        cout << "HotKey: PgUp, PgDn, ESC";
+        gotoxy(55, 1);
+        cout << "Page: " << tttrang << "/" << tongtrang;
+    } while (true);
+}
+
 void Menu_DocGia(ptrNode_DocGia &t)
 {
     clrscr();
@@ -2204,15 +2247,15 @@ void Menu_DocGia(ptrNode_DocGia &t)
         SetBGColor(BLACK);
 
         DocGia dg;
-        indexDG = 0;
-        cout << "So node: " << nNodeDocGia;
-        DocGia *arr = new DocGia[nNodeDocGia];
-        treeToArr(t, arr);
+        int index = 0;
+        // cout << "So node: " << nNodeDocGia;
+        DocGia *arr = new DocGia[demDocGia(t)];
+        treeToArr(t, arr, index);
 
         // sort_DG(arr, 0, nNodeDocGia - 1);
         // t = sortedArrayToBST(arr, 0, nNodeDocGia - 1);
-        cout << "preorder: ";
-        cout << preorder_NodeDG_NLR(t);
+        // cout << "preorder: ";
+        // cout << preorder_NodeDG_NLR(t);
 
         ve_DG(keyDisplayDG, 5, x_DG);
         esc = xuat_ListDG(t, arr, dg, tttrang);
@@ -2226,10 +2269,10 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
     clrscr();
 
     // int soDG = demDocGia(t);
-    indexDG = 0;
+    int index = 0;
     DocGia *arr = new DocGia[nNodeDocGia];
-    treeToArr(t, arr);
-    // sort_DG(arr, 0, soDG - 1);
+    treeToArr(t, arr, index);
+    sort_DG(arr, 0, nNodeDocGia - 1);
     //
     string text = "Danh Sach Doc Gia Muon Qua Han ";
     //taoBox(48, 2, text, (int)text.length());

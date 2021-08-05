@@ -24,6 +24,8 @@ int traverse_DMS(ptrNode_DanhMucSach First);
 void initialize_NodeDG(ptrNode_DocGia &root);
 //cay nhi phan tim kiem, lam sao de tu sinh ma cay van can bang?
 void insert_NodeDG(ptrNode_DocGia &p, DocGia dg, int x); //!cay nhi phan tim kiem
+void insertAVL(ptrNode_DocGia &pavltree, DocGia a);
+ptrNode_DocGia insert(ptrNode_DocGia node, DocGia dg);
 
 void create_Tree(ptrNode_DocGia &root);
 
