@@ -223,7 +223,7 @@ int writeFile_DG(ptrNode_DocGia &root)
     fileOut.open("DG.txt", ios::out);
     if (fileOut.is_open())
     {
-        fileOut << nNodeDocGia << endl;
+        fileOut << demDocGia(root) << endl;
         writeFile_NodeDG(root, fileOut);
     }
     else
@@ -574,17 +574,25 @@ ptrNode_DocGia leftRotate(ptrNode_DocGia x)
 
 ptrNode_DocGia newNode(DocGia dg)
 {
-    ptrNode_DocGia node = new NodeDocGia();
-    node->info.ptrMuonTra.head = node->info.ptrMuonTra.tail = NULL;
-    node->info.ptrMuonTra.n = 0;
-    node->left = NULL;
-    node->right = NULL;
-    node->info = dg;
+    ptrNode_DocGia p = new NodeDocGia();
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+    // dg.ptrMuonTra.n = 0;
+
+    p->info = dg;
+    p->info.ptrMuonTra.head = NULL;
+    p->info.ptrMuonTra.tail = NULL;
+    p->info.ptrMuonTra.n = 0;
+    p->left = NULL;
+    p->right = NULL;
     ++nNodeDocGia;
 
-    node->height = 1; // new node is initially
+    p->height = 1; // new node is initially
                       // added at leaf
-    return (node);
+    return (p);
 }
 
 // Recursive function to insert a key
@@ -639,4 +647,123 @@ ptrNode_DocGia insert(ptrNode_DocGia node, DocGia dg)
 
     /* return the (unchanged) node pointer */
     return node;
+}
+
+/* Given a non-empty binary search tree,
+return the node with minimum key value
+found in that tree. Note that the entire
+tree does not need to be searched. */
+ptrNode_DocGia minValueNode(ptrNode_DocGia node)
+{
+    ptrNode_DocGia current = node;
+ 
+    /* loop down to find the leftmost leaf */
+    while (current->left != NULL)
+        current = current->left;
+ 
+    return current;
+}
+
+ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg)
+{
+     
+    // STEP 1: PERFORM STANDARD BST DELETE
+    if (root == NULL)
+        return root;
+ 
+    // If the key to be deleted is smaller
+    // than the root's key, then it lies
+    // in left subtree
+    if ( dg.maThe < root->info.maThe )
+        root->left = deleteNode(root->left, dg);
+ 
+    // If the key to be deleted is greater
+    // than the root's key, then it lies
+    // in right subtree
+    else if( dg.maThe > root->info.maThe )
+        root->right = deleteNode(root->right, dg);
+ 
+    // if key is same as root's key, then
+    // This is the node to be deleted
+    else
+    {
+        // node with only one child or no child
+        if( (root->left == NULL) ||
+            (root->right == NULL) )
+        {
+            ptrNode_DocGia temp = root->left ?
+                         root->left :
+                         root->right;
+ 
+            // No child case
+            if (temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else // One child case
+            *root = *temp; // Copy the contents of
+                           // the non-empty child
+            free(temp);
+        }
+        else
+        {
+            // node with two children: Get the inorder
+            // successor (smallest in the right subtree)
+            ptrNode_DocGia temp = minValueNode(root->right);
+ 
+            // Copy the inorder successor's
+            // data to this node
+            root->info = temp->info;
+ 
+            // Delete the inorder successor
+            root->right = deleteNode(root->right,
+                                     temp->info);
+        }
+    }
+ 
+    // If the tree had only one node
+    // then return
+    if (root == NULL)
+        return root;
+ 
+    // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
+    root->height = 1 + max(height(root->left),
+                           height(root->right));
+ 
+    // STEP 3: GET THE BALANCE FACTOR OF
+    // THIS NODE (to check whether this
+    // node became unbalanced)
+    int balance = getBalance(root);
+ 
+    // If this node becomes unbalanced,
+    // then there are 4 cases
+ 
+    // Left Left Case
+    if (balance > 1 &&
+        getBalance(root->left) >= 0)
+        return rightRotate(root);
+ 
+    // Left Right Case
+    if (balance > 1 &&
+        getBalance(root->left) < 0)
+    {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+ 
+    // Right Right Case
+    if (balance < -1 &&
+        getBalance(root->right) <= 0)
+        return leftRotate(root);
+ 
+    // Right Left Case
+    if (balance < -1 &&
+        getBalance(root->right) > 0)
+    {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+ 
+    return root;
 }

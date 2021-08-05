@@ -2173,7 +2173,8 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
                 else
                 {
 
-                    check = remove_NodeDG(t, arr[choose]);
+                    // check = remove_NodeDG(t, arr[choose]);
+                    t = deleteNode(t, arr[choose]);
                     delete[] arr;
                     return 1;
                 }
