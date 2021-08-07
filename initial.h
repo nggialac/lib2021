@@ -28,7 +28,7 @@ using std::setfill;
 using std::setw;
 
 
-extern int nNodeDocGia = 0;
+// extern int nNodeDocGia = 0;
 extern int MAX_RAND = 500;
 extern int toaDo = 0;
 

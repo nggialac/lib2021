@@ -1,6 +1,5 @@
 #include "mylib.h"
 #include "DG.h"
-#include "DMS.h"
 #include "DateTime.h"
 #include "DS.h"
 #include "preInput.h"
@@ -22,11 +21,21 @@ string keyBangNhapDG[13] = {
     "                                                            ",
     " Ten Doc Gia  :",
     "                                                            ",
-    " Phai [0, 1]  :",
+    " Phai  :",
     "                                                            ",
-    " TT the [0, 1]:",
+    " TT the :",
     "                                                            ",
     "                                                            ",
+};
+
+string keyBangNhapDanhMucSach[8] = { "                    Cap Nhat Danh Muc Sach                   ",
+									"                                                                   ",
+									" Ma Sach           :",
+									"                                                                   ",
+									" Trang Thai(0,1,2) :",
+									"                                                                   ",
+									" Vi tri cua sach   :",
+									"                                                                   "
 };
 
 int x_DG[6] = {3, 13, 32, 43, 53, 65};
@@ -37,7 +46,7 @@ int x_MT[8] = {2, 30, 39, 55, 70, 88, 115, 132};
 const int so_item = 3;
 // const int so_item_sub_dg = 5;
 const int so_item_sub_dg = 4;
-const int so_item_sub_mt = 3;
+const int so_item_sub_mt = 4;
 const int dong = 50;
 const int cot = 0;
 // const int subDong = 1;
@@ -85,6 +94,16 @@ void HighLight()
 {
     SetColor(15);
     SetBGColor(2);
+}
+
+void taoBox(int x, int y, string text, int length)
+{
+    gotoxy(x - 2, y - 1);
+    cout << char(218) << setw(length) << setfill(char(196)) << char(196) << char(191);
+    gotoxy(x - 2, y);
+    cout << char(179) << text << setw(length - text.length() + 1) << setfill(' ') << char(179);
+    gotoxy(x - 2, y + 1);
+    cout << char(192) << setw(length) << setfill(char(196)) << char(196) << char(217);
 }
 
 int MenuDong(char td[so_item][50])
@@ -390,6 +409,7 @@ void xuat_DG_Page1(ptrNode_DocGia t, DocGia *arr, int index)
         return;
     else
     {
+        int nNodeDocGia = demDocGia(t);
         for (int i = NUMBER_LINES * index; i < NUMBER_LINES * (1 + index) && i < nNodeDocGia; i++)
         {
             temp = layDG_NTDG(t, arr[i].maThe);
@@ -402,7 +422,8 @@ void xuat_ListDG_MT(ptrNode_DocGia t, DocGia *arr)
 {
     ShowCur(false);
     SetBGColor(BLACK);
-    // nNodeDocGia = demDG(t);
+
+    int nNodeDocGia = demDocGia(t);
     // thu tu trang
     int thuTuTrang, tongtrang;
     thuTuTrang = 1;
@@ -1259,6 +1280,7 @@ void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach)
 label:
     int index;
     // cout << nNodeDocGia;
+    int nNodeDocGia = demDocGia(root);
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
     // cout << root->info.maThe;
     treeToArr(root, ArrTenHo, index);
@@ -1661,6 +1683,7 @@ void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS)
 label:
     SetBGColor(BLACK);
     int index = 0;
+    int nNodeDocGia = demDocGia(t);
     DocGia *ArrTenHo = new DocGia[nNodeDocGia];
     treeToArr(t, ArrTenHo, index);
     ve_DG(keyDisplayDG, 5, x_DG);
@@ -1831,6 +1854,28 @@ void ve_BangNhap(int x, int y, int nngang, int nkey)
 
     SetColor(WHITE);
     SetBGColor(BLACK);
+}
+
+void ve_BangNhap_DS(int x, int y, int nngang, string key[], int nkey)
+{
+    int i;
+    SetBGColor(BLACK);
+    SetColor(WHITE);
+    for (i = 0; i < nkey + 2; i++)
+    {
+        gotoxy(x, y + i);
+        if (i == 0)
+        {
+            cout << " ";
+        }
+        else
+        {
+            cout << key[i - 1];
+            gotoxy(x + nngang, y + i);
+        }
+    }
+    SetBGColor(BLACK);
+    SetColor(WHITE);
 }
 
 int chonItems(ptrNode_DocGia &t, DocGia *&arr, int tttrang, int tongtrang)
@@ -2098,6 +2143,7 @@ void xuat_DG_Page(ptrNode_DocGia t, DocGia *arr, int index)
         return;
     else
     {
+        int nNodeDocGia = demDocGia(t);
         for (int i = NUMBER_LINES * index; i < NUMBER_LINES * (1 + index) && i < nNodeDocGia; i++)
         {
             temp = layDG_NTDG(t, arr[i].maThe);
@@ -2115,6 +2161,7 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
     bool check;
     // thu tu trang
     int tongtrang;
+    int nNodeDocGia = demDocGia(t);
     tongtrang = (nNodeDocGia / NUMBER_LINES) + 1;
     xuat_DG_Page(t, arr, thuTuTrang);
     int kb_hit;
@@ -2194,6 +2241,7 @@ void xuat_ListDG_1(ptrNode_DocGia t, DocGia *arr)
     ShowCur(false);
     // nDG = demDocGia(t);
     // thu tu trang
+    int nNodeDocGia = demDocGia(t);
     int tttrang, tongtrang;
     tttrang = 1;
     tongtrang = (nNodeDocGia / NUMBER_LINES) + 1;
@@ -2271,6 +2319,7 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
 
     // int soDG = demDocGia(t);
     int index = 0;
+    int nNodeDocGia = demDocGia(t);
     DocGia *arr = new DocGia[nNodeDocGia];
     treeToArr(t, arr, index);
     sort_DG(arr, 0, nNodeDocGia - 1);
@@ -2374,4 +2423,1306 @@ void do_Top10(ListDauSach lDS)
 
     // ve_Top10(keyDisplayTop10, 3, 5, j + 2);
     _getch();
+}
+
+//DAUSACH
+
+void dong_DS(ListDauSach listDS, int i)
+{
+    int y = 6 + i;
+    gotoxy(0, y);
+    cout << "| " << listDS.nodes[i]->isbn;
+    gotoxy(11, y);
+    cout << "| " << listDS.nodes[i]->tenSach;
+    gotoxy(50, y);
+    cout << "| " << listDS.nodes[i]->tacGia;
+    gotoxy(68, y);
+    cout << "| " << listDS.nodes[i]->theLoai;
+    gotoxy(85, y);
+    cout << "|  " << listDS.nodes[i]->namXuatBan;
+    gotoxy(98, y);
+    cout << "|  " << listDS.nodes[i]->soTrang;
+    gotoxy(107, y);
+    cout << "|  " << listDS.nodes[i]->soLanMuon;
+    gotoxy(119, y);
+    cout << "|";
+}
+void ve_DMS(DauSach ds)
+{
+    Normal();
+    system("cls");
+    gotoxy(50, 0);
+    cout << "THONG TIN DAU SACH" << endl;
+    cout << "                                ISBN: " << ds.isbn << endl;
+    cout << "                                TEN SACH: " << ds.tenSach << endl;
+    cout << "                                TAC GIA: " << ds.tacGia << endl;
+    cout << "                                THE LOAI: " << ds.theLoai << endl;
+    cout << "                                NAM XUAT BAN: " << ds.namXuatBan << endl;
+    cout << "                                SO TRANG: " << ds.soTrang << endl;
+    cout << "                                SO LAN MOUN: " << ds.soLanMuon;
+    if (ds.ptrDMS.n == 0)
+        cout << endl
+             << "          DAU SACH NAY CHUA CO SACH" << endl;
+    else
+    {
+        gotoxy(50, 8);
+        cout << "DANH MUC SACH";
+        gotoxy(11 + 20, 9);
+        for (int i = 0; i < 57; i++)
+            cout << "-";
+        gotoxy(11 + 20, 10);
+        cout << "|     MA SACH     |      VI TRI      |    TRANG THAI    |";
+        gotoxy(11 + 20, 11);
+        for (int i = 0; i < 57; i++)
+            cout << "-";
+        int y = 12;
+        ptrNode_DanhMucSach p = ds.ptrDMS.FirstNode_DanhMucSach;
+        for (p; p != NULL; p = p->next)
+        {
+            gotoxy(0 + 11 + 20, y);
+            cout << "| " << p->danhMucSach.maSach;
+            gotoxy(18 + 11 + 20, y);
+            cout << "| " << p->danhMucSach.viTri;
+            gotoxy(37 + 11 + 20, y);
+            cout << "| ";
+            cout << "        " << p->danhMucSach.trangThai << "        |";
+            y++;
+        }
+        cout << endl
+             << "                               ";
+        for (int i = 0; i < 57; i++)
+            cout << "-";
+    }
+    cout << endl
+         << "          ESC: Tro lai F2: Luu";
+    char t;
+    do
+    {
+        t = getch();
+    } while (t != 27);
+    return;
+}
+int Them_DS(ListDauSach &listDS)
+{
+    Normal();
+    system("cls");
+    DauSach ds;
+    cout << "ISBN: ";
+    cin >> ds.isbn;
+    cout << "TEN SACH: ";
+    cin >> ds.tenSach;
+    cout << "TAC GIA: ";
+    cin >> ds.tacGia;
+    cout << "THE LOAI: ";
+    cin >> ds.theLoai;
+    cout << "NAM XUAT BAN: ";
+    cin >> ds.namXuatBan;
+    cout << "SO TRANG: ";
+    cin >> ds.soTrang;
+    cout << "SO LAN MUON: ";
+    cin >> ds.soLanMuon;
+    pDauSach pDS;
+    pDS = new DauSach;
+    *(pDS) = ds;
+    if (Search_isbn(listDS, ds.isbn) == -1)
+    {
+        if (Insert_DS(listDS, pDS) == 1)
+            cout << "Them thanh cong";
+        initializeListNode_DMS(pDS->ptrDMS);
+        Sleep(3000);
+        return 1;
+    }
+    else
+    {
+        cout << endl
+             << "MA ISBN DA TON TAI!";
+        Sleep(3000);
+        return 0;
+    }
+}
+void DanhSachDS(ListDauSach listDS)
+{
+    Normal();
+    system("cls");
+    gotoxy(50, 1);
+    cout << "DANH SACH CAC DAU SACH";
+    gotoxy(0, 3);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    gotoxy(0, 4);
+    cout << "|   ISBN   |              TEN SACH                |     TAC GIA     |    THE LOAI    |NAM XUAT BAN|SO TRANG|SO LAN MUON|";
+    gotoxy(0, 5);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    for (int i = 0; i < listDS.n; i++)
+        dong_DS(listDS, i);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    cout << endl
+         << " ESC: Tro lai     Insert: Them      F2: Luu      Delete: Xoa     Enter: Xem DMS";
+    char kytu;
+    int chon = 0;
+    HighLight();
+    gotoxy(1, 6);
+    cout << "          ";
+    gotoxy(2, 6);
+    cout << listDS.nodes[chon]->isbn;
+    char t;
+    do
+    {
+        t = getch();
+        if (t == 0)
+            t = getch();
+        switch (t)
+        {
+        case Up:
+            if (chon + 1 > 1)
+            {
+                Normal();
+                gotoxy(1, 6 + chon);
+                cout << "          ";
+                gotoxy(2, 6 + chon);
+                cout << listDS.nodes[chon]->isbn;
+                chon--;
+                HighLight();
+                gotoxy(1, 6 + chon);
+                cout << "          ";
+                gotoxy(2, 6 + chon);
+                cout << listDS.nodes[chon]->isbn;
+            }
+            break;
+        case Down:
+            if (chon + 1 < listDS.n)
+            {
+                Normal();
+                gotoxy(1, 6 + chon);
+                cout << "          ";
+                gotoxy(2, 6 + chon);
+                cout << listDS.nodes[chon]->isbn;
+                chon++;
+                HighLight();
+                gotoxy(1, 6 + chon);
+                cout << "          ";
+                gotoxy(2, 6 + chon);
+                cout << listDS.nodes[chon]->isbn;
+            }
+            break;
+        case 61: //delete
+        {
+            Normal();
+            gotoxy(0, listDS.n + 6 + 2);
+            cout << endl
+                 << "BAN THUC SU MUON XOA DAU SACH NAY?";
+            cout << endl
+                 << "OK        CANCEL";
+            HighLight();
+            gotoxy(0, listDS.n + 6 + 4);
+            cout << "OK";
+            char t2;
+            int cot = 1;
+            do
+            {
+                t2 = getch();
+                if (t2 == 0)
+                    t2 = getch();
+                switch (t2)
+                {
+                case 75: //left
+                    if (cot == 2)
+                    {
+                        Normal();
+                        gotoxy(10, listDS.n + 6 + 4);
+                        cout << "CANCEL";
+                        cot--;
+                        HighLight();
+                        gotoxy(0, listDS.n + 6 + 4);
+                        cout << "OK";
+                    }
+                    break;
+                case 77: //right
+                    if (cot == 1)
+                    {
+                        Normal();
+                        gotoxy(0, listDS.n + 6 + 4);
+                        cout << "OK";
+                        cot++;
+                        HighLight();
+                        gotoxy(10, listDS.n + 6 + 4);
+                        cout << "CANCEL";
+                    }
+                    break;
+                case 13:
+                {
+                    if (cot == 1)
+                        Delete_DS(listDS, chon);
+                    // ghi file nua
+                    DanhSachDS(listDS);
+                }
+                break;
+                }
+
+            } while (1);
+        }
+        break;
+        case 59:
+        {
+            if (Them_DS(listDS) == 1)
+                GhiFile_DS(listDS);
+            DanhSachDS(listDS);
+        }
+        break;
+        case 13: //enter
+            ve_DMS(*listDS.nodes[chon]);
+            break;
+        case 27:
+            return;
+            break;
+        }
+    } while (1);
+}
+void ve_TopDS(ListDauSach listDS)
+{
+    ListDauSach top = Top10_DS(listDS);
+    Normal();
+    system("cls");
+    gotoxy(50, 1);
+    cout << "TOP DAU SACH MUON NHIEU NHAT";
+    gotoxy(0, 3);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    gotoxy(0, 4);
+    cout << "|   ISBN   |              TEN SACH                |     TAC GIA     |    THE LOAI    |NAM XUAT BAN|SO TRANG|SO LAN MUON|";
+    gotoxy(0, 5);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    for (int i = 0; i < 10 && i < top.n; i++)
+    {
+        if (top.nodes[i]->soLanMuon > 0)
+            dong_DS(top, i);
+        else
+            break;
+    }
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    cout << endl
+         << " ESC: Tro lai";
+    char t;
+    do
+    {
+        t = getch();
+    } while (t != 27);
+    return;
+}
+void TimSach(ListDauSach listDS, string mten)
+{
+    Normal();
+    system("cls");
+    ListDauSach A;
+    A.n = 0;
+    for (int i = 0; i < listDS.n; i++)
+        if (strstr(listDS.nodes[i]->tenSach.c_str(), mten.c_str()) != NULL)
+        {
+            Insert_DS(A, listDS.nodes[i]);
+        }
+    if (A.n == 0)
+    {
+        gotoxy(50, 1);
+        cout << "KHONG CO SACH CAN TIM!";
+    }
+    else
+    {
+        gotoxy(50, 1);
+        cout << "SACH CAN TIM";
+        gotoxy(0, 3);
+        for (int i = 0; i < 119; i++)
+            cout << "-";
+        gotoxy(0, 4);
+        cout << "|   ISBN   |              TEN SACH                |     TAC GIA     |    THE LOAI    |NAM XUAT BAN|SO TRANG|SO LAN MUON|";
+        gotoxy(0, 5);
+        for (int i = 0; i < 119; i++)
+            cout << "-";
+        for (int i = 0; i < A.n; i++)
+        {
+            dong_DS(A, i);
+        }
+        for (int i = 0; i < 119; i++)
+            cout << "-";
+    }
+    cout << endl
+         << " ESC: Tro lai";
+    char t;
+    do
+    {
+        t = getch();
+    } while (t != 27);
+    return;
+}
+void ve_DS_TheoTHeLoai(ListDauSach listDS, string theloai)
+{
+    Normal();
+    system("cls");
+    gotoxy(50, 1);
+    cout << "CAC DAU SACH THUOC THE LOAI " << theloai;
+    gotoxy(0, 3);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    gotoxy(0, 4);
+    cout << "|   ISBN   |              TEN SACH                |     TAC GIA     |    THE LOAI    |NAM XUAT BAN|SO TRANG|SO LAN MUON|";
+    gotoxy(0, 5);
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    int y = 6;
+    for (int i = 0; i < listDS.n; i++)
+        if (listDS.nodes[i]->theLoai == theloai)
+        {
+            gotoxy(0, y);
+            cout << "| " << listDS.nodes[i]->isbn;
+            gotoxy(11, y);
+            cout << "| " << listDS.nodes[i]->tenSach;
+            gotoxy(50, y);
+            cout << "| " << listDS.nodes[i]->tacGia;
+            gotoxy(68, y);
+            cout << "| " << listDS.nodes[i]->theLoai;
+            gotoxy(85, y);
+            cout << "|  " << listDS.nodes[i]->namXuatBan;
+            gotoxy(98, y);
+            cout << "|  " << listDS.nodes[i]->soTrang;
+            gotoxy(107, y);
+            cout << "|  " << listDS.nodes[i]->soLanMuon;
+            gotoxy(119, y);
+            cout << "|";
+            y++;
+        }
+    for (int i = 0; i < 119; i++)
+        cout << "-";
+    cout << endl
+         << " ESC: Tro lai";
+    char t;
+    do
+    {
+        t = getch();
+        if (t == 27)
+            return;
+    } while (1);
+}
+void ve_TheLoai(ListDauSach listDS)
+{
+    Normal();
+    system("cls");
+    string A[100] = {""};
+    int n = 0;
+    for (int i = 0; i < listDS.n; i++)
+    {
+        int check = 0;
+        if (n == 0)
+            A[n++] = listDS.nodes[i]->theLoai;
+        for (int j = 0; j <= n; j++)
+            if (A[j] == listDS.nodes[i]->theLoai)
+                check = 1;
+        if (check == 0)
+            A[n++] = listDS.nodes[i]->theLoai;
+    }
+    cout << "CAC THE LOAI SACH" << endl;
+    cout << endl;
+    for (int i = 0; i <= n; i++)
+        cout << A[i] << endl;
+    //	Sleep(3000);
+    cout << " ESC: Tro lai";
+    HighLight();
+    gotoxy(0, 2);
+    cout << A[0];
+    char t;
+    int chon = 0;
+    do
+    {
+        t = getch();
+        if (t == 0)
+            t = getch();
+        switch (t)
+        {
+        case Up:
+            if (chon > 0)
+            {
+                Normal();
+                gotoxy(0, chon + 2);
+                cout << A[chon];
+                chon--;
+                HighLight();
+                gotoxy(0, chon + 2);
+                cout << A[chon];
+            }
+            break;
+        case Down:
+            if (chon < n - 1)
+            {
+                Normal();
+                gotoxy(0, chon + 2);
+                cout << A[chon];
+                chon++;
+                HighLight();
+                gotoxy(0, chon + 2);
+                cout << A[chon];
+            }
+            break;
+        case 13:
+            ve_DS_TheoTHeLoai(listDS, A[chon]);
+            ve_TheLoai(listDS);
+            break;
+        case 27:
+            return;
+            break;
+        }
+    } while (1);
+}
+
+///////////////////////////
+
+string key_NhapDS[14] = {
+    "               Cap Nhat Dau Sach               ",
+    "                                                   ",
+    " Ten Sach     :",
+    "                                                   ",
+    " ISBN         :",
+    "                                                   ",
+    " Tac Gia      :",
+    "                                                   ",
+    " The Loai     :",
+    "                                                   ",
+    " So Trang     :",
+    "                                                   ",
+    " Nam Xuat Ban :",
+    "                                                   ",
+};
+
+int themDauSach(ListDauSach &listDS, pDauSach &pDS)
+{
+    if (isFull_DS(listDS))
+    {
+        return 0;
+    }
+    listDS.nodes[listDS.n++] = pDS;
+    return 1;
+}
+
+int checkFull_DauSach(ListDauSach listDS)
+{
+    return listDS.n == MAX_LIST;
+}
+
+bool isDauSach_ISBN(ListDauSach listDS, string ISBN)
+{
+    for (int i = 0; i < listDS.n; i++)
+    {
+        if (listDS.nodes[i]->isbn == ISBN)
+            return true;
+    }
+    return false;
+}
+
+bool CheckMuon_DMS(ptrNode_DanhMucSach nDMS)
+{
+    for (ptrNode_DanhMucSach p = nDMS; p != NULL; p = p->next)
+    {
+        if (p->danhMucSach.trangThai == 1)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void capNhat_DauSach(ListDauSach &lDS, pDauSach &pDS, bool isEdited)
+{
+    DauSach info;
+    ShowCur(true);
+    SetBGColor(BLACK);
+    SetColor(WHITE);
+    int soKyTu = (int)key_NhapDS[0].length();
+    // cac flag
+    int tienTrinh = 0;
+    bool isSave = false;
+    bool isEscape = false;
+    // temp
+    string tensach = "";
+    string ISBN = "";
+    string tacgia = "";
+    string theloai = "";
+    int sotrang = 0;
+    int namXB = 0;
+    gotoxy(x_Note + 7, y_Note);
+    cout << "Luu y: ";
+    ve_BangNhap_DS(82, 2, soKyTu, key_NhapDS, 13);
+    /*gotoxy(x_Note + 5, y_Note - 2);
+	XoaMotDong(15);*/
+    if (isEdited)
+    {
+        tensach = pDS->tenSach;
+        ISBN = pDS->isbn;
+        tacgia = pDS->tacGia;
+        theloai = pDS->theLoai;
+        sotrang = pDS->soTrang;
+        namXB = pDS->namXuatBan;
+
+        gotoxy(80 + (soKyTu / 3), 2 + 3);
+        cout << tensach;
+        gotoxy(80 + (soKyTu / 3), 2 + 5);
+        cout << ISBN;
+        gotoxy(80 + (soKyTu / 3), 2 + 7);
+        cout << tacgia;
+        gotoxy(80 + (soKyTu / 3), 2 + 9);
+        cout << theloai;
+        gotoxy(80 + (soKyTu / 3), 2 + 11);
+        cout << sotrang;
+        gotoxy(80 + (soKyTu / 3), 2 + 13);
+        cout << namXB;
+    }
+
+    while (true)
+    {
+        switch (tienTrinh)
+        {
+        case 0:
+            gotoxy(80 + (soKyTu / 3), 2 + 3);
+            NhapTenSach(tensach, tienTrinh, isSave, isEscape);
+            break;
+        case 1:
+            gotoxy(83 + (soKyTu / 3), 2 + 5);
+            NhapISBN(ISBN, tienTrinh, isSave, isEscape);
+            break;
+        case 2:
+            gotoxy(83 + (soKyTu / 3), 2 + 7);
+            NhapTenTacGia(tacgia, tienTrinh, isSave, isEscape);
+            break;
+        case 3:
+            gotoxy(83 + (soKyTu / 3), 2 + 9);
+            NhapTheLoaiSach(theloai, tienTrinh, isSave, isEscape);
+            break;
+        case 4:
+            gotoxy(83 + (soKyTu / 3), 2 + 11);
+            nhapSoTrang(sotrang, tienTrinh, isSave, isEscape);
+            break;
+        case 5:
+            gotoxy(83 + (soKyTu / 3), 2 + 13);
+            NhapNamXuatBan(namXB, tienTrinh, isSave, isEscape);
+            break;
+        }
+        if (isSave)
+        {
+            // cap nhat lai flag
+            isSave = false;
+            if (tensach.length() == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "           Du lieu khong de trong ! ";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 0;
+                continue;
+            }
+            else if (ISBN.length() == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "           Du lieu khong de trong ! ";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 1;
+                continue;
+            }
+            else if (tacgia.length() == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "           Du lieu khong de trong ! ";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 2;
+                continue;
+            }
+            else if (theloai.length() == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "           Du lieu khong de trong ! ";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 3;
+                continue;
+            }
+            else if (sotrang == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "           Du lieu khong de trong ! ";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 4;
+                continue;
+            }
+            else if (namXB == 0)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "          Du lieu khong de trong !";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 5;
+                continue;
+            }
+            else if (namXB > 2021)
+            {
+                gotoxy(x_Note + 15, y_Note);
+                SetColor(WHITE);
+                cout << "Nam xuat ban khong dung !";
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                tienTrinh = 5;
+                continue;
+            }
+            if (isDauSach_ISBN(lDS, ISBN))
+            {
+                if (pDS->isbn != ISBN)
+                {
+                    gotoxy(x_Note + 15, y_Note);
+                    SetColor(WHITE);
+                    cout << "ISBN bi trung !";
+                    SetBGColor(BLACK);
+                    SetColor(WHITE);
+                    tienTrinh = 1;
+                    continue;
+                }
+            }
+            // import data vao info
+            info.tenSach = chuanHoaChuoi(tensach);
+            info.isbn = chuanHoaChuoi(ISBN);
+            info.tacGia = chuanHoaChuoi(tacgia);
+            info.theLoai = chuanHoaChuoi(theloai);
+            info.soTrang = sotrang;
+            info.namXuatBan = namXB;
+            if (isEdited)
+            {
+                pDS->tenSach = info.tenSach;
+                pDS->isbn = info.isbn;
+                pDS->tacGia = info.tacGia;
+                pDS->theLoai = info.theLoai;
+                pDS->soTrang = info.soTrang;
+                pDS->namXuatBan = info.namXuatBan;
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                return;
+            }
+            else
+            {
+                // khoi tao NULL
+                initializeListNode_DMS(pDS->ptrDMS);
+                pDS->tenSach = info.tenSach;
+                pDS->isbn = info.isbn;
+                pDS->tacGia = info.tacGia;
+                pDS->theLoai = info.theLoai;
+                pDS->soTrang = info.soTrang;
+                pDS->namXuatBan = info.namXuatBan;
+                int temp = themDauSach(lDS, pDS);
+                if (temp == 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        SetColor(WHITE);
+                        gotoxy(x_Note + 15, y_Note);
+                        cout << "Bo nho day, khong the them!";
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        SetColor(WHITE);
+                        gotoxy(x_Note + 15, y_Note);
+                        cout << "        Hoan tat !";
+                    }
+                }
+                SetBGColor(BLACK);
+                SetColor(WHITE);
+                return;
+            }
+        }
+        if (isEscape)
+        {
+            return;
+        }
+    }
+    ShowCur(false);
+}
+
+int chonItems_DS(ListDauSach &lDS, int &thuTuTrang, int tongtrang)
+{
+    int pos = 0;
+    int kb_hit;
+    pos = 0;
+    SetColor(LIGHT_RED);
+    gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+    cout << "->";
+    gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+    cout << "";
+    while (true)
+    {
+        if (_kbhit())
+        {
+            kb_hit = _getch();
+            if (kb_hit == 224 || kb_hit == 0)
+                kb_hit = _getch();
+            switch (kb_hit)
+            {
+            case KEY_UP:
+                // xoa muc truoc
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "  ";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "  ";
+                (pos > 0) ? pos-- : pos = 28;
+                // to mau muc moi
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "->";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "";
+                break;
+
+            case KEY_DOWN:
+                // xoa muc truoc
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "  ";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "  ";
+                (pos < 28) ? pos++ : pos = 0;
+                // to mau muc moi
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "->";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "";
+                break;
+
+            case PAGE_UP:
+                if (thuTuTrang > 1)
+                {
+                    thuTuTrang--;
+                }
+                else
+                {
+                    thuTuTrang = tongtrang;
+                }
+                Xoa_DS_lineS();
+                xuat_DStheoTrang(lDS, thuTuTrang);
+                pos = 0;
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "->";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "";
+                break;
+
+            case PAGE_DOWN:
+                if (thuTuTrang < tongtrang)
+                {
+                    thuTuTrang++;
+                }
+                else
+                {
+                    thuTuTrang = 1;
+                }
+                Xoa_DS_lineS();
+                xuat_DStheoTrang(lDS, thuTuTrang);
+                pos = 0;
+                gotoxy(x_DS[0] + 1, 2 + 3 + pos);
+                cout << "->";
+                gotoxy(x_DS[0] + 26, 2 + 3 + pos);
+                cout << "";
+                break;
+            case ENTER:
+                return (pos == 0 && thuTuTrang == 1) ? pos : pos + (thuTuTrang - 1) * NUMBER_LINES;
+            }
+        }
+        ShowCur(false);
+        SetColor(WHITE);
+        gotoxy(70, 1);
+        cout << "Page: " << thuTuTrang << "/" << tongtrang;
+        SetColor(WHITE);
+        SetBGColor(BLACK);
+    }
+}
+
+int layViTri_Key(ptrNode_DanhMucSach first, string key) {
+	int viTri;
+	ptrNode_DanhMucSach q;
+	q = first;
+	viTri = 1;
+	if (q == NULL)
+		return(-1);
+	while (q != NULL && q->danhMucSach.maSach != key) {
+		q = q->next;
+		viTri++;
+	}
+	return(viTri);
+}
+
+ptrNode_DanhMucSach nodePointer(ptrNode_DanhMucSach first, int i) {
+	ptrNode_DanhMucSach p;
+	int viTri = 1;
+	p = first;
+	while (p != NULL && viTri < i) {
+		p = p->next;
+		viTri++;
+	}
+	return(p);
+}
+
+int xoa_Key(pDauSach &pDS, string key) {
+	int viTri;
+	viTri = layViTri_Key(pDS->ptrDMS.FirstNode_DanhMucSach, key);
+	if (viTri > pDS->ptrDMS.n || viTri == -1) {
+		return  -1;
+	}
+	// truong hop xoa dau
+	else if (viTri == 1) {
+		deleteFirst_DMS(pDS->ptrDMS.FirstNode_DanhMucSach );
+		pDS->ptrDMS.n--;
+		return 1;
+	} else {
+		//p chi toi nut truoc nut can xoa
+		ptrNode_DanhMucSach  p = nodePointer(pDS->ptrDMS.FirstNode_DanhMucSach , viTri - 1);
+		deleteAfter_DMS(p);
+		// truong hop xoa duoi cap nhat lai pTail*
+		if (viTri == pDS->ptrDMS.n) {
+			pDS->ptrDMS.LastNode_DanhMucSach = p;
+		}
+		pDS->ptrDMS.n--;
+		return 1;
+	}
+}
+
+void xoaDauSach_ViTri(ListDauSach &listDS, int viTri)
+{
+    if (viTri > listDS.n || Empty(listDS) || isFull_DS(listDS) || viTri < 0)
+    {
+        return;
+    }
+    // xoa vi tri cuoi mang
+    if (viTri == listDS.n)
+    {
+        delete listDS.nodes[listDS.n];
+        listDS.nodes[listDS.n--] = NULL; //*
+        return;
+    }
+    // *
+    delete listDS.nodes[viTri];
+    for (int temp = viTri + 1; temp <= listDS.n; temp++)
+    {
+        listDS.nodes[temp - 1] = listDS.nodes[temp];
+    }
+    delete listDS.nodes[listDS.n--]; //*
+    listDS.nodes[listDS.n--] = NULL;
+    return;
+}
+
+void Menu_DauSach(ListDauSach &lDS)
+{
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    clrscr();
+    gotoxy(32, 1);
+    cout << "Cap Nhat Dau Sach ";
+    int nDS = lDS.n + 1;
+    int choose;
+    pDauSach pDS;
+    gotoxy(3, 35);
+    SetColor(WHITE);
+    cout << "     ESC:  Thoat, F1: Them, F2: Sua, F3: Xoa, F5: Luu, PageUp, PageDn";
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    int thuTuTrang, tongtrang;
+    thuTuTrang = 1;
+    tongtrang = (nDS / NUMBER_LINES) + 1;
+label1:
+    XoaMotVung(79, 2, 30, 53);
+    ve_DS(keyDisplayDS, 6, x_DS);
+    xuat_DStheoTrang(lDS, thuTuTrang);
+    int kb_hit;
+    do
+    {
+        if (_kbhit())
+        {
+            kb_hit = _getch();
+            if (kb_hit == 224 || kb_hit == 0)
+                kb_hit = _getch();
+            switch (kb_hit)
+            {
+            case PAGE_UP:
+                (thuTuTrang > 1) ? thuTuTrang-- : thuTuTrang = tongtrang;
+                xuat_DStheoTrang(lDS, thuTuTrang);
+                break;
+            case PAGE_DOWN:
+                (thuTuTrang < tongtrang) ? thuTuTrang++ : thuTuTrang = 1;
+                xuat_DStheoTrang(lDS, thuTuTrang);
+                break;
+            case F1:
+                pDS = new DauSach;
+                if (pDS == NULL)
+                    goto label1;
+                capNhat_DauSach(lDS, pDS, false);
+                goto label1;
+            case F2:
+                choose = chonItems_DS(lDS, thuTuTrang, tongtrang);
+                if (choose > lDS.n)
+                    goto label1;
+                capNhat_DauSach(lDS, lDS.nodes[choose], true);
+                goto label1;
+            case F3:
+                choose = chonItems_DS(lDS, thuTuTrang, tongtrang);
+                if (choose > lDS.n)
+                    goto label1;
+                // neu co nguoi muon thi se khong duoc phep xoa .
+                if (CheckMuon_DMS(lDS.nodes[choose]->ptrDMS.FirstNode_DanhMucSach))
+                {
+                    gotoxy(79, 20);
+                    cout << " Dau Sach da co Doc Gia muon nen khong duoc phep xoa !";
+                    _getch();
+                    gotoxy(79, 20);
+                    cout << "                                                      ";
+                    goto label1;
+                }
+                xoaDauSach_ViTri(lDS, choose);
+                goto label1;
+            case ESC:
+                return;
+            }
+        }
+        SetColor(WHITE);
+        ShowCur(false);
+        gotoxy(70, 1);
+        cout << "Page: " << thuTuTrang << "/" << tongtrang;
+    } while (true);
+}
+
+int NhapSach(pDauSach &pDS)
+{
+    DanhMucSach info;
+    ShowCur(true);
+    SetColor(WHITE);
+    SetBGColor(BLACK);
+    int dai = (int)keyBangNhapDanhMucSach[0].length();
+    gotoxy(38, y_Note + 2);
+    cout << "Luu y: ";
+    ve_BangNhap_DS(38, 2 + 2, dai, keyBangNhapDanhMucSach, 8);
+
+    int trinhTu = 1;
+    bool isSave = false;
+    bool isEscape = false;
+    // Temp
+    int thuTuDMS = pDS->ptrDMS.n;
+    string maSach = pDS->isbn + char(65 + thuTuDMS); //int->char
+    //kt trung, tang thuTuDMS
+    while (search_DMS_MaSach(pDS, maSach) != NULL)
+    {
+        thuTuDMS++;
+        maSach = pDS->isbn + char(65 + thuTuDMS);
+    }
+    int ttSach = 3;
+    string viTri = "";
+    gotoxy(40 + (dai / 3), 2 + 5);
+    cout << maSach;
+    while (true)
+    {
+        switch (trinhTu)
+        {
+        case 1:
+            NhapTrangThaiSach(ttSach, trinhTu, isSave, isEscape, 40 + (dai / 3), 2 + 7);
+            break;
+        case 2:
+            NhapViTri(viTri, trinhTu, isSave, isEscape, 40 + (dai / 3), 2 + 9);
+            break;
+        }
+        if (isSave)
+        {
+            isSave = false;
+            // check rong;
+            if (ttSach == 3)
+            {
+                gotoxy(55, y_Note + 2);
+                cout << "Cac truong du lieu khong de trong ! ";
+                SetColor(WHITE);
+                SetBGColor(BLACK);
+                trinhTu = 1;
+                continue;
+            }
+            if (viTri.length() == 0)
+            {
+                gotoxy(55, y_Note + 2);
+                cout << "Cac truong du lieu khong de trong ! ";
+                SetColor(WHITE);
+                SetBGColor(BLACK);
+                trinhTu = 2;
+                continue;
+            }
+            info.maSach = maSach;
+            info.trangThai = ttSach;
+            info.viTri = viTri;
+            themCuoiList_DMS(pDS->ptrDMS, info);
+            return 0;
+        }
+        if (isEscape)
+        {
+            return -1;
+        }
+    }
+}
+
+int SuaDanhMucSach(pDauSach &pDS, ptrNode_DanhMucSach dms) {
+	DanhMucSach info;
+	if (dms->danhMucSach.trangThai == 1)
+		return 2;
+	// hien con tro nhap
+	ShowCur(true);
+	SetColor(WHITE);
+    SetBGColor(BLACK);
+	int dai = (int)keyBangNhapDanhMucSach[0].length();
+	taoBox(67, y_Note + 2, "Luu Y:  ", 66);
+	ve_BangNhap_DS(65, 2 + 6, dai, keyBangNhapDanhMucSach, 8);
+	// cac flag dieu khien qua trinh cap nhat
+	int tienTrinh = 1;
+	bool isSave = false;
+	bool isEscape = false;
+	string maSach = dms->danhMucSach.maSach;
+	int ttSach = dms->danhMucSach.trangThai ;
+	string viTri = dms->danhMucSach.viTri;
+	gotoxy(67 + (dai / 3), 2 + 9);
+	cout << maSach;
+	gotoxy(89, 2 + 11);
+	if (ttSach == 0)
+		cout << ttSach << ":   Co the muon  ";
+	else if (ttSach == 1)
+		cout << ttSach << ":   Da duoc muon   ";
+	else if (ttSach == 2)
+		cout << ttSach << ":   Da thanh ly    ";
+	gotoxy(89, 2 + 13);
+	cout << viTri;
+	while (true) {
+		switch (tienTrinh) {
+			case 1:
+				NhapTrangThaiSach(ttSach, tienTrinh, isSave, isEscape, 89,  2 + 11);
+				break;
+			case 2:
+				NhapViTri(viTri, tienTrinh, isSave, isEscape, 89, 2 + 13);
+				break;
+		}
+		if (isSave) {
+			isSave = false;
+			// check rong;
+			if (ttSach == 3) {
+				gotoxy(67, y_Note + 2);
+				cout << "          Du lieu khong duoc de trong ! ";
+					SetColor(WHITE);
+    SetBGColor(BLACK);
+				// quay lai va dien vao truong du lieu do
+				tienTrinh = 1;
+				continue;
+			}
+			if (viTri.length() == 0) {
+				gotoxy(67, y_Note + 2);
+				cout << "          Du lieu khong duoc de trong ! ";
+					SetColor(WHITE);
+    SetBGColor(BLACK);
+				// quay lai va dien vao truong du lieu do
+				tienTrinh = 2;
+				continue;
+			}
+			// import data vao info
+			info.maSach = maSach;
+			info.trangThai = ttSach;
+			info.viTri = viTri;
+			dms->danhMucSach = info;
+			return 1;
+		}
+		if (isEscape) {
+			return -1;
+		}
+	}
+}
+
+void xuat_ListDMS(pDauSach &pDS) {
+	clrscr();
+	int check1;
+	int check2;
+	int check3;
+	int thuTuTrang, tongtrang;
+	thuTuTrang = 1;
+	tongtrang = ((pDS->ptrDMS.n + 1 ) / NUMBER_LINES) + 1;
+	ptrNode_DanhMucSach temp = NULL, temp1 = NULL;
+	gotoxy(8, 1);
+	cout << " Bang Danh Muc Sach " << pDS->tenSach;
+label:
+	ve_DMS(keyDisplayDMS, 3, x_DMS);
+	xuat_DMS_trang(pDS, thuTuTrang);
+	string keySearch = "";
+	int kb_hit;
+	do {
+		XoaMotVung(65,2,  30, 67);
+		if (_kbhit()) {
+			kb_hit = _getch();
+			if (kb_hit == 224 || kb_hit == 0)
+				kb_hit = _getch();
+			switch (kb_hit) {
+				case PAGE_UP:
+					(thuTuTrang > 1) ? thuTuTrang-- : thuTuTrang = tongtrang;
+					xuat_DMS_trang(pDS, thuTuTrang);
+					break;
+				case PAGE_DOWN:
+					(thuTuTrang <  tongtrang) ? thuTuTrang++ : thuTuTrang = 1;
+					xuat_DMS_trang(pDS, thuTuTrang);
+					break;
+				case  F2:
+					VeHinhBangNhap(82, 3, 38, "       Ma sach can sua !");
+					gotoxy(96, 5);
+					check1 = NhapMaDauSach(keySearch);
+					// kiem tra dieu kien tra ve .....
+					if (check1 == -1) {
+						gotoxy(84, y_Note + 12);
+						cout << "Da huy tac vu!";
+						_getch();
+					} else if (check1 == 1) {
+						temp = search_DMS_MaSach(pDS, keySearch);
+						if (temp == NULL) {
+							gotoxy(77, y_Note + 12);
+							cout << "Ma sach " << "'" << keySearch << "'" << " khong co trong du lieu";
+							_getch();
+						} else {
+							check3 = SuaDanhMucSach(pDS, temp);
+							// kiem tra cac truong hop.
+							if (check3 == 1) {
+								gotoxy(73, y_Note + 12);
+								cout << "Ban vua sua thong tin sach co ma la: " << keySearch;
+								_getch();
+							} else if (check3 == 2) {
+								gotoxy(73, y_Note + 12);
+								cout << "Sach da co Doc Gia muon nen khong duoc phep hieu chinh !";
+								_getch();
+								gotoxy(73, y_Note + 12);
+								cout << "                                                        ";
+							} else {
+								gotoxy(82, y_Note + 12);
+								cout << "Da huy chinh sua !";
+								_getch();
+							}
+						}
+					}
+					goto label;
+				case F3:
+					VeHinhBangNhap(82, 3, 35,  "     Nhap Ma De Xoa   ");
+					gotoxy(96, 5);
+					check1 = NhapMaDauSach(keySearch);
+					// kiem tra dieu kien tra ve .....
+					if (check1 == -1) {
+						gotoxy(88, 10);
+						cout << "Da huy tac vu xoa !";
+						_getch();
+					} else if (check1 == 1) {
+						temp1 = search_DMS_MaSach(pDS, keySearch);
+						// da co doc gia muon.
+						if (temp1->danhMucSach.trangThai == 1) {
+							gotoxy(78, 20);
+							cout << "Sach da co Doc Gia muon nen khong duoc phep xoa !";
+							_getch();
+							gotoxy(78, 20);
+							cout << "                                                      ";
+						} else {
+							check2 = xoa_Key(pDS, keySearch);
+							if (check2 == -1) {
+								gotoxy(75, 10);
+								cout << "Ma sach " << "'" << keySearch << "'" << " khong co trong du lieu";
+								_getch();
+							} else if (check2 == 1) {
+								gotoxy(82, 10);
+								cout << "Da xoa sach co ma la: " << keySearch;
+								_getch();
+							}
+						}
+					}
+					goto label;
+				case ESC:
+					return;
+			}
+		}
+		ShowCur(false);
+		gotoxy(3, 35);
+		cout << " F2:  Hieu chinh , F3:  Xoa , ESC:  Thoat";
+		gotoxy(62, 1);
+		cout << "Page: " << thuTuTrang << " / " << tongtrang;
+	} while (true);
+}
+
+void NhapDanhMucSach(pDauSach &pDS, int sosach)
+{
+    clrscr();
+    system("color 0");
+    int check1 = 0;
+    gotoxy(39, 2);
+    cout << "Nhap Thong Tin Vao Danh Muc Sach Cua Dau Sach : " << pDS->tenSach;
+    gotoxy(60, 16);
+    cout << "So sach can nhap: " << sosach << endl;
+    gotoxy(52, 31);
+    cout << "    F5: Luu ,  ESC - Thoat ";
+    for (int i = 0; i < sosach && check1 != -1; i++)
+    {
+        // nhap sach
+        check1 = NhapSach(pDS);
+        XoaMotVung(38, 2 + 2, 10, (int)keyBangNhapDanhMucSach[0].length());
+        gotoxy(60, 18);
+        cout << "So sach da nhap : " << i + 1;
+    }
+    xuat_ListDMS(pDS);
+}
+
+void Menu_DMS(ListDauSach &lDS)
+{
+    system("color 0");
+    int choose;
+    int nDS = lDS.n + 1;
+    int tttrang, tongtrang;
+    tttrang = 1;
+    tongtrang = (nDS / NUMBER_LINES) + 1;
+    int temp = 1;
+    do
+    {
+        clrscr();
+        ve_DS(keyDisplayDS, 6, x_DS);
+        xuat_DStheoTrang(lDS, tttrang);
+        gotoxy(23, 1);
+        cout << "Chon dau sach de cap nhat DMS !";
+        SetColor(WHITE);
+        SetBGColor(BLACK);
+        choose = ChonItems(lDS, tttrang, tongtrang);
+        if (choose == -1)
+        {
+            return;
+        }
+        else if (choose > lDS.n)
+        {
+            gotoxy(2, 2 + 3 + choose % NUMBER_LINES);
+            cout << setw(27) << setfill(' ') << ' ';
+            continue;
+        }
+        if (lDS.nodes[choose]->ptrDMS.FirstNode_DanhMucSach != NULL && lDS.nodes[choose]->ptrDMS.n == -1)
+        {
+            continue;
+        }
+        // chon so sach nhap
+        int sosach = ChonSoSachNhap();
+        if (sosach == -1)
+        {
+            XoaMotVung(81, 3, 20, 50);
+            continue;
+        }
+        else
+        {
+            // bat dau nhap thong tin sach
+            NhapDanhMucSach(lDS.nodes[choose], sosach);
+        }
+    } while (true);
 }

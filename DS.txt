@@ -1,8 +1,2 @@
-5
-isbn|tenSach|tacGia|the loai|0|0|11|0|
-isbn2|tenSach|tacGia|the loai|0|0|12|0|
-isbn3|tenSach|tacGia|the loai|0|0|9|0|
-isbn|tenSach|tacGia|the loai|0|0|10|0|
-isbn|tenSach|tacGia|the loai|0|0|1|2|
-SADZXC2|1|tu 4|
-SADZXC1|0|tu 3|
+1
+23ASDW|DUONG XA|LAC|TRINH THAM|2001|211|0|0|

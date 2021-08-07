@@ -66,4 +66,6 @@ void xuat_MT(ptrNode_MuonTra p, int i);
 void xuatNgayThang(DateTime dt, int x, int y);
 void xuat_DG_Page(ptrNode_DocGia t, DocGia *arr, int index);
 
+
+
 #endif

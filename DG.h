@@ -3,7 +3,6 @@
 void initialize_NodeDG(ptrNode_DocGia &root)
 {
     root = NULL;
-    nNodeDocGia = 0;
 }
 
 ptrNode_DocGia getNode_DG(DocGia dg)
@@ -29,7 +28,7 @@ void insert_NodeDG_Load(ptrNode_DocGia &p, DocGia dg)
     if (p == NULL) // p = nut la
     {
         p = getNode_DG(dg);
-        ++nNodeDocGia;
+        // ++nNodeDocGia;
     }
     else
     {
@@ -173,7 +172,7 @@ int remove_NodeDG(ptrNode_DocGia &p, DocGia dg)
             else
                 remove2Child_NodeDG(rp, p->right);
             delete rp;
-            nNodeDocGia--;
+            // nNodeDocGia--;
             return 1;
         }
         return 1;
@@ -340,8 +339,8 @@ int readDG(ptrNode_DocGia &root)
     }
 
     preorder_NodeDG_NLR(root);
-    cout << "\nN Node Doc Gia" << endl;
-    cout << nNodeDocGia << endl;
+    // cout << "\nN Node Doc Gia" << endl;
+    // cout << nNodeDocGia << endl;
     fileIn.close();
     return 1;
 }
@@ -588,7 +587,7 @@ ptrNode_DocGia newNode(DocGia dg)
     p->info.ptrMuonTra.n = 0;
     p->left = NULL;
     p->right = NULL;
-    ++nNodeDocGia;
+    // ++nNodeDocGia;
 
     p->height = 1; // new node is initially
                       // added at leaf

@@ -8,19 +8,9 @@
 
 // int x_MainMenus[5] = { 8,26,52, 81,105 };
 int y_MainMenus[4] = {16, 19, 22, 25};
-int y_SMainMenusDS[4] = {16, 19, 22, 25};
+int y_SMainMenusDS[5] = {16, 19, 22, 25, 28};
 int y_SMainMenusDG[5] = {16, 19, 22, 25, 28};
 int y_SMainMenusMT[4] = {16, 19, 22, 25};
-
-void taoBox(int x, int y, string text, int length)
-{
-    gotoxy(x - 2, y - 1);
-    cout << char(218) << setw(length) << setfill(char(196)) << char(196) << char(191);
-    gotoxy(x - 2, y);
-    cout << char(179) << text << setw(length - text.length() + 1) << setfill(' ') << char(179);
-    gotoxy(x - 2, y + 1);
-    cout << char(192) << setw(length) << setfill(char(196)) << char(196) << char(217);
-}
 
 void HighLight1(string key, int index, int x, int y[], int newColor, int oldColor)
 {
@@ -178,7 +168,7 @@ void ManHinhChinh()
     SetBGColor(BLACK);
 
     gotoxy(10, 12);
-    cout<< "__MENU__";
+    cout << "__MENU__";
 
     for (int doc = 10; doc < 33; doc++)
     {
@@ -286,13 +276,14 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
     if (temp > 0)
         cout << "Read file DG success!" << endl;
 
-    // temp = readFile_DS(listDS);
-    temp = DocFile_DS(listDS);
+    DocFile_DS(listDS);
+    // temp = DocFile_DS(listDS);
     if (temp > 0)
         cout << "Read file DS success!" << endl;
     // system("pause");
     DocGia dg;
 
+    string mten;
     clrscr();
 
     while (1)
@@ -327,6 +318,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             chonSub = ChonSMenu(keySubMainMenuDG, x_SMainMenusDG, y_SMainMenusDG, 5);
             DocGia *arr;
             int indexDG;
+            int nNodeDocGia;
             switch (chonSub)
             {
             case 0:
@@ -337,6 +329,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             case 1:
                 clrscr();
                 indexDG = 0;
+                nNodeDocGia = demDocGia(tree);
                 arr = new DocGia[nNodeDocGia];
                 treeToArr(tree, arr, indexDG);
                 sort_DG(arr, 0, nNodeDocGia - 1);
@@ -349,6 +342,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             case 2:
                 clrscr();
                 indexDG = 0;
+                nNodeDocGia = demDocGia(tree);
                 arr = new DocGia[nNodeDocGia];
                 treeToArr(tree, arr, indexDG);
                 // sort_DG(arr, 0, nNodeDocGia - 1);
@@ -369,18 +363,32 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
         case 1:
             // create_Tree(tree);
             // chonSub = SubMenuDong(subMenuMT, so_item_sub_mt);
+
             SMainMenuDS(keySubMainMenuDS, 3);
             chonSub = ChonSMenu(keySubMainMenuDS, x_SMainMenusDS, y_SMainMenusDS, 3);
             switch (chonSub)
             {
             case 0:
-                system("pause");
+                // DanhSachDS(listDS);
+                Menu_DauSach(listDS);
+                SetBGColor(BLACK);
                 break;
             case 1:
-                system("pause");
+                Normal();
+                system("cls");
+                cout << "SACH CAN TIM: ";
+                cin >> mten;
+                TimSach(listDS, mten);
+                SetBGColor(BLACK);
                 break;
             case 2:
-                system("pause");
+                // ve_TheLoai(listDS);
+                Menu_DMS(listDS);
+                SetBGColor(BLACK);
+                break;
+
+            case 3:
+                SetBGColor(BLACK);
                 break;
             case so_item_sub_mt:
                 break;
