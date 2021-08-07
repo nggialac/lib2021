@@ -71,6 +71,16 @@ void DS_TheoTen(ListDauSach &listDS, string mten)
 	}
 }
 
+pDauSach layDauSach_Ten(ListDauSach listDS, string tenSach) {
+	pDauSach temp = NULL;
+	for (int i = 0; i <= listDS.n; i++) {
+		temp = listDS.nodes[i];
+		if (temp->tenSach.compare(tenSach) == 0)
+			return temp;
+	}
+	return NULL;
+}
+
 
 int Insert_DS(ListDauSach &listDS, pDauSach &pDS)
 {

@@ -38,3 +38,5 @@ bool checkAvl(node *t){
 
 DSLK
 https://paste.ubuntu.com/25566190/
+
+https://stackoverflow.com/questions/54267589/difference-between-two-dates-using-math

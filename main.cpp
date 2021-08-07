@@ -364,8 +364,8 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
             // create_Tree(tree);
             // chonSub = SubMenuDong(subMenuMT, so_item_sub_mt);
 
-            SMainMenuDS(keySubMainMenuDS, 3);
-            chonSub = ChonSMenu(keySubMainMenuDS, x_SMainMenusDS, y_SMainMenusDS, 3);
+            SMainMenuDS(keySubMainMenuDS, 5);
+            chonSub = ChonSMenu(keySubMainMenuDS, x_SMainMenusDS, y_SMainMenusDS, 5);
             switch (chonSub)
             {
             case 0:
@@ -374,20 +374,19 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 SetBGColor(BLACK);
                 break;
             case 1:
-                Normal();
-                system("cls");
-                cout << "SACH CAN TIM: ";
-                cin >> mten;
-                TimSach(listDS, mten);
+                // Normal();
+                Menu_DMS(listDS);
+                // 
                 SetBGColor(BLACK);
                 break;
             case 2:
+                xuat_ListDStheoTT(listDS);
                 // ve_TheLoai(listDS);
-                Menu_DMS(listDS);
                 SetBGColor(BLACK);
                 break;
 
             case 3:
+                TimSach(listDS);
                 SetBGColor(BLACK);
                 break;
             case so_item_sub_mt:

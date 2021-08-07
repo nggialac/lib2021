@@ -51,11 +51,11 @@ int NhapMaDocGia(int &msdg);
 void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach);
 pDauSach findDSByISBN(ListDauSach listDS, string isbn);
 //
-int chonItems1(pDauSach &pDS, int &thuTuTrang, int tongtrang);
-void ve_DMS(string key[], int nKey, int xDisplay[]);
+int chonItems_DS(ListDauSach &lDS, int &thuTuTrang, int tongtrang);
+
+// void ve_DMS(string key[], int nKey, int xDisplay[]);
 void xuat_DS(string tenSach, string ISBN, string tacGia, string theLoai, int soTrang, int namXB);
 int Menu_MS(ListDauSach &lDS, ptrNode_DocGia nDG);
-int ChonItems(ListDauSach &lDS, int &thuTuTrang, int tongtrang);
 //
 void xoaManHinh_MT(int i);
 void Xoa_DS_lineS();
