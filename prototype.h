@@ -26,7 +26,6 @@ int Delete_DS(ListDauSach &plist, int i);
 int Search_isbn(ListDauSach &plist, string isbn);
 int DocFile_DS(ListDauSach &listDS);
 int GhiFile_DS(ListDauSach &listDS);
-ListDauSach Top10_DS(ListDauSach listDS);
 
 int soNgayQuaHan(listMuonTra lMT);
 void add_DS(ListDauSach listDS, pDauSach pDS);
@@ -108,8 +107,8 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang);//
 void xuat_ListDG_1(ptrNode_DocGia t, DocGia *arr);
 void Menu_DocGia(ptrNode_DocGia &t);//->xuat_DG_page
 void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS);
-void do_Top10(ListDauSach lDS);//->Ve
-void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc);
+ListDauSach Top10_DS(ListDauSach listDS);
+void ve_TopDS(ListDauSach listDS);
 //
 void xuat_DMS(DanhMucSach dms);
 void xuat_DMS_trang(pDauSach pDS, int index);

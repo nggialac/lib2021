@@ -410,7 +410,7 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 break;
             case 2:
                 cout << "Top 10 sach !";
-                do_Top10(listDS);
+                ve_TopDS(listDS);
                 system("pause");
                 break;
             case so_item_sub_mt:

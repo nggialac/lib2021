@@ -2272,94 +2272,23 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
     delete[] arr;
 }
 
-void ve_Top10(string key[], int nKey, int xDisplay[], int ndoc) {
-	SetColor(WHITE);
-    SetBGColor(BLACK);
-	ShowCur(false);
-	// hien thi cac danh muc trong bang hien thi
-	for (int i = 0; i < nKey; i++) {
-		gotoxy(xDisplay[i] + 1, 5 );
-		cout << key[i];
-	}
-	//hien thi cot hai ben
-	SetColor(WHITE);
-	for (int j = 5; j <= 5 + ndoc; j++) {
-		for (int i = 0; i < nKey + 1; i++) {
-			gotoxy(xDisplay[i], j);
-			cout << char(179);
-		}
-	}
-	//hien thi dong hai ben
-	for (int i = xDisplay[0]; i <= xDisplay[nKey]; i++) {
-		gotoxy(i, 5 - 1);
-		if (i == xDisplay[1] || i == xDisplay[2] || i == xDisplay[3] )
-			cout << char(194);//nga 3
-		else if (i == xDisplay[0]) {
-			cout << char(218); //moc phai
-		} else if (i == xDisplay[nKey]) {
-			cout << char(191);//moc trai
-		} else {
-			cout << char(196); //duong thang ngang
-		}
-
-		gotoxy(i, 5 + 1);
-		if (i == xDisplay[1] || i == xDisplay[2] || i == xDisplay[3] )
-			cout << char(197); //nga 4
-		else if (i == xDisplay[0]) {
-			cout << char(195); //nga 3 sang phai
-		} else if (i == xDisplay[nKey]) {
-			cout << char(180);//nga 3 sang trai
-		} else {
-			cout << char(196); //duong thang ngang
-		}
-
-		gotoxy(i, 5 + ndoc);
-		if (i == xDisplay[0]) {
-			cout << char(192); //qeo sang phai
-		} else if (i == xDisplay[nKey]) {
-			cout << char(217); //qeo sang trai
-		} else if (i == xDisplay[1] || i == xDisplay[2] || i == xDisplay[3] )
-			cout << char(193);
-		else {
-			cout << char(196); //duong thang ngang
-		}
-	}
-}
-
-void do_Top10(ListDauSach lDS)
+ListDauSach Top10_DS(ListDauSach listDS)
 {
-    SetColor(WHITE);
-    SetBGColor(BLACK);
-    clrscr();
-    int count = 0;
-    // sort_TopDS(lDS, 0, lDS.n);
-    // in thong tin ra  console
-    gotoxy(50, 2);
-    cout << "10 Dau Sach Duoc Muon Nhieu Nhat !";
-    SetColor(WHITE);
-    SetBGColor(BLACK);
-    int j = 0;
-    while (j < 10)
-    {
-        if (lDS.nodes[j] != NULL)
-        {
-            SetColor(WHITE);
-            gotoxy(45 + 3, 5 + 2 + j);
-            cout << lDS.nodes[j]->tenSach;
-            gotoxy(77 + 16, 5 + 2 + j);
-            cout << lDS.nodes[j]->soLanMuon;
-            gotoxy(30 + 7, 5 + 2 + j);
-            j++;
-            cout << j;
-        }
-        // else
-        // {
-        //     cout << ++j << endl;
-        // }
+	ListDauSach A=listDS;
+	DauSach t;
+	int B[10];
+	int dem=0,max,i,j;	
+	for(i=0;i<A.n-1;i++){
+		max=i;
+		for (j = i+1; j < A.n; j++)
+        	if (A.nodes[j]->soLanMuon > A.nodes[max]->soLanMuon) max = j;        				      
+        DauSach *t=A.nodes[i];
+        A.nodes[i]=A.nodes[max];
+        A.nodes[max]=t; 
+		dem++;
+		if(dem>10) break;		              
     }
-    int x_Top10[4] = { 30, 45, 77, 112 };
-    ve_Top10(keyDisplayTop10, 3, x_Top10, j + 2);
-    _getch();
+    return A; 	
 }
 
 //DAUSACH

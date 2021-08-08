@@ -197,28 +197,6 @@ int GhiFile_DS(ListDauSach &listDS)
 	return 1;
 }
 
-ListDauSach Top10_DS(ListDauSach listDS)
-{
-	ListDauSach A = listDS;
-	DauSach t;
-	int B[10];
-	int dem = 0, max, i, j;
-	for (i = 0; i < A.n - 1; i++)
-	{
-		max = i;
-		for (j = i + 1; j < A.n; j++)
-			if (A.nodes[j]->soLanMuon > A.nodes[max]->soLanMuon)
-				max = j;
-		DauSach *t = A.nodes[i];
-		A.nodes[i] = A.nodes[max];
-		A.nodes[max] = t;
-		dem++;
-		if (dem > 10)
-			break;
-	}
-	return A;
-}
-
 // void ve_MenuDS()
 // {
 // 	// ListDauSach listDS;
