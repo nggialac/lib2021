@@ -310,7 +310,7 @@ void NhapHo(string &result, int &ordinal, bool &isSave, bool &isEscape)
 			{
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(WHITE);
-				cout << "Toi da 16 ky tu chu !!!";
+				// cout << "Toi da 16 ky tu chu !!!";
 				SetColor(WHITE);
 				SetBGColor(BLACK);
 				gotoxy(x, y);
@@ -633,7 +633,7 @@ void NhapViTri(string &result, int &ordinal, bool &isSave, bool &isEscape, int a
 			{ // check vi tri a ne.
 				gotoxy(a - 7, y_Note + 2);
 				SetColor(WHITE);
-				cout << "Toi da 17 ky tu chu + so + ',' !";
+				// cout << "Toi da 17 ky tu chu + so + ',' !";
 				SetBGColor(BLACK);
 				SetColor(WHITE);
 				gotoxy(x, y);
@@ -813,7 +813,7 @@ void NhapTenSach(string &result, int &tienTrinh, bool &isSave, bool &isEscape)
 			{
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(WHITE);
-				cout << "Toi da 24 ky tu chu + so";
+				// cout << "Toi da 24 ky tu chu + so";
 				SetColor(WHITE);
 				SetBGColor(BLACK);
 				gotoxy(x, y);
@@ -906,7 +906,7 @@ void NhapTenTacGia(string &result, int &tienTrinh, bool &isSave, bool &isEscape)
 			{
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(WHITE);
-				cout << "Toi da 17 ky tu chu !";
+				// cout << "Toi da 17 ky tu chu !";
 				SetColor(WHITE);
 				SetBGColor(BLACK);
 				gotoxy(x, y);
@@ -999,7 +999,7 @@ void NhapTheLoaiSach(string &result, int &tienTrinh, bool &isSave, bool &isEscap
 			{
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(WHITE);
-				cout << "Toi da 11 ky tu chu !";
+				// cout << "Toi da 11 ky tu chu !";
 				SetColor(WHITE);
 				SetBGColor(BLACK);
 				gotoxy(x, y);
@@ -1086,7 +1086,7 @@ void nhapSoTrang(int &nTrang, int &tienTrinh, bool &isSave, bool &isEscape)
 			{
 				gotoxy(x_Note + 15, y_Note);
 				SetColor(WHITE);
-				cout << "Toi da 6 so !";
+				// cout << "Toi da 6 so !";
 				SetColor(WHITE);
 				SetBGColor(BLACK);
 				gotoxy(x, y);

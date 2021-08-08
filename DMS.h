@@ -139,62 +139,15 @@ int traverse_DMS(listNodeDMS ln_dms)
     return count;
 }
 
-// int readFile_DS(ListDauSach &listDS)
-// {
-//     fstream fileIn;
-//     DauSach info;
-//     fileIn.open("DS.txt", ios::in);
-//     pDauSach pDS;
-//     DanhMucSach dms;
-//     int soDauSach, soSach;
-//     if (fileIn.is_open())
-//     {
-//         string temp;
-//         fileIn >> soDauSach;
-//         cout << "So dau Sach: ";
-//         cout << soDauSach << endl;
-//         getline(fileIn, temp);
-//         for (int i = 0; i < soDauSach; i++)
-//         {
-//             pDS = new DauSach;
-//             if (pDS == NULL)
-//                 continue;
-//             // load thong tin vao bien tam.
-//             getline(fileIn, info.tenSach);
-//             getline(fileIn, info.isbn);
+bool CheckMuon_DMS(ptrNode_DanhMucSach nDMS)
+{
+    for (ptrNode_DanhMucSach p = nDMS; p != NULL; p = p->next)
+    {
+        if (p->danhMucSach.trangThai == 1)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
-//             getline(fileIn, info.tacGia);
-//             getline(fileIn, info.theLoai);
-
-//             fileIn >> info.soTrang;
-//             fileIn >> info.namXuatBan;
-//             fileIn >> info.soLanMuon;
-//             // load thong tin vao dau sach
-//             *(pDS) = info; //cout<<*(pDS)->isbn;
-//             fileIn >> soSach;
-//             getline(fileIn, temp);
-//             initializeListNode_DMS(pDS->ptrDMS);
-//             for (int j = 0; j < soSach; j++)
-//             {
-//                 getline(fileIn, dms.maSach);
-//                 fileIn >> dms.trangThai;
-//                 getline(fileIn, temp);
-//                 getline(fileIn, dms.viTri);
-//                 themCuoiList_DMS(pDS->ptrDMS, dms);
-//             }
-//             add_DS(listDS, pDS);
-//         }
-//     }
-//     else
-//     {
-//         cout << "file DS.txt khong tim thay! ";
-//         return 0;
-//     }
-
-//     for (int j = 0; j < listDS.n; j++)
-//     {
-//         cout << listDS.nodes[j]->tenSach;
-//     }
-//     fileIn.close();
-//     return 1;
-// }

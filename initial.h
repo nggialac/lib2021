@@ -68,8 +68,7 @@ extern int toaDo = 0;
 #define MAX_TENTG 16
 #define MAX_TENSACH 24
 #define MAX_THELOAISACH 11
-// #define NHAP_TRANG_THAI 1
-// #define NHAP_PHAI 0
+
 
 
 //---DANH MUC SACH (DSLK)---
@@ -161,7 +160,7 @@ typedef struct DocGia
 struct NodeDocGia
 {
     DocGia info;
-    int bf;
+    // int bf;
     int height;
     NodeDocGia *left;
     NodeDocGia *right;

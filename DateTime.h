@@ -48,7 +48,7 @@ int tinhNgay(DateTime dt)
     // 0001-01-01
     //306 ngay tu 01-03
     // return 365 * dt.nam + dt.nam / 4 - dt.nam / 100 + dt.nam / 400 + (153 * dt.thang - 457) / 5 + dt.ngay - 306; 
-    return (dt.nam-1900)*(365+1/4-1/100+1/400) + (dt.thang-0)*30.6 + (dt.ngay-0);
+    return (dt.nam-1900)*(365+1/4-1/100+1/400) + (dt.thang-1)*30.6 + (dt.ngay-1);
 }
 
 void layNgayGioHT(DateTime &d)

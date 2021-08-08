@@ -472,36 +472,6 @@ void VeHinhBangNhap(int x, int y, int dorong, string str)
     SetBGColor(BLACK);
 }
 
-int MatSach(listMuonTra lMT)
-{
-    for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
-    {
-        if (p->muonTra.trangThai == 2)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int soNgayMuonMax(listMuonTra lMT)
-{
-    int max = 0;
-    int nngay;
-    for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
-    {
-        if ((p->muonTra.trangThai == 0) || (p->muonTra.trangThai == 2))
-        {
-            nngay = khoangCachNgay(p->muonTra.ngayMuon);
-            if (max < nngay)
-            {
-                max = nngay;
-            }
-        }
-    }
-    return max;
-}
-
 int InputNgayThang(DateTime &date, int x, int y)
 {
     ShowCur(true);
@@ -1540,6 +1510,25 @@ void xoaManHinh_MT(int i)
     cout << setw(x_MT[6] - x_MT[5] - 1) << setfill(' ') << " ";
     gotoxy(x_MT[6] + 1, 21 + i);
     cout << setw(x_MT[7] - x_MT[6] - 1) << setfill(' ') << " ";
+}
+
+void xuatListMT(listMuonTra lMT)
+{
+	int i = 0;
+	// xoa display dau sach
+	for (int j = 0; j < 3; j++)
+	{
+		xoaManHinh_MT(j);
+	}
+	// thuc hien ouput
+	for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
+	{
+		if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
+		{
+			xuat_MT(p, i);
+			i++;
+		}
+	}
 }
 
 void xuat_MT(ptrNode_MuonTra p, int i)
@@ -2852,43 +2841,6 @@ string key_NhapDS[14] = {
     "                                                   ",
 };
 
-int themDauSach(ListDauSach &listDS, pDauSach &pDS)
-{
-    if (isFull_DS(listDS))
-    {
-        return 0;
-    }
-    listDS.nodes[listDS.n++] = pDS;
-    return 1;
-}
-
-int checkFull_DauSach(ListDauSach listDS)
-{
-    return listDS.n == MAX_LIST;
-}
-
-bool isDauSach_ISBN(ListDauSach listDS, string ISBN)
-{
-    for (int i = 0; i < listDS.n; i++)
-    {
-        if (listDS.nodes[i]->isbn == ISBN)
-            return true;
-    }
-    return false;
-}
-
-bool CheckMuon_DMS(ptrNode_DanhMucSach nDMS)
-{
-    for (ptrNode_DanhMucSach p = nDMS; p != NULL; p = p->next)
-    {
-        if (p->danhMucSach.trangThai == 1)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void capNhat_DauSach(ListDauSach &lDS, pDauSach &pDS, bool isEdited)
 {
     DauSach info;
@@ -3080,7 +3032,7 @@ void capNhat_DauSach(ListDauSach &lDS, pDauSach &pDS, bool isEdited)
                 pDS->theLoai = info.theLoai;
                 pDS->soTrang = info.soTrang;
                 pDS->namXuatBan = info.namXuatBan;
-                int temp = themDauSach(lDS, pDS);
+                int temp = Insert_DS(lDS, pDS);
                 if (temp == 0)
                 {
                     for (int i = 0; i < 5; i++)

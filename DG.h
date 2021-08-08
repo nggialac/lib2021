@@ -103,41 +103,6 @@ bool checkMaThe(ptrNode_DocGia p, int mt)
     return true;
 }
 
-void create_Tree(ptrNode_DocGia &root)
-{
-    int key;
-    DocGia info;
-    int count = 0;
-    do
-    {
-        cout << "Nhap key: " << endl;
-        cin >> key;
-        if (key != 0)
-        {
-            cout << "STT: " << count << " :"
-                 << endl;
-            cout << "Ma the: "; //tu sinh
-            info.maThe = randomMaThe(root);
-            cout << info.maThe;
-            // cin >> info.maThe;
-            // cin.ignore();
-            cout << "Nhap ho: " << endl;
-            cin >> info.ho;
-            cout << "Nhap ten: " << endl;
-            cin >> info.ten;
-            cin.ignore();
-            cout << "Nhap phai: " << endl;
-            cin >> info.phai;
-            cin.ignore();
-            cout << "Nhap trang thai: " << endl;
-            cin >> info.trangThai;
-            cin.ignore();
-            insert_NodeDG_Load(root, info);
-            count++;
-        }
-    } while (key != 0);
-}
-
 void remove2Child_NodeDG(ptrNode_DocGia &rp, ptrNode_DocGia &p)
 {
     if (p->left != NULL)
@@ -441,7 +406,7 @@ int treeToArr(ptrNode_DocGia p, DocGia *arr, int indexDG)
         return indexDG;
 
     // treeToArr(p->left, arr, indexDG);
-    
+
     // treeToArr(p->right, arr, indexDG);
     if (p->left != NULL)
         indexDG = treeToArr(p->left, arr, indexDG);
@@ -467,38 +432,6 @@ int randomMaThe(ptrNode_DocGia t)
         temp = taoRandom();
     } while (check_MADG(t, temp));
     return temp;
-}
-
-ptrNode_DocGia Rotate_Left(ptrNode_DocGia root)
-{
-    ptrNode_DocGia p;
-    if (root == NULL)
-        printf("Khong the xoay trai vi cay bi rong.");
-    else if (root->right == NULL)
-        printf("Khong the xoay trai vi khong co nut con ben phai.");
-    else
-    {
-        p = root->right;
-        root->right = p->left;
-        p->left = root;
-    }
-    return p;
-}
-
-ptrNode_DocGia Rotate_Right(ptrNode_DocGia ya)
-{
-    ptrNode_DocGia s;
-    if (ya == NULL)
-        printf("Khong the xoay phai vi cay bi rong.");
-    else if (ya->left == NULL)
-        printf("Khong the xoay phai vi khong co nut con ben trai.");
-    else
-    {
-        s = ya->left;
-        ya->left = s->right;
-        s->right = ya;
-    }
-    return s; //tra ve node goc moi
 }
 
 int height(ptrNode_DocGia p)
@@ -578,8 +511,6 @@ ptrNode_DocGia newNode(DocGia dg)
     {
         return NULL;
     }
-    // dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
-    // dg.ptrMuonTra.n = 0;
 
     p->info = dg;
     p->info.ptrMuonTra.head = NULL;
@@ -587,10 +518,9 @@ ptrNode_DocGia newNode(DocGia dg)
     p->info.ptrMuonTra.n = 0;
     p->left = NULL;
     p->right = NULL;
-    // ++nNodeDocGia;
 
     p->height = 1; // new node is initially
-                      // added at leaf
+                   // added at leaf
     return (p);
 }
 
@@ -655,54 +585,52 @@ tree does not need to be searched. */
 ptrNode_DocGia minValueNode(ptrNode_DocGia node)
 {
     ptrNode_DocGia current = node;
- 
+
     /* loop down to find the leftmost leaf */
     while (current->left != NULL)
         current = current->left;
- 
+
     return current;
 }
 
 ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg)
 {
-     
+
     // STEP 1: PERFORM STANDARD BST DELETE
     if (root == NULL)
         return root;
- 
+
     // If the key to be deleted is smaller
     // than the root's key, then it lies
     // in left subtree
-    if ( dg.maThe < root->info.maThe )
+    if (dg.maThe < root->info.maThe)
         root->left = deleteNode(root->left, dg);
- 
+
     // If the key to be deleted is greater
     // than the root's key, then it lies
     // in right subtree
-    else if( dg.maThe > root->info.maThe )
+    else if (dg.maThe > root->info.maThe)
         root->right = deleteNode(root->right, dg);
- 
+
     // if key is same as root's key, then
     // This is the node to be deleted
     else
     {
         // node with only one child or no child
-        if( (root->left == NULL) ||
-            (root->right == NULL) )
+        if ((root->left == NULL) ||
+            (root->right == NULL))
         {
-            ptrNode_DocGia temp = root->left ?
-                         root->left :
-                         root->right;
- 
+            ptrNode_DocGia temp = root->left ? root->left : root->right;
+
             // No child case
             if (temp == NULL)
             {
                 temp = root;
                 root = NULL;
             }
-            else // One child case
-            *root = *temp; // Copy the contents of
-                           // the non-empty child
+            else               // One child case
+                *root = *temp; // Copy the contents of
+                               // the non-empty child
             free(temp);
         }
         else
@@ -710,39 +638,39 @@ ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg)
             // node with two children: Get the inorder
             // successor (smallest in the right subtree)
             ptrNode_DocGia temp = minValueNode(root->right);
- 
+
             // Copy the inorder successor's
             // data to this node
             root->info = temp->info;
- 
+
             // Delete the inorder successor
             root->right = deleteNode(root->right,
                                      temp->info);
         }
     }
- 
+
     // If the tree had only one node
     // then return
     if (root == NULL)
         return root;
- 
+
     // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
     root->height = 1 + max(height(root->left),
                            height(root->right));
- 
+
     // STEP 3: GET THE BALANCE FACTOR OF
     // THIS NODE (to check whether this
     // node became unbalanced)
     int balance = getBalance(root);
- 
+
     // If this node becomes unbalanced,
     // then there are 4 cases
- 
+
     // Left Left Case
     if (balance > 1 &&
         getBalance(root->left) >= 0)
         return rightRotate(root);
- 
+
     // Left Right Case
     if (balance > 1 &&
         getBalance(root->left) < 0)
@@ -750,12 +678,12 @@ ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg)
         root->left = leftRotate(root->left);
         return rightRotate(root);
     }
- 
+
     // Right Right Case
     if (balance < -1 &&
         getBalance(root->right) <= 0)
         return leftRotate(root);
- 
+
     // Right Left Case
     if (balance < -1 &&
         getBalance(root->right) > 0)
@@ -763,6 +691,6 @@ ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg)
         root->right = rightRotate(root->right);
         return leftRotate(root);
     }
- 
+
     return root;
 }
