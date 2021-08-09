@@ -75,11 +75,14 @@ ptrNode_DanhMucSach search_DMS_ViTri(ptrNode_DanhMucSach First, int pos)
 
 ptrNode_DanhMucSach search_DMS_MaSach(pDauSach pDS, string masach)
 {
-    ptrNode_DanhMucSach p;
+     ptrNode_DanhMucSach p;
     p = pDS->First_DMS;
-    while (p != NULL && p->danhMucSach.maSach.compare(masach) == 0)
-        p = p->next;
-    return (p);
+    while (p != NULL)
+    {
+    	if(p->danhMucSach.trangThai==1&&p->danhMucSach.maSach==masach) return p;
+    	p = p->next;
+	}        
+    return NULL;
 }
 
 int deleteFirst_DMS(ptrNode_DanhMucSach &First)

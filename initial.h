@@ -129,7 +129,7 @@ typedef struct MuonTra
     DateTime ngayTra;
     int trangThai;
     //
-    string isbn;
+    // string isbn;
 };
 
 struct NodeMuonTra

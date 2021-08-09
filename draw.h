@@ -1182,7 +1182,7 @@ label:
                     cout << "                                           ";
                     gotoxy(87, 20 + pos);
                     // cout << p->muonTra.isbn;
-                    cout << findDSByISBN(listDauSach, p->muonTra.isbn)->tenSach;
+                    cout << findDSByISBN(listDauSach, p->muonTra.maSach.substr(0,6))->tenSach;
                     xuatNgayThang(p->muonTra.ngayMuon, 118, 20 + pos);
                     pos++;
                     if (pos == 3)
@@ -1232,7 +1232,7 @@ label:
             }
             else if (check2 == 1)
             {
-                muontra.isbn = isbnTemp;
+                muontra.maSach.substr(0,6) = isbnTemp;
                 muontra.ngayTra.nam = 0;
                 muontra.ngayTra.thang = 0;
                 muontra.ngayTra.ngay = 0;
@@ -1497,7 +1497,7 @@ void xuatListMT(ptrNode_MuonTra lMT)
 
 void xuat_MT(ptrNode_MuonTra p, int i)
 {
-    pDauSach q = findDSByISBN(listDS, p->muonTra.isbn);
+    pDauSach q = findDSByISBN(listDS, p->muonTra.maSach.substr(0, 6));
     gotoxy(x_MT[0] + 2, 21 + i);
     // cout << p->muonTra.tenSach;
 
@@ -1638,7 +1638,7 @@ label:
                                                 // thay doi trang thai sach da tra.
                                                 pMT->muonTra.trangThai = 1;
                                                 pMT->muonTra.ngayTra = ngaytra;
-                                                pDauSach pDS = findDSByISBN(lDS, pMT->muonTra.isbn);
+                                                pDauSach pDS = findDSByISBN(lDS, pMT->muonTra.maSach.substr(0, 6));
                                                 ptrNode_DanhMucSach pDMS = search_DMS_MaSach(pDS, pMT->muonTra.maSach);
                                                 pDMS->danhMucSach.trangThai = 0;
                                                 goto label1;
@@ -2210,7 +2210,7 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
             gotoxy(55, 6 + j);
             cout << arr[i].ptrMuonTraFirst->muonTra.maSach;
             gotoxy(68, 6 + j);
-            cout << findDSByISBN(lDS, arr[i].ptrMuonTraFirst->muonTra.isbn)->tenSach;
+            cout << findDSByISBN(lDS, arr[i].ptrMuonTraFirst->muonTra.maSach.substr(0, 6))->tenSach;
             gotoxy(96, 6 + j);
             cout << arr[i].ptrMuonTraFirst->muonTra.ngayMuon.ngay;
             gotoxy(98, 6 + j);
@@ -3489,7 +3489,8 @@ label:
                 {
                     temp1 = search_DMS_MaSach(pDS, keySearch);
                     // da co doc gia muon.
-                    if (temp1->danhMucSach.trangThai == 1)
+                    
+                    if (temp1 !=NULL)
                     {
                         gotoxy(78, 20);
                         cout << "Sach da co Doc Gia muon nen khong duoc phep xoa !";

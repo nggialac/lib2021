@@ -43,7 +43,7 @@ bool timTenSach_MT(ptrNode_MuonTra lMT, string tensach, ListDauSach lDS)
 {
 	for (ptrNode_MuonTra p = lMT; p != NULL; p = p->next)
 	{
-		string temp = findDSByISBN(lDS, p->muonTra.isbn)->tenSach;
+		string temp = findDSByISBN(lDS, p->muonTra.maSach.substr(0,6))->tenSach;
 		if ((temp.compare(tensach) == 0 && p->muonTra.trangThai == 0) || (temp.compare(tensach) == 0 && p->muonTra.trangThai == 2))
 		{
 			return true;
@@ -75,7 +75,7 @@ int soNgayMuonMax(ptrNode_MuonTra lMT)
             nngay = khoangCachNgay(p->muonTra.ngayMuon);
             if (max < nngay)
             {
-                max = nngay;
+                max = nngay; 
             }
         }
     }

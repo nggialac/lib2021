@@ -169,7 +169,7 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
         fout << p->muonTra.ngayTra.thang << "|";
         fout << p->muonTra.ngayTra.nam << "|";
         fout << p->muonTra.trangThai << "|";
-        fout << p->muonTra.isbn << "|";
+        // fout << p->muonTra.isbn << "|";
         fout << '\n';
     }
 }
@@ -295,7 +295,7 @@ int readDG(ptrNode_DocGia &root)
                     mt.ngayTra.thang = atoi(arr[5].c_str());
                     mt.ngayTra.nam = atoi(arr[6].c_str());
                     mt.trangThai = atoi(arr[7].c_str());
-                    mt.isbn = arr[8];
+                    // mt.maSach.substr(0, 6) = arr[8];
                     themDauList_MT(pNDG->info.ptrMuonTraFirst, mt);
                 }
             //insert_NodeDG_Load(root, dg);
