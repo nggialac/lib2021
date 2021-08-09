@@ -16,7 +16,8 @@ pDauSach findDSByISBN(ListDauSach listDS, string isbn)
 	for (int i = 0; i < listDS.n; i++)
 	{
 		temp = listDS.nodes[i];
-		if (temp->isbn.compare(isbn))
+		// if (temp->isbn.compare(isbn))
+		if (temp->isbn == isbn)
 			return temp;
 	}
 	return NULL;
@@ -51,17 +52,17 @@ int Insert_DS(ListDauSach &listDS, pDauSach &pDS)
 	{
 		return 0;
 	}
-	for(int i=0;i<listDS.n;i++)
-	    if(pDS->tenSach<=listDS.nodes[i]->tenSach)
-	    {
-	    	listDS.n++;
-	    	for(int j=listDS.n-1;j>i;j--)
-	    	{
-	    		listDS.nodes[j]=listDS.nodes[j-1];
-			}
-			listDS.nodes[i] = pDS;
-			return 1;
-		}
+	// for(int i=0;i<listDS.n;i++)
+	//     if(pDS->tenSach<=listDS.nodes[i]->tenSach)
+	//     {
+	//     	listDS.n++;
+	//     	for(int j=listDS.n-1;j>i;j--)
+	//     	{
+	//     		listDS.nodes[j]=listDS.nodes[j-1];
+	// 		}
+	// 		listDS.nodes[i] = pDS;
+	// 		return 1;
+	// 	}
 	listDS.nodes[listDS.n++] = pDS;
     return 1;
 }
