@@ -11,8 +11,8 @@ int tinhNgay(DateTime dt);
 void layNgayGioHT(DateTime &d);
 int khoangCachNgay(DateTime nt1);
 int soSanhNgay(DateTime nt1, DateTime nt2);
-int quaHan(listMuonTra lMT);
-int soNgayQuaHan(listMuonTra lMT);
+int quaHan(ptrNode_MuonTra lMT);
+int soNgayQuaHan(ptrNode_MuonTra lMT);
 
 //DS
 pDauSach findDSByISBN(ListDauSach listDS, string isbn);
@@ -27,7 +27,7 @@ int Search_isbn(ListDauSach &plist, string isbn);
 int DocFile_DS(ListDauSach &listDS);
 int GhiFile_DS(ListDauSach &listDS);
 
-int soNgayQuaHan(listMuonTra lMT);
+int soNgayQuaHan(ptrNode_MuonTra lMT);
 void add_DS(ListDauSach listDS, pDauSach pDS);
 
 //DMS
@@ -76,14 +76,14 @@ ptrNode_DocGia minValueNode(ptrNode_DocGia node);//Lay nut nho nhat ben trai
 ptrNode_DocGia deleteNode(ptrNode_DocGia root, DocGia dg);
 
 //MUON TRA
-void initializeListMuonTra(listMuonTra &lMT);
-int soSachDangMuon(listMuonTra lMT);
+void initializeListMuonTra(ptrNode_MuonTra &lMT);
+int soSachDangMuon(ptrNode_MuonTra lMT);
 ptrNode_MuonTra GetNode_MT(MuonTra data);
-void themDauList_MT(listMuonTra &listMT, MuonTra data);
-void themCuoiList_MT(listMuonTra &lMT, MuonTra data);
-bool timTenSach_MT(listMuonTra lMT, string tensach, ListDauSach lDS);
-int MatSach(listMuonTra lMT);
-int soNgayMuonMax(listMuonTra lMT);
+void themDauList_MT(ptrNode_MuonTra &listMT, MuonTra data);
+void themCuoiList_MT(ptrNode_MuonTra &lMT, MuonTra data);
+bool timTenSach_MT(ptrNode_MuonTra lMT, string tensach, ListDauSach lDS);
+int MatSach(ptrNode_MuonTra lMT);
+int soNgayMuonMax(ptrNode_MuonTra lMT);
 
 //DRAW
 int NhapMaDocGia(int &msdg);
@@ -93,10 +93,10 @@ void xuat_DG_Page1(ptrNode_DocGia t, DocGia *arr, int index);
 void xuat_ListDG_MT(ptrNode_DocGia t, DocGia *arr);
 int InputNgayThang(DateTime &date, int x, int y);
 void do_MuonSach(ptrNode_DocGia &root, ListDauSach &listDauSach);
-void hieuUngMenu_MT(listMuonTra lMT, int pos, int flag);
+void hieuUngMenu_MT(ptrNode_MuonTra lMT, int pos, int flag);
 void ve_MT(string key[], int nKey, int xDisplay[]);
-int chonItem_MT(listMuonTra lMT);
-void xuatListMT(listMuonTra lMT);
+int chonItem_MT(ptrNode_MuonTra lMT);
+void xuatListMT(ptrNode_MuonTra lMT);
 void xuat_MT(ptrNode_MuonTra p, int i);
 void do_TraSach(ptrNode_DocGia &t, ListDauSach &lDS);
 void ve_BangNhap(int x, int y, int nngang, int nkey);

@@ -16,8 +16,7 @@ ptrNode_DocGia getNode_DG(DocGia dg)
     // dg.ptrMuonTra.n = 0;
 
     p->info = dg;
-    p->info.ptrMuonTra.head = p->info.ptrMuonTra.tail = NULL;
-    p->info.ptrMuonTra.n = 0;
+    p->info.ptrMuonTraFirst = NULL;
     p->left = NULL;
     p->right = NULL;
     return (p);
@@ -153,8 +152,14 @@ void saveDG(ptrNode_DocGia &root, fstream &fout)
     fout << root->info.trangThai << "|";
     fout << "\n";
     // fout << soSachDangMuon(root->info.ptrMuonTra) << endl;
-    fout << root->info.ptrMuonTra.n << endl;
-    for (ptrNode_MuonTra p = root->info.ptrMuonTra.head; p != NULL; p = p->next)
+
+    int n = 0;
+    ptrNode_MuonTra p = root->info.ptrMuonTraFirst;
+    for(p;p!=NULL;p=p->next)
+    	n++;
+    // fout << root->info.ptrMuonTra.n << endl;
+    fout<<n<<endl;
+    for (ptrNode_MuonTra p = root->info.ptrMuonTraFirst; p != NULL; p = p->next)
     {
         fout << p->muonTra.maSach << "|";
         fout << p->muonTra.ngayMuon.ngay << "|";
@@ -268,7 +273,7 @@ int readDG(ptrNode_DocGia &root)
             //
             getline(fileIn, temp);
             if (soSach == 0)
-                dg.ptrMuonTra.head = dg.ptrMuonTra.tail = NULL;
+                dg.ptrMuonTraFirst = NULL;
             else
                 for (int i = 0; i < soSach; i++)
                 {
@@ -291,7 +296,7 @@ int readDG(ptrNode_DocGia &root)
                     mt.ngayTra.nam = atoi(arr[6].c_str());
                     mt.trangThai = atoi(arr[7].c_str());
                     mt.isbn = arr[8];
-                    themDauList_MT(pNDG->info.ptrMuonTra, mt);
+                    themDauList_MT(pNDG->info.ptrMuonTraFirst, mt);
                 }
             //insert_NodeDG_Load(root, dg);
             i++;
@@ -356,9 +361,9 @@ void sort_QH(DocGia *arr, int low, int high)
     int right = high;
     do
     {
-        while (soNgayQuaHan(arr[left].ptrMuonTra) < 0)
+        while (soNgayQuaHan(arr[left].ptrMuonTraFirst) < 0)
             left++;
-        while (soNgayQuaHan(arr[right].ptrMuonTra) > 0)
+        while (soNgayQuaHan(arr[right].ptrMuonTraFirst) > 0)
             right--;
 
         if (left <= right)
@@ -519,9 +524,9 @@ ptrNode_DocGia newNode(DocGia dg)
     }
 
     p->info = dg;
-    p->info.ptrMuonTra.head = NULL;
-    p->info.ptrMuonTra.tail = NULL;
-    p->info.ptrMuonTra.n = 0;
+    p->info.ptrMuonTraFirst = NULL;
+    // p->info.ptrMuonTra.tail = NULL;
+    // p->info.ptrMuonTra.n = 0;
     p->left = NULL;
     p->right = NULL;
 

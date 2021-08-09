@@ -461,25 +461,20 @@ int ChonSoSachNhap()
 	}
 }
 
-void NhapTrangThaiSach(int &result, int &tienTrinh, bool &isSave, bool &isEscape, int a, int b)
-{
+void NhapTrangThaiSach(int &result, int &tienTrinh, bool &isSave, bool &isEscape, int a, int b) {
 	gotoxy(a, b);
 	ShowCur(true);
 	int count = 0;
 	int x = wherex() - 1, y = wherey() - 1;
-	if (result == 3)
-	{
+	if ( result == 3) {
 		result = 0;
 		gotoxy(x, y);
 		cout << result << ":  Duoc muon ";
 	}
-	while (true)
-	{
-		while (_kbhit())
-		{
+	while (true) {
+		while (_kbhit()) {
 			int kb_hit = _getch();
-			if ((kb_hit == 48 || kb_hit == 49 || kb_hit == 50) && count < 1)
-			{
+			if ((kb_hit == 48 || kb_hit == 49 || kb_hit == 50) && count < 1) {
 				count++;
 				result = kb_hit - 48;
 				// xoa dong thong bao
@@ -492,56 +487,39 @@ void NhapTrangThaiSach(int &result, int &tienTrinh, bool &isSave, bool &isEscape
 					cout << result << ":   Da duoc muon  ";
 				else if (result == 2)
 					cout << result << ":   Da thanh ly   ";
-			}
-			else if (kb_hit == 224)
-			{
+			} else if (kb_hit == 224) {
 				kb_hit = _getch();
-				if (kb_hit == KEY_UP)
-				{
+				if (kb_hit == KEY_UP) {
+					tienTrinh = 2;
+					return;
+				} else {
 					tienTrinh = 2;
 					return;
 				}
-				else
-				{
-					tienTrinh = 2;
-					return;
-				}
-			}
-			else if (kb_hit == ENTER)
-			{
+			} else if (kb_hit == ENTER) {
 				tienTrinh = 2;
 				return;
-			}
-			else if (kb_hit == BACKSPACE && count > 0)
-			{
+			} else if (kb_hit == BACKSPACE && count > 0) {
 				gotoxy(x, y);
 				result = 3;
 				cout << " " << setw(17) << setfill(' ') << " ";
 				count--;
 				// chuyen ve vi tri ban dau.
 				gotoxy(x, y);
-			}
-			else if (kb_hit == 0)
-			{
+			} else if (kb_hit == 0) {
 				kb_hit = _getch();
-				if (kb_hit == F5)
-				{
+				if (kb_hit == F5) {
 					isSave = true;
 					return;
 				}
-			}
-			else if (kb_hit == ESC)
-			{
+			} else if (kb_hit == ESC) {
 				isEscape = true;
 				return;
-			}
-			else
-			{
+			} else {
 				gotoxy(a - 7, y_Note + 2);
 				SetColor(WHITE);
 				cout << "Chon 0, 1, 2 hoac Backspace de xoa !";
-				SetBGColor(BLACK);
-				SetColor(WHITE);
+				// normalBGColor();
 				gotoxy(x, y);
 			}
 		}

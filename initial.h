@@ -138,12 +138,12 @@ struct NodeMuonTra
     NodeMuonTra *next;
 };
 typedef NodeMuonTra *ptrNode_MuonTra;
-struct ListMuonTra{
-    int n = 0;
-    ptrNode_MuonTra head;
-    ptrNode_MuonTra tail;
-};
-typedef ListMuonTra listMuonTra;
+// struct ListMuonTra{
+//     // int n = 0;
+//     ptrNode_MuonTra head;
+//     // ptrNode_MuonTra tail;
+// };
+// typedef ListMuonTra listMuonTra;
 
 //---DOC GIA---
 typedef struct DocGia
@@ -153,7 +153,7 @@ typedef struct DocGia
     string ten;
     int phai;
     int trangThai;
-    listMuonTra ptrMuonTra;
+    ptrNode_MuonTra ptrMuonTraFirst = NULL;
 };
 
 struct NodeDocGia

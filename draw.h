@@ -875,7 +875,7 @@ label:
         // lay ten sach.
         string tensach;
         tensach = pDS->tenSach;
-        check = timTenSach_MT(nDG->info.ptrMuonTra, tensach, lDS);
+        check = timTenSach_MT(nDG->info.ptrMuonTraFirst, tensach, lDS);
         // check cac truong hop
         if (check == true)
         {
@@ -1163,7 +1163,7 @@ label:
             (nodeTemp->info.phai == 0) ? cout << "Nam" : cout << "Nu";
             gotoxy(93, 14);
             // cout << "-So sach chua tra : " << nodeTemp->info.ptrMuonTra->muonTra.isbn;
-            cout << "-So sach chua tra : " << soSachDangMuon(nodeTemp->info.ptrMuonTra);
+            cout << "-So sach chua tra : " << soSachDangMuon(nodeTemp->info.ptrMuonTraFirst);
             gotoxy(95, 17);
             cout << "     =Sach Dang Muon=      ";
             gotoxy(85, 18);
@@ -1172,8 +1172,9 @@ label:
             cout << " Ngay Muon  ";
             // gotoxy(85, 20);
             // cout<<"ISBN: "<<endl;
-            int pos;
-            for (ptrNode_MuonTra p = nodeTemp->info.ptrMuonTra.head; p != NULL; p = p->next)
+            int pos = 0;
+            
+            for (ptrNode_MuonTra p = nodeTemp->info.ptrMuonTraFirst; p != NULL; p = p->next)
             {
                 if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
                 {
@@ -1201,14 +1202,14 @@ label:
                 _getch();
                 return;
             }
-            if (MatSach(nodeTemp->info.ptrMuonTra))
+            if (MatSach(nodeTemp->info.ptrMuonTraFirst))
             {
                 gotoxy(70, 28);
                 cout << thongbao4;
                 _getch();
                 return;
             }
-            if (soNgayMuonMax(nodeTemp->info.ptrMuonTra) > 7)
+            if (soNgayMuonMax(nodeTemp->info.ptrMuonTraFirst) > 7)
             {
                 gotoxy(70, 28);
                 cout << thongbao3;
@@ -1250,7 +1251,7 @@ label:
                     }
                     else if (check3 == 2)
                     {
-                        themDauList_MT(nodeTemp->info.ptrMuonTra, muontra);
+                        themDauList_MT(nodeTemp->info.ptrMuonTraFirst, muontra);
                         goto label1;
                     }
                 } while (check3);
@@ -1259,7 +1260,7 @@ label:
     }
 }
 
-void hieuUngMenu_MT(listMuonTra lMT, int pos, int flag)
+void hieuUngMenu_MT(ptrNode_MuonTra lMT, int pos, int flag)
 {
     int i = 0;
     ShowCur(false);
@@ -1268,7 +1269,7 @@ void hieuUngMenu_MT(listMuonTra lMT, int pos, int flag)
     // 0 --> 2;  2---> 1;  1---> 0
     if (flag == 1)
     {
-        for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
+        for (ptrNode_MuonTra p = lMT; p != NULL; p = p->next)
         {
             if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
             {
@@ -1291,7 +1292,7 @@ void hieuUngMenu_MT(listMuonTra lMT, int pos, int flag)
     else if (flag == 2)
     {
         // 0 ---> 1; 1 ---> 2; 2 ---> 0
-        for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
+        for (ptrNode_MuonTra p = lMT; p != NULL; p = p->next)
         {
             if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
             {
@@ -1389,7 +1390,7 @@ void ve_MT(string key[], int nKey, int xDisplay[])
     }
 }
 
-int chonItem_MT(listMuonTra lMT)
+int chonItem_MT(ptrNode_MuonTra lMT)
 {
     int currpos = 0;
     ShowCur(false);
@@ -1400,7 +1401,7 @@ int chonItem_MT(listMuonTra lMT)
         return -1;
     // high light muc dau.
     int i = 0;
-    for (ptrNode_MuonTra p = lMT.head; p != NULL && i != 1; p = p->next)
+    for (ptrNode_MuonTra p = lMT; p != NULL && i != 1; p = p->next)
     {
         if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
         {
@@ -1475,7 +1476,7 @@ void xoaManHinh_MT(int i)
     cout << setw(x_MT[7] - x_MT[6] - 1) << setfill(' ') << " ";
 }
 
-void xuatListMT(listMuonTra lMT)
+void xuatListMT(ptrNode_MuonTra lMT)
 {
 	int i = 0;
 	// xoa display dau sach
@@ -1484,7 +1485,7 @@ void xuatListMT(listMuonTra lMT)
 		xoaManHinh_MT(j);
 	}
 	// thuc hien ouput
-	for (ptrNode_MuonTra p = lMT.head; p != NULL; p = p->next)
+	for (ptrNode_MuonTra p = lMT; p != NULL; p = p->next)
 	{
 		if (p->muonTra.trangThai == 0 || p->muonTra.trangThai == 2)
 		{
@@ -1584,16 +1585,16 @@ label:
             cout << " Phai: ";
             (nodeTemp->info.phai == 0) ? cout << "Nam" : cout << "Nu";
             gotoxy(52, 14);
-            cout << " So sach  da muon : " << nodeTemp->info.ptrMuonTra.n;
-            gotoxy(35, 25);
+            // cout << " So sach  da muon : " << nodeTemp->info.ptrMuonTra.n;
+            // gotoxy(35, 25);
             cout << "   F2:   Tra Sach,  F3:   Lam mat sach,  ESC:   thoat";
         label1:
             gotoxy(52, 15);
-            cout << " So sach chua tra : " << soSachDangMuon(nodeTemp->info.ptrMuonTra);
+            cout << " So sach chua tra : " << soSachDangMuon(nodeTemp->info.ptrMuonTraFirst);
             gotoxy(37, 17);
             cout << "               Cac Sach Dang Muon                     ";
             ve_MT(keyDisplayMT, 7, x_MT);
-            xuatListMT(nodeTemp->info.ptrMuonTra);
+            xuatListMT(nodeTemp->info.ptrMuonTraFirst);
             do
             {
                 while (_kbhit())
@@ -1604,7 +1605,7 @@ label:
                     switch (kb_hit)
                     {
                     case F2:
-                        choose1 = chonItem_MT(nodeTemp->info.ptrMuonTra);
+                        choose1 = chonItem_MT(nodeTemp->info.ptrMuonTraFirst);
                         if (choose1 == -1)
                         {
                             gotoxy(50, 30);
@@ -1612,7 +1613,7 @@ label:
                             return;
                         }
                         i1 = -1;
-                        for (ptrNode_MuonTra pMT = nodeTemp->info.ptrMuonTra.head; pMT != NULL; pMT = pMT->next)
+                        for (ptrNode_MuonTra pMT = nodeTemp->info.ptrMuonTraFirst; pMT != NULL; pMT = pMT->next)
                         {
                             if (pMT->muonTra.trangThai == 0 || pMT->muonTra.trangThai == 2)
                             {
@@ -1654,7 +1655,7 @@ label:
                         goto label1;
 
                     case F3:
-                        choose2 = chonItem_MT(nodeTemp->info.ptrMuonTra);
+                        choose2 = chonItem_MT(nodeTemp->info.ptrMuonTraFirst);
                         if (choose2 == -1)
                         {
                             gotoxy(50, 30);
@@ -1662,7 +1663,7 @@ label:
                             return;
                         }
                         i2 = -1;
-                        for (ptrNode_MuonTra pMT = nodeTemp->info.ptrMuonTra.head; pMT != NULL; pMT = pMT->next)
+                        for (ptrNode_MuonTra pMT = nodeTemp->info.ptrMuonTraFirst; pMT != NULL; pMT = pMT->next)
                         {
                             if (pMT->muonTra.trangThai == 0 || pMT->muonTra.trangThai == 2)
                             {
@@ -2054,7 +2055,7 @@ int xuat_ListDG(ptrNode_DocGia &t, DocGia *&arr, DocGia &dg, int &thuTuTrang)
                 choose = chonItems_DG(t, arr, thuTuTrang, tongtrang);
                 // truong hop khong chon doc gia nao.
                 // temp = layDG_NTDG(t, temp->info.maThe);
-                if (soSachDangMuon(arr[choose].ptrMuonTra) > 0)
+                if (soSachDangMuon(arr[choose].ptrMuonTraFirst) > 0)
                 {
                     gotoxy(75, 20);
                     cout << "Doc Gia da muon sach nen khong duoc phep xoa !";
@@ -2197,7 +2198,7 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
     int j = 0;
     for (int i = 0; i < nNodeDocGia; i++)
     {
-        if (soNgayQuaHan(arr[i].ptrMuonTra) > 0)
+        if (soNgayQuaHan(arr[i].ptrMuonTraFirst) > 0)
         {
             // ptrNode_DocGia p = layDG_NTDG(t, arr[i].maThe);
             gotoxy(12, 6 + j);
@@ -2207,21 +2208,21 @@ void do_QuaHan(ptrNode_DocGia t, ListDauSach lDS)
             gotoxy(40, 6 + j);
             cout << arr[i].ten;
             gotoxy(55, 6 + j);
-            cout << arr[i].ptrMuonTra.head->muonTra.maSach;
+            cout << arr[i].ptrMuonTraFirst->muonTra.maSach;
             gotoxy(68, 6 + j);
-            cout << findDSByISBN(lDS, arr[i].ptrMuonTra.head->muonTra.maSach)->tenSach;
+            cout << findDSByISBN(lDS, arr[i].ptrMuonTraFirst->muonTra.isbn)->tenSach;
             gotoxy(96, 6 + j);
-            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.ngay;
+            cout << arr[i].ptrMuonTraFirst->muonTra.ngayMuon.ngay;
             gotoxy(98, 6 + j);
             cout << "/";
             gotoxy(99, 6 + j);
-            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.thang;
+            cout << arr[i].ptrMuonTraFirst->muonTra.ngayMuon.thang;
             gotoxy(101, 6 + j);
             cout << "/";
             gotoxy(102, 6 + j);
-            cout << arr[i].ptrMuonTra.head->muonTra.ngayMuon.nam;
+            cout << arr[i].ptrMuonTraFirst->muonTra.ngayMuon.nam;
             gotoxy(120, 6 + j);
-            cout << soNgayQuaHan(arr[i].ptrMuonTra);
+            cout << soNgayQuaHan(arr[i].ptrMuonTraFirst);
             gotoxy(4, 6 + j);
             j++;
             cout << j;
@@ -3543,6 +3544,8 @@ void NhapDanhMucSach(pDauSach &pDS, int sosach)
     for (int i = 0; i < sosach && check1 != -1; i++)
     {
         // nhap sach
+       
+        
         check1 = NhapSach(pDS);
         XoaMotVung(38, 2 + 2, 10, (int)keyBangNhapDanhMucSach[0].length());
         gotoxy(60, 18);

@@ -52,13 +52,14 @@ ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
 {
     ptrNode_DanhMucSach p;
-    p = new NodeDanhMucSach();
+    // p = new NodeDanhMucSach();
+    p=getNode_DMS(x);
     p->danhMucSach = x;
     p->next = First;
     First = p;
 }
 
-ptrNode_DanhMucSach search_DMS_ViTri(ptrNode_DanhMucSach &First, int pos)
+ptrNode_DanhMucSach search_DMS_ViTri(ptrNode_DanhMucSach First, int pos)
 {
     int count = -1;
     for (ptrNode_DanhMucSach temp = First; temp != NULL; temp = temp->next)
@@ -74,11 +75,11 @@ ptrNode_DanhMucSach search_DMS_ViTri(ptrNode_DanhMucSach &First, int pos)
 
 ptrNode_DanhMucSach search_DMS_MaSach(pDauSach pDS, string masach)
 {
-	ptrNode_DanhMucSach p;
-	p = pDS->First_DMS;
-	while (p != NULL && p->danhMucSach.maSach.compare(masach)==0)
-		p = p->next;
-	return (p);
+    ptrNode_DanhMucSach p;
+    p = pDS->First_DMS;
+    while (p != NULL && p->danhMucSach.maSach.compare(masach) == 0)
+        p = p->next;
+    return (p);
 }
 
 int deleteFirst_DMS(ptrNode_DanhMucSach &First)
@@ -150,4 +151,3 @@ bool CheckMuon_DMS(ptrNode_DanhMucSach nDMS)
     }
     return false;
 }
-

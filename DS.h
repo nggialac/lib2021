@@ -13,7 +13,7 @@ bool isDauSach_ISBN(ListDauSach listDS, string ISBN)
 pDauSach findDSByISBN(ListDauSach listDS, string isbn)
 {
 	pDauSach temp = NULL;
-	for (int i = 0; i <= listDS.n; i++)
+	for (int i = 0; i < listDS.n; i++)
 	{
 		temp = listDS.nodes[i];
 		if (temp->isbn.compare(isbn))
