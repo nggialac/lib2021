@@ -31,17 +31,18 @@ int soNgayQuaHan(listMuonTra lMT);
 void add_DS(ListDauSach listDS, pDauSach pDS);
 
 //DMS
-void initializeListNode_DMS(listNodeDMS &ln_dms);
+int deleteAfter_DMS(ptrNode_DanhMucSach p);
+//void initializeListNode_DMS(listNodeDMS &ln_dms);
 ptrNode_DanhMucSach getNode_DMS(DanhMucSach data);
-void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data);
+//void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data);
 int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x);
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x);
-ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos);
+//ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos);
 ptrNode_DanhMucSach search_DMS_MaSach(pDauSach pDS, string masach);
 int deleteFirst_DMS(ptrNode_DanhMucSach &First);
-int deleteAfter_DMS(ptrNode_DanhMucSach p);
+
 int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, string ms);
-int traverse_DMS(listNodeDMS ln_dms);
+//int traverse_DMS(listNodeDMS ln_dms);
 bool CheckMuon_DMS(ptrNode_DanhMucSach nDMS);
 
 
@@ -140,7 +141,7 @@ void Menu_DMS(ListDauSach &lDS);
 int xetThuTu(pDauSach left, pDauSach right);
 void swap_DS(pDauSach ds1, pDauSach ds2);
 void SSort_DauSach(ListDauSach &lDS);
-int TongSoSachDuocMuon(ListNodeDMS dms);
+int TongSoSachDuocMuon(ptrNode_DanhMucSach &First);
 void xuat_ListDStheoTT(ListDauSach lDS);
 
 //

@@ -28,8 +28,7 @@ using std::setfill;
 using std::setw;
 
 
-// extern int nNodeDocGia = 0;
-extern int MAX_RAND = 500;
+// #define MAX_RAND 500;
 extern int toaDo = 0;
 
 #define MAX_LIST 1000
@@ -84,13 +83,13 @@ struct NodeDanhMucSach
     NodeDanhMucSach *next;
 };
 typedef NodeDanhMucSach *ptrNode_DanhMucSach;
-struct ListNodeDMS
-{
-    int n;
-    ptrNode_DanhMucSach FirstNode_DanhMucSach;
-    ptrNode_DanhMucSach LastNode_DanhMucSach;
-};
-typedef ListNodeDMS listNodeDMS;
+// struct ListNodeDMS
+// {
+//     int n;
+//     ptrNode_DanhMucSach FirstNode_DanhMucSach;
+//     ptrNode_DanhMucSach LastNode_DanhMucSach;
+// };
+//typedef ListNodeDMS listNodeDMS;
 
 //----DAU SACH---
 struct DauSach
@@ -101,7 +100,7 @@ struct DauSach
     string tacGia;
     int namXuatBan;
     string theLoai;
-    listNodeDMS ptrDMS;
+    ptrNode_DanhMucSach First_DMS=NULL;
     //
     int soLanMuon = 0;
 };

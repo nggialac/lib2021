@@ -374,7 +374,6 @@ void show(ptrNode_DocGia &tree, ListDauSach &listDS)
                 SetBGColor(BLACK);
                 break;
             case 1:
-                // Normal();
                 Menu_DMS(listDS);
                 // 
                 SetBGColor(BLACK);

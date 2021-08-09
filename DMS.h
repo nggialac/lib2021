@@ -1,11 +1,11 @@
 #include "prototype.h"
 
-void initializeListNode_DMS(listNodeDMS &ln_dms)
-{
-    ln_dms.n = 0;
-    ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = NULL;
-    // ln_dms.LastNode_DanhMucSach = NULL;
-}
+//void initializeListNode_DMS(listNodeDMS &ln_dms)
+//{
+//    ln_dms.n = 0;
+//    ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = NULL;
+//    // ln_dms.LastNode_DanhMucSach = NULL;
+//}
 
 ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
 {
@@ -17,37 +17,37 @@ ptrNode_DanhMucSach getNode_DMS(DanhMucSach data)
     return (p);
 }
 
-void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
-{
-    ptrNode_DanhMucSach p = new NodeDanhMucSach;
-    p->danhMucSach = data;
-    p->next = NULL;
-    if (ln_dms.FirstNode_DanhMucSach == NULL)
-    {
-        ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = p;
-    }
-    else
-    {
-        ln_dms.LastNode_DanhMucSach->next = p;
-        ln_dms.LastNode_DanhMucSach = p;
-    }
-    ln_dms.n++;
-}
+//void themCuoiList_DMS(listNodeDMS &ln_dms, DanhMucSach data)
+//{
+//    ptrNode_DanhMucSach p = new NodeDanhMucSach;
+//    p->danhMucSach = data;
+//    p->next = NULL;
+//    if (ln_dms.FirstNode_DanhMucSach == NULL)
+//    {
+//        ln_dms.FirstNode_DanhMucSach = ln_dms.LastNode_DanhMucSach = p;
+//    }
+//    else
+//    {
+//        ln_dms.LastNode_DanhMucSach->next = p;
+//        ln_dms.LastNode_DanhMucSach = p;
+//    }
+//    ln_dms.n++;
+//}
 
-int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
-{
-    ptrNode_DanhMucSach q;
-    if (p == NULL)
-        return 0;
-    else
-    {
-        q = new NodeDanhMucSach();
-        q->danhMucSach = x;
-        q->next = p->next;
-        p->next = q;
-    }
-    return 1;
-}
+//int insertAfter_DMS(ptrNode_DanhMucSach p, DanhMucSach x)
+//{
+//    ptrNode_DanhMucSach q;
+//    if (p == NULL)
+//        return 0;
+//    else
+//    {
+//        q = new NodeDanhMucSach();
+//        q->danhMucSach = x;
+//        q->next = p->next;
+//        p->next = q;
+//    }
+//    return 1;
+//}
 
 void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
 {
@@ -58,10 +58,10 @@ void insertFirst_DMS(ptrNode_DanhMucSach &First, DanhMucSach x)
     First = p;
 }
 
-ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos)
+ptrNode_DanhMucSach search_DMS_ViTri(ptrNode_DanhMucSach &First, int pos)
 {
     int count = -1;
-    for (ptrNode_DanhMucSach temp = dms.FirstNode_DanhMucSach; temp != NULL; temp = temp->next)
+    for (ptrNode_DanhMucSach temp = First; temp != NULL; temp = temp->next)
     {
         count++;
         if (pos == count)
@@ -75,7 +75,7 @@ ptrNode_DanhMucSach search_DMS_ViTri(listNodeDMS dms, int pos)
 ptrNode_DanhMucSach search_DMS_MaSach(pDauSach pDS, string masach)
 {
 	ptrNode_DanhMucSach p;
-	p = pDS->ptrDMS.FirstNode_DanhMucSach;
+	p = pDS->First_DMS;
 	while (p != NULL && p->danhMucSach.maSach.compare(masach)==0)
 		p = p->next;
 	return (p);
@@ -123,13 +123,13 @@ int deleteOneByInfo_DMS(ptrNode_DanhMucSach &First, string ms)
     return 0;
 }
 
-int traverse_DMS(listNodeDMS ln_dms)
+int traverse_DMS(ptrNode_DanhMucSach &First)
 {
     ptrNode_DanhMucSach p;
     int count = 0;
-    if (ln_dms.FirstNode_DanhMucSach == NULL)
+    if (First == NULL)
         return 0;
-    for (p = ln_dms.FirstNode_DanhMucSach; p != NULL; p = p->next)
+    for (p = First; p != NULL; p = p->next)
     {
         cout << p->danhMucSach.maSach;
         cout << " " + p->danhMucSach.trangThai;

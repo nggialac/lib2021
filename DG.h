@@ -420,7 +420,13 @@ int taoRandom()
 {
     int x;
     srand((int)time(0));
-    x = (rand() % MAX_RAND) + 1;
+    int loop = 100;
+    while (loop > 0)
+    {
+        x = (rand() % 500) + 1;
+        loop--;
+    }
+
     return x;
 }
 

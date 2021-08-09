@@ -1,5 +1,5 @@
 #include "DMS.h"
-
+// #include "mylib.h"
 bool isDauSach_ISBN(ListDauSach listDS, string ISBN)
 {
     for (int i = 0; i < listDS.n; i++)
@@ -32,17 +32,7 @@ int Empty(ListDauSach &ds)
 	return ds.n == 0;
 }
 
-void DS_TheoTen(ListDauSach &listDS, string mten)
-{
-	for (int i = 0; i < listDS.n; i++)
-	{
-		if (strstr(listDS.nodes[i]->tenSach.c_str(), mten.c_str()) != NULL)
-		{
-			cout << listDS.nodes[i]->tenSach << endl;
-			//vv
-		}
-	}
-}
+
 
 pDauSach layDauSach_Ten(ListDauSach listDS, string tenSach) {
 	pDauSach temp = NULL;
@@ -61,8 +51,19 @@ int Insert_DS(ListDauSach &listDS, pDauSach &pDS)
 	{
 		return 0;
 	}
+	for(int i=0;i<listDS.n;i++)
+	    if(pDS->tenSach<=listDS.nodes[i]->tenSach)
+	    {
+	    	listDS.n++;
+	    	for(int j=listDS.n-1;j>i;j--)
+	    	{
+	    		listDS.nodes[j]=listDS.nodes[j-1];
+			}
+			listDS.nodes[i] = pDS;
+			return 1;
+		}
 	listDS.nodes[listDS.n++] = pDS;
-	return 1;
+    return 1;
 }
 int Delete_DS(ListDauSach &plist, int i)
 {
@@ -92,7 +93,6 @@ int DocFile_DS(ListDauSach &listDS)
 	if (file.is_open())
 	{
 		file >> soDauSach;
-		//cout << soDauSach << endl;
 		string temp;
 		getline(file, temp);
 		string arr[7];
@@ -111,18 +111,9 @@ int DocFile_DS(ListDauSach &listDS)
 			info.namXuatBan = atoi(arr[4].c_str());
 			info.soTrang = atoi(arr[5].c_str());
 			info.soLanMuon = atoi(arr[6].c_str());
-			*(pDS) = info;
-			//			cout<<info.isbn<<"|";
-			//			cout<<info.tenSach<<"|";
-			//			cout<<info.tacGia<<"|";
-			//			cout<<info.theLoai<<"|";
-			//			cout<<info.namXuatBan<<"|";
-			//			cout<<info.soTrang<<"|";
-			//			cout<<info.soLanMuon<<"|";
+			*(pDS) = info;		
 			getline(ssin, temp, '|');
 			soSach = atoi(temp.c_str());
-			//			cout<<soSach<<"|"<<endl;
-			initializeListNode_DMS(pDS->ptrDMS);
 			if (soSach > 0)
 			{
 				for (int j = 0; j < soSach; j++)
@@ -135,13 +126,9 @@ int DocFile_DS(ListDauSach &listDS)
 					dms.trangThai = atoi(temp.c_str());
 					getline(ss2, temp, '|');
 					dms.viTri = temp;
-					//	            	cout<<dms.maSach<<"|";
-					//	            	cout<<dms.trangThai<<"|";
-					//	            	cout<<dms.viTri<<"|";
-					//	            	cout<<endl;
-					insertFirst_DMS(pDS->ptrDMS.FirstNode_DanhMucSach, dms);
-					pDS->ptrDMS.n++;
-					//                //themCuoiList_DMS(pDS->ptrListNode_DMS, dms);
+					insertFirst_DMS(pDS->First_DMS, dms);
+				//	pDS->ptrDMS.n++;
+				
 				}
 			}
 			Insert_DS(listDS, pDS);
@@ -171,18 +158,20 @@ int GhiFile_DS(ListDauSach &listDS)
 			file << listDS.nodes[i]->namXuatBan << "|";
 			file << listDS.nodes[i]->soTrang << "|";
 			file << listDS.nodes[i]->soLanMuon << "|";
-			int soSach = listDS.nodes[i]->ptrDMS.n;
-			file << soSach << "|";
-			if (soSach > 0)
-			{
-				ptrNode_DanhMucSach p;
-				p = listDS.nodes[i]->ptrDMS.FirstNode_DanhMucSach;
-				for (p; p != NULL; p = p->next)
-				{
-					file << endl;
-					file << p->danhMucSach.maSach << "|";
-					file << p->danhMucSach.trangThai << "|";
-					file << p->danhMucSach.viTri << "|";
+			int soSach=0;
+    		ptrNode_DanhMucSach p;
+    		for(p=listDS.nodes[i]->First_DMS;p!=NULL;p=p->next)
+    			soSach++;
+    		file<<soSach<<"|";
+    		if(soSach>0)
+    		{
+    			p=listDS.nodes[i]->First_DMS;
+    			for(p; p != NULL; p = p->next)
+    			{
+    				file<<endl;
+    				file<<p->danhMucSach.maSach<<"|";
+    				file<<p->danhMucSach.trangThai<<"|";
+    				file<<p->danhMucSach.viTri<<"|";  			
 				}
 			}
 			file << endl;
@@ -196,41 +185,38 @@ int GhiFile_DS(ListDauSach &listDS)
 	file.close();
 	return 1;
 }
+ListDauSach Top10_DS(ListDauSach listDS)
+{
+	ListDauSach A=listDS;
+	DauSach t;
+	int dem=0,max,i,j;	
+	for(i=0;i<A.n-1;i++){
+		max=i;
+		for (j = i+1; j < A.n; j++)
+        	if (A.nodes[j]->soLanMuon > A.nodes[max]->soLanMuon) max = j;        				      
+        DauSach *t=A.nodes[i];
+        A.nodes[i]=A.nodes[max];
+        A.nodes[max]=t; 
+		dem++;
+		if(dem>10) break;		              
+    }
+    return A; 	
+}
+string DanhMaSach(pDauSach p)
+{
+	DanhMucSach dms;
+	dms.maSach=p->isbn;
+	if(p->First_DMS==NULL) dms.maSach+="0";
+	else{
+		string s=p->First_DMS->danhMucSach.maSach;
+		string maSach=s.substr(6,s.length()-6);//3 ký tu cuoi
+		int x=atoi(maSach.c_str())+1;// +1
+		stringstream ss;
+		ss<<x;
+				
+		dms.maSach+=ss.str();
+	}
+	return dms.maSach;			
+}
 
-// void ve_MenuDS()
-// {
-// 	// ListDauSach listDS;
-// 	// DocFile_DS(listDS);
-// 	int chon;
-// 	//chon = MenuDong(MenuDS);
-// 	system("cls");
-// 	do
-// 	{
-// 		chon = MenuDong(MenuDS);
-// 		switch (chon)
-// 		{
-// 		case 1:
-// 			DanhSachDS(listDS);
-// 			break;
-// 		case 2:
-// 		{
-// 			Normal();
-// 			system("cls");
-// 			cout << "SACH CAN TIM: ";
-// 			string mten;
-// 			cin >> mten;
-// 			TimSach(listDS, mten);
-// 		}
 
-// 		break;
-// 		case 3:
-// 			ve_TheLoai(listDS);
-// 			break;
-// 		case 4:
-// 			ve_TopDS(listDS);
-// 			break;
-// 		case 5:
-// 			return;
-// 		}
-// 	} while (1);
-// }
